@@ -37,17 +37,40 @@
     float: left;
 }
 
-/* filter */
+.toolTip {
+    background-color: rgb(255, 255, 255); 
+    padding: 15px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+/* options */
 
 .strands {
     padding-left: 15px;
     padding-top: 5px;
 }
 
+.form-control.opt {
+    width: 80px;
+    padding-left: 20px;
+    margin-left: 15px;
+}
+
+.btn-padding-opt {
+    margin-left: 20px !important;
+}
+
+.opt-btns {
+    margin-left: 50px !important;
+}
+
 /* dna input */
 
-.btn-padding {
-    margin-left: 25px !important;
+.btn-padding-input {
+    margin-left: 20px !important;
 }
 
 .btn-analyze {

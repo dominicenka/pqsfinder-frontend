@@ -1,16 +1,61 @@
 import React, { Component } from 'react';
 import '../pages/Analyze.css';
 
+import SubjectStore from '../stores/SubjectStore';
+import * as SubjectActions from '../actions/SubjectActions';
+
 class DNAInput extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state={
-            dnaString: ''
+        this.state = {
+            input: SubjectStore.getInput(),
+            fileSelected: false
         }
 
-        this.exampleData="ATGGGTGGGAGGGCGGG";
+        this.exampleData = ">fasta format \n CCCCCCGGGTGGGTGGGTGGTAAAA";
+        this.getInput = this.getInput.bind(this);
+        this.fileReader = new FileReader();
+    }
+
+    componentWillMount() {
+        SubjectStore.on("changeInput", this.getInput);
+    }
+
+    componentWillUnmount() {
+        SubjectStore.removeListener("changeInput", this.getInput);
+    }
+
+    getInput() {
+        this.setState({
+            input: SubjectStore.getInput(),
+        });
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        SubjectActions.changeInput(value);
+    }
+
+    handleFileRead = (e) => {
+        const content = this.fileReader.result;
+        SubjectActions.changeInput(content);
+        this.setState({ fileSelected: true});
+    }
+
+    handleFiles(e){
+        let file = e.target.files[0];
+        this.fileReader.onload = this.handleFileRead;
+        this.fileReader.readAsText(file);
+        console.log(file);
+    }
+
+    deleteSelectedFile() {
+        this.setState({ fileSelected: false});
+        this.fileInput.value = null;
+        SubjectActions.changeInput('');
     }
 
     render() {
@@ -18,26 +63,30 @@ class DNAInput extends Component {
             <div>
                 <div className='row'>
                     <div className='col-md-8'>
-                        <textarea class="form-control" id="dnaTextInput" rows="10" 
-                            value={this.state.dnaString}
-                            onChange={(obj) => this.setState({dnaString: obj.value})}/>
+                        <textarea className="form-control" id="dnaTextInput" rows="10"
+                            value={this.state.input}
+                            onChange={this.handleInputChange} />
                     </div>
                     <div className='col-md-4'>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit,
-                            vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus,
-                            ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique,
-                            tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec 
-                            </p>
-                        <div className='row'>
-                        <form>
-                            <input type="file" class="form-control-file" id="file"/>
-                        </form>
-                        </div>
+                        <p> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format.
+                            <br></br>
+                            Supported symbols: <b>A,C,G,T</b>.
+                        </p>
                     </div>
                 </div>
-                <div>
-                    <button type="button" className="btn btn-info btn-padding" onClick={() => this.setState({dnaString: ''})}>Clear input</button>
-                    <button type="button" className="btn btn-info btn-padding" onClick={() => this.setState({dnaString: this.exampleData})}>Example data</button>
+                <div className='row'>
+                    <div className='col-md-5'>
+                        <button type="button" className="btn btn-info btn-padding-input" onClick={() => SubjectActions.changeInput('')}>Clear input</button>
+                        <button type="button" className="btn btn-info btn-padding-input" onClick={() => SubjectActions.changeInput(this.exampleData)}>Example data</button>
+                    </div>
+                    <div className='col-md-4'>
+                        <form>
+                            <input type="file" className="form-control-file" id="file" accept=".fasta" onChange={(e) => this.handleFiles(e)} ref={(input) => { this.fileInput = input; }}/>
+                        </form>
+                    </div>
+                    <div className='col-md-1'>
+                        {this.state.fileSelected ? <button type="button" className="btn btn-danger btn-sm" onClick={() => this.deleteSelectedFile()}>X</button> : null}
+                    </div>
                 </div>
             </div>
         )

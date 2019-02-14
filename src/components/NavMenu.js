@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../App.css';
 import {Switch, Route} from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom'
-import {NavLink} from 'react-router-dom'
 import Home from '../pages/Home';
 import Analyze from '../pages/Analyze';
 import Examples from '../pages/Examples';
@@ -16,7 +15,7 @@ class NavMenu extends Component {
       return (
         <BrowserRouter>
 			<div>
-				<nav className="navbar fixed-top navbar-expand-lg navbar-dark nav" >
+				<nav className="navbar fixed-top navbar-expand-lg navbar-dark nav justify-content-center " >
 					<a className="navbar-brand" href="/">pqsfinder</a>
 					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 						<span className="navbar-toggler-icon"></span>
@@ -31,7 +30,7 @@ class NavMenu extends Component {
 						</div>
 					</div>
 					<form className="form-inline">
-						<input className="form-control mr-sm-2" type="search" placeholder="job ID" aria-label="Search"/>
+						<input className="form-control mr-sm-2 search-inp" type="search" placeholder="job ID" aria-label="Search"/>
 						<button className="btn btn-outline-secondary my-2 my-sm-0" type="submit">Find</button>
 					</form>
 				</nav>

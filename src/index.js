@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import axios from "axios";
+
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common = {
+    "responseType": "json",
+    "Content-Type": "application/json",
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

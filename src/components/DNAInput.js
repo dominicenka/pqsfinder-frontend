@@ -14,7 +14,7 @@ class DNAInput extends Component {
             fileSelected: false
         }
 
-        this.exampleData = ">fasta format \n CCCCCCGGGTGGGTGGGTGGTAAAA";
+        this.exampleData = ">fasta format 3 \nCCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAA";
         this.getInput = this.getInput.bind(this);
         this.fileReader = new FileReader();
     }
@@ -49,7 +49,6 @@ class DNAInput extends Component {
         let file = e.target.files[0];
         this.fileReader.onload = this.handleFileRead;
         this.fileReader.readAsText(file);
-        console.log(file);
     }
 
     deleteSelectedFile() {
@@ -58,7 +57,8 @@ class DNAInput extends Component {
         SubjectActions.changeInput('');
     }
 
-    render() {
+    render() { 
+        //TODO : on wrong format of input, make textarea red
         return (
             <div>
                 <div className='row'>
@@ -70,7 +70,6 @@ class DNAInput extends Component {
                     <div className='col-md-4'>
                         <p> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format.
                             <br></br>
-                            Supported symbols: <b>A,C,G,T</b>.
                         </p>
                     </div>
                 </div>

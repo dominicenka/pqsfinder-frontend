@@ -20,6 +20,7 @@ class SubjectStore extends EventEmitter {
 
         this.opts = {};
         this.input = '';
+        this.results = {};
     }
 
     setDefaultOpts() {
@@ -34,6 +35,10 @@ class SubjectStore extends EventEmitter {
 
     getInput() {
         return this.input;
+    }
+
+    getResults() {
+        return this.results;
     }
 
     findSeq(data, result) {
@@ -62,7 +67,7 @@ class SubjectStore extends EventEmitter {
     handleInput(data) {
         let re = /[>].*/g;
         if(data.search(re) === -1) {
-            console.log('wrong format');
+            alert('wrong format');
             return -1;
         }
         let result = [];
@@ -78,10 +83,17 @@ class SubjectStore extends EventEmitter {
     analyze() {
         let re2 = /^[ATGC]+$/g;
         let opts = this.opts;
-        if (!this.opts.strandSense && !this.opts.strandAnti) this.opts.strandSense = true;
+        if (opts.strandSense === true && opts.strandAnti === true) { 
+            opts.strand = '*';
+        }
+        else if (opts.strandSense === true || (opts.strandSense === false && opts.strandAnti === false)) {
+            opts.strand = '+';
+        }
+        else {
+            opts.strand = '-';
+        }
         let sequences = this.handleInput(this.input);
         if (sequences === -1) return;
-        console.log(sequences);
         sequences = sequences.map((sequence) => {
             let newSequence = {
                 ...sequence
@@ -94,10 +106,11 @@ class SubjectStore extends EventEmitter {
             return newSequence;
         });
 
-        axios.post("http://127.0.0.1:8000/analyze", {opts: opts, sequences: sequences})
-            .then(res => {
-                console.log(res);
-            })
+        this.emit("fetching");
+        axios.post("http://127.0.0.1:8000/analyze", {opts: opts, sequences: sequences}).then(res => {
+            this.results = res.data.splice(1);
+            this.emit("fetched");
+        });
     }
 
     changeOptValue(opt, value) {

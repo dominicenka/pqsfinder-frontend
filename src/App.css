@@ -2,6 +2,11 @@
 .body {
     margin-top: 70px;
 }
+
+.loading {
+    margin-left:850px !important;
+    margin-top: 400px;
+}
     
 .logo{
     /* position:absolute; */
@@ -65,4 +70,13 @@
 
 .table-results-buttons {
     padding-top: 20px;
+}
+
+.job-id {
+    padding-top: 5px;
+}
+
+.btn-padding {
+    float: left;
+    margin-left: 20px !important;
 }

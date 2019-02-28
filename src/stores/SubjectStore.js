@@ -20,7 +20,7 @@ class SubjectStore extends EventEmitter {
 
         this.opts = {};
         this.input = '';
-        this.results = {};
+        this.id = '';
     }
 
     setDefaultOpts() {
@@ -38,7 +38,8 @@ class SubjectStore extends EventEmitter {
     }
 
     getResults() {
-        return this.results;
+        console.log(this.id);
+        return this.id;
     }
 
     findSeq(data, result) {
@@ -83,10 +84,10 @@ class SubjectStore extends EventEmitter {
     analyze() {
         let re2 = /^[ATGC]+$/g;
         let opts = this.opts;
-        if (opts.strandSense === true && opts.strandAnti === true) { 
+        if ((opts.strandSense === true && opts.strandAnti === true) || (opts.strandSense === false && opts.strandAnti === false)) { 
             opts.strand = '*';
         }
-        else if (opts.strandSense === true || (opts.strandSense === false && opts.strandAnti === false)) {
+        else if (opts.strandSense === true) {
             opts.strand = '+';
         }
         else {
@@ -108,7 +109,7 @@ class SubjectStore extends EventEmitter {
 
         this.emit("fetching");
         axios.post("http://127.0.0.1:8000/analyze", {opts: opts, sequences: sequences}).then(res => {
-            this.results = res.data.splice(1);
+            this.id = res.data;
             this.emit("fetched");
         });
     }

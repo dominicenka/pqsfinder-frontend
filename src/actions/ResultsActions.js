@@ -6,3 +6,17 @@ export function fetchResults(ids) {
         ids: ids,
     })
 }
+
+export function exportGff(name) {
+    dispatcher.dispatch({
+        type: "EXPORT_GFF",
+        name: name,
+    })
+}
+
+export function exportCsv(name) {
+    dispatcher.dispatch({
+        type: "EXPORT_CSV",
+        name: name,
+    })
+}

@@ -37,8 +37,7 @@ class Analyze extends Component {
         return this.state.fetched ? 
             <Redirect push
                 to={{
-                    pathname: "/resultsTable",
-                    state: { results: this.state.results }
+                    pathname: `/resultsTable/${this.state.results}`
                 }}
             />
         : (

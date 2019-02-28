@@ -3,14 +3,9 @@ import '../App.css';
 import { Redirect } from "react-router-dom";
 
 class RedirectPage extends Component {
-	constructor(props) {
-		super(props);
-	}
-
   render() {
-    return  <Redirect to={{
-      pathname: '/resultsTable',
-      state: this.props.location.state
+    return  <Redirect push to={{
+        pathname: `/resultsTable/${this.props.location.state.id}`
       }}
     />;
   }

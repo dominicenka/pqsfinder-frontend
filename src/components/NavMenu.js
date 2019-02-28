@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {Switch, Route} from 'react-router-dom';
-import { BrowserRouter, Link } from 'react-router-dom'
-import Home from '../pages/Home';
-import Analyze from '../pages/Analyze';
-import Examples from '../pages/Examples';
-import Help from '../pages/Help';
-import Contact from '../pages/Contact';
-import ResultsTable from '../pages/ResultsTable';
-import RedirectPage from '../pages/RedirectPage';
+import {  Link } from 'react-router-dom';
 
 import logo from "../images/logo_long.jpg";
 import findJobStore from '../stores/FindJobStore';
 import * as FindJobActions from '../actions/FindJobActions';
-import { Redirect } from "react-router-dom";
 
 class NavMenu extends Component {
 	constructor(props) {
@@ -43,7 +34,6 @@ class NavMenu extends Component {
 
     render() {
       return (
-        <BrowserRouter>
 			<div>
 				<nav className="navbar fixed-top navbar-expand-lg navbar-dark nav justify-content-center " >
 					<a className="navbar-brand" href="/">pqsfinder</a>
@@ -64,22 +54,13 @@ class NavMenu extends Component {
 								onChange={(e) => FindJobActions.changeJobId(e.target.value)}/>
 							<Link to={{
 								pathname: '/redirectPage/',
-								state: { results: this.state.jobId  }
+								state: { id: this.state.jobId  }
 								}} >
 						<button className="btn btn-outline-secondary my-2 my-sm-0" type="submit" >Find</button> </Link>
 					</form>
 				</nav>
-				<Switch>
-					<Route exact path="/" component={Home}/>
-					<Route exact path="/analyze" component={Analyze}/>
-					<Route exact path="/examples" component={Examples}/>
-					<Route exact path="/help" component={Help}/>
-					<Route exact path="/contact" component={Contact}/>
-					<Route path="/resultsTable" component={ResultsTable}/>
-					<Route path="/redirectPage" component={RedirectPage}/>
-				</Switch>
 			</div>
-      	</BrowserRouter> );
+	  )
     }
   }
   

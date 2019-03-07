@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from "axios";
+import { Router } from 'react-router-dom';
+import history from './history';
 
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.headers.common = {
@@ -11,7 +13,9 @@ axios.defaults.headers.common = {
     "Content-Type": "application/json",
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Router history={history}>
+    <App />
+  </Router>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

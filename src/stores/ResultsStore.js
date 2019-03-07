@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 class ResultsStore extends EventEmitter {
     constructor(props) {
         super(props);
-        this.results = [];
+        this.results = {};
     }
 
     getResults() {
@@ -14,11 +14,9 @@ class ResultsStore extends EventEmitter {
     }
 
     fetchResults(id) {
-        this.results = [];
+        this.results = {};
         axios.get("http://127.0.0.1:8000/job/"+id).then(res => {
-            console.log(res);
             if(res.data[0] === 0) {
-                alert("Job ID does not exist");
                 this.emit('invalidId');
                 return;
             }
@@ -101,7 +99,6 @@ class ResultsStore extends EventEmitter {
         let qs = [];
         qs.push(version);
         this.results[name].data.forEach(data => {
-            console.log(data);
             qs.push(`${q}   ${data.start}   ${data.end} ${data.score}   ${data.strand}   .   nt=${data.nt};nb=${data.nb};nm=${data.nm};rl1=${data.rl1};rl2=${data.rl2};rl3=${data.rl3};ll1=${data.ll1};ll2=${data.ll2};ll3=${data.ll3}\n`);
         });
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});

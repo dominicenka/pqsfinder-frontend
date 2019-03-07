@@ -11,20 +11,24 @@ class DNAInput extends Component {
 
         this.state = {
             input: SubjectStore.getInput(),
-            fileSelected: false
+            fileSelected: false,
+            inputValidation: ''
         }
 
         this.exampleData = ">fasta format 3 \nCCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAA";
         this.getInput = this.getInput.bind(this);
         this.fileReader = new FileReader();
+        this.invalidInput = this.invalidInput.bind(this);
     }
 
     componentWillMount() {
         SubjectStore.on("changeInput", this.getInput);
+        SubjectStore.on("invalidInput", this.invalidInput);
     }
 
     componentWillUnmount() {
         SubjectStore.removeListener("changeInput", this.getInput);
+        SubjectStore.removeListener("invalidInput", this.invalidInput);
     }
 
     getInput() {
@@ -33,7 +37,12 @@ class DNAInput extends Component {
         });
     }
 
+    invalidInput() {
+        this.setState({inputValidation: 'is-invalid'});
+    }
+
     handleInputChange(event) {
+        this.setState({inputValidation: ''});
         const target = event.target;
         const value = target.value;
         SubjectActions.changeInput(value);
@@ -58,14 +67,13 @@ class DNAInput extends Component {
     }
 
     render() { 
-        //TODO : on wrong format of input, make textarea red
         return (
             <div>
                 <div className='row'>
                     <div className='col-md-8'>
-                        <textarea className="form-control" id="dnaTextInput" rows="10"
+                        <textarea className={`form-control ${this.state.inputValidation}`} id="dnaTextInput" rows="10"
                             value={this.state.input}
-                            onChange={this.handleInputChange} />
+                            onChange={(e) => this.handleInputChange(e)} />
                     </div>
                     <div className='col-md-4'>
                         <p> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format.

@@ -10,15 +10,10 @@ import Examples from './pages/Examples';
 import Help from './pages/Help';
 import Contact from './pages/Contact';
 import ResultsTable from './pages/ResultsTable';
-import RedirectPage from './pages/RedirectPage';
-import { createBrowserHistory } from 'history';
-
-export const history = createBrowserHistory();
 
 class App extends Component {
   render() {
     return (
-      <Router history={history}>
       <div>
         <NavMenu />
         <Switch>
@@ -28,10 +23,8 @@ class App extends Component {
             <Route exact path="/help" component={Help}/>
             <Route exact path="/contact" component={Contact}/>
             <Route path="/resultsTable" component={ResultsTable}/>
-            <Route path="/redirectPage" component={RedirectPage}/>
           </Switch>
         </div>
-      </Router>
     );
   }
 }

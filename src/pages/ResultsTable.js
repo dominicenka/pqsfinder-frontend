@@ -8,11 +8,14 @@ import * as ResultsActions from '../actions/ResultsActions';
 import ResultsStore from '../stores/ResultsStore';
 import subjectStore from '../stores/SubjectStore';
 import Loader from '../components/Loader';
+import isEmpty from '../utils';
 
 class ResultsTable extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {};
 
         this.getResults = this.getResults.bind(this);
         this.handleInvalid = this.handleInvalid.bind(this);
@@ -20,10 +23,10 @@ class ResultsTable extends Component {
 
     componentWillMount() {
         ResultsStore.on("fetched", this.getResults);
-        ResultsStore.on("invalidId", this.handleInvalid);
+        //ResultsStore.on("invalidId", this.handleInvalid);
 
-        let pathname = this.props.location.pathname;
-        ResultsActions.fetchResults(pathname.slice(pathname.lastIndexOf('/') + 1));
+        // let pathname = this.props.location.pathname;
+        // if(ResultsStore.getResults() === []) ResultsActions.fetchResults(pathname.slice(pathname.lastIndexOf('/') + 1));
     }
 
     componentWillUnmount() {
@@ -35,27 +38,28 @@ class ResultsTable extends Component {
     }
 
     handleInvalid() {
-        this.props.history.push("/");
+        //this.props.history.push("/");
     }
 
-    renderResults() {
-        let results = [];
+    renderTables(results) {
+        let tables = [];
         //console.log(this.state.results);
-        for (let[key, value] of Object.entries(this.state.results)) {
+        for (let[key, value] of Object.entries(results)) {
             //console.log(key, value);
             if(key === 'id') continue;
-            results.push(<ResultsTableHeader length={value.data.length} key={'header'+key} id={key} seq={value.seq}/>);
-            results.push(<ResultsTableTable data={value.data} key={'table'+key}/>);
+            tables.push(<ResultsTableHeader length={value.data.length} key={'header'+key} id={key} seq={value.seq}/>);
+            tables.push(<ResultsTableTable data={value.data} key={'table'+key}/>);
         }
-        return results;
+        return tables;
     }
 
     render(){
-        //console.log(this.state.results);
-        return this.state ? 
+        let results = this.state.results || ResultsStore.getResults();
+        if (isEmpty(results)) ResultsActions.fetchResults(this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1));
+        return (!isEmpty(results)) ? 
         (<div className="body container">
-            <ResultsHeader id={this.state.results.id}/>
-            {this.renderResults()}
+            <ResultsHeader id={results.id}/>
+            {this.renderTables(results)}
         </div>) : <div className="body container loading"><Loader/></div>;
     }
 }

@@ -64,7 +64,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='maxLL'>Max loop length</label>
-                                <input type='number' min='0' className='form-control opt' id='maxLL' value={this.state.opts.maxLL} onChange={this.handleInputChange}></input>
+                                <input type='number' min='1' className='form-control opt' id='maxLL' value={this.state.opts.maxLL} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -73,7 +73,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='maxNB'>Max bulges</label>
-                                <input type='number' min='0' className='form-control opt' id='maxNB' value={this.state.opts.maxNB} onChange={this.handleInputChange}></input>
+                                <input type='number' min='0' max='3' className='form-control opt' id='maxNB' value={this.state.opts.maxNB} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -82,7 +82,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='maxNM'>Max mismatches</label>
-                                <input type='number' min='0' className='form-control opt' id='maxNM' value={this.state.opts.maxNM} onChange={this.handleInputChange}></input>
+                                <input type='number' min='0' max='3' className='form-control opt' id='maxNM' value={this.state.opts.maxNM} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='maxLength'>Max length</label>
-                            <input type='number' min='0' className='form-control opt' id='maxLength' value={this.state.opts.maxLength} onChange={this.handleInputChange}></input>
+                            <input type='number' min='0' max='100' className='form-control opt' id='maxLength' value={this.state.opts.maxLength} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -147,7 +147,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='maxND'>Max defects</label>
-                            <input type='number' min='0' className='form-control opt' id='maxND' value={this.state.opts.maxND} onChange={this.handleInputChange}></input>
+                            <input type='number' min='0' max='3' className='form-control opt' id='maxND' value={this.state.opts.maxND} onChange={this.handleInputChange}></input>
                         </div>
                     </div>
                     {this.advOpts()}

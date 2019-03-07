@@ -38,7 +38,6 @@ class SubjectStore extends EventEmitter {
     }
 
     getResults() {
-        console.log(this.id);
         return this.id;
     }
 
@@ -68,7 +67,7 @@ class SubjectStore extends EventEmitter {
     handleInput(data) {
         let re = /[>].*/g;
         if(data.search(re) === -1) {
-            alert('wrong format');
+            this.emit("invalidInput"); //wrong format
             return -1;
         }
         let result = [];
@@ -101,7 +100,8 @@ class SubjectStore extends EventEmitter {
             };
             newSequence.dnaString = newSequence.dnaString.toUpperCase().trim().replace(/\r?\n|\r/g, '');
             if(newSequence.dnaString.search(re2) === -1) {
-                alert('unaccepted symbols');
+                this.emit("invalidInput");
+                //alert('unaccepted symbols');
                 return;
             }
             return newSequence;

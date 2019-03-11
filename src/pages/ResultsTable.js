@@ -23,10 +23,6 @@ class ResultsTable extends Component {
 
     componentWillMount() {
         ResultsStore.on("fetched", this.getResults);
-        //ResultsStore.on("invalidId", this.handleInvalid);
-
-        // let pathname = this.props.location.pathname;
-        // if(ResultsStore.getResults() === []) ResultsActions.fetchResults(pathname.slice(pathname.lastIndexOf('/') + 1));
     }
 
     componentWillUnmount() {

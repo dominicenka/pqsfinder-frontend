@@ -12,7 +12,8 @@ class DNAInput extends Component {
         this.state = {
             input: SubjectStore.getInput(),
             fileSelected: false,
-            inputValidation: ''
+            inputValidation: '',
+            inputTitle: 'Enter nucleotide sequences'
         }
 
         this.exampleData = ">fasta format 3 \nCCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAA";
@@ -35,14 +36,14 @@ class DNAInput extends Component {
         this.setState({
             input: SubjectStore.getInput(),
         });
+        this.setState({inputValidation: '', inputTitle: 'Enter nucleotide sequences'});
     }
 
     invalidInput() {
-        this.setState({inputValidation: 'is-invalid'});
+        this.setState({inputValidation: 'is-invalid', inputTitle: SubjectStore.getError()});
     }
 
     handleInputChange(event) {
-        this.setState({inputValidation: ''});
         const target = event.target;
         const value = target.value;
         SubjectActions.changeInput(value);
@@ -72,7 +73,7 @@ class DNAInput extends Component {
                 <div className='row'>
                     <div className='col-md-8'>
                         <textarea className={`form-control ${this.state.inputValidation}`} id="dnaTextInput" rows="10"
-                            value={this.state.input}
+                            value={this.state.input} title={this.state.inputTitle}
                             onChange={(e) => this.handleInputChange(e)} />
                     </div>
                     <div className='col-md-4'>

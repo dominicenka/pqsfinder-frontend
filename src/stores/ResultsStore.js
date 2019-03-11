@@ -106,13 +106,42 @@ class ResultsStore extends EventEmitter {
     }
 
     createCsvFormat(name){
-        let q = `${name},pqsfinder,G_quartet`;
         let qs = [];
+        qs.push("sequenceName,source,type,start,end,score,strand,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
         this.results[name].data.forEach(data => {
-            qs.push(`${q},start=${data.start},end=${data.end},score=${data.score},strand=${data.strand},nt=${data.nt},nb=${data.nb},nm=${data.nm},rl1=${data.rl1},rl2=${data.rl2},rl3=${data.rl3},ll1=${data.ll1},ll2=${data.ll2},ll3=${data.ll3}\n`);
+            qs.push(`${name},pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
         });
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
         saveAs(blob, `${name.replace(' ', '_')}.csv`);
+    }
+
+    exportGff(id){
+        let version = "##gff-version 3\n";
+        let qs = [];
+        qs.push(version);
+        console.log(this.results);
+        for (let[key, value] of Object.entries(this.results)) {
+            if(key === "id") continue;
+            let q = `${key}    pqsfinder   G_quartet`;
+            value.data.forEach(data => {
+                qs.push(`${q}   ${data.start}   ${data.end} ${data.score}   ${data.strand}   .   nt=${data.nt};nb=${data.nb};nm=${data.nm};rl1=${data.rl1};rl2=${data.rl2};rl3=${data.rl3};ll1=${data.ll1};ll2=${data.ll2};ll3=${data.ll3}\n`);
+            });
+        }
+        var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
+        saveAs(blob, `${id.replace(' ', '_')}.gff`);
+    }
+
+    exportCsv(id){
+        let qs = [];
+        qs.push("sequenceName,source,type,start,end,score,strand,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
+        for (let[key, value] of Object.entries(this.results)) {
+            if(key === "id") continue;
+            value.data.forEach(data => {
+                qs.push(`${key},pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+            });
+        }
+        var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
+        saveAs(blob, `${id.replace(' ', '_')}.csv`);
     }
 
     handleActions(action) {
@@ -125,6 +154,12 @@ class ResultsStore extends EventEmitter {
                 break;
             case "EXPORT_CSV":   
                 this.createCsvFormat(action.name);
+                break;
+            case "EXPORT_GFF_ALL":   
+                this.exportGff(action.id);
+                break;
+            case "EXPORT_CSV_ALL":   
+                this.exportCsv(action.id);
                 break;
             default: 
                 break;

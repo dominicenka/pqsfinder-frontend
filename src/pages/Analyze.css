@@ -67,6 +67,11 @@
     margin-left: 50px !important;
 }
 
+.optsImg {
+    width: 90%;
+    padding-left: 10%;
+}
+
 /* dna input */
 
 .btn-padding-input {

@@ -1,0 +1,37 @@
+.customRowClass td{
+    padding: 6px !important;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.customRowClass td:last-child{
+    padding-right: 3px !important;
+    text-align: left;
+}
+
+.customColumnStyle {
+    background-color: #17a2b8;
+    color: white;
+    text-align: center !important;
+}
+
+.pagTotal {
+    padding-left: 15px;
+    width: 350px !important;
+}
+
+.page-item {
+    /* padding: 8px; */
+    /* border-style: solid; */
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.555);
+    border-radius: 2px;
+}
+
+.row {
+    width: 100%;
+}
+
+.pagination {
+    padding-left: 50px !important; 
+}

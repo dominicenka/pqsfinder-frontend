@@ -15,12 +15,15 @@ class SubjectStore extends EventEmitter {
             maxLL: 30,
             maxNB: 3,
             maxNM: 3,
-            maxND: 3
+            maxND: 3,
+            minRL: 2,
+            maxRL: 11
         }
 
         this.opts = {};
         this.input = '';
         this.id = '';
+        this.error = '';
     }
 
     setDefaultOpts() {
@@ -39,6 +42,10 @@ class SubjectStore extends EventEmitter {
 
     getResults() {
         return this.id;
+    }
+
+    getError() {
+        return this.error;
     }
 
     findSeq(data, result) {
@@ -67,6 +74,7 @@ class SubjectStore extends EventEmitter {
     handleInput(data) {
         let re = /[>].*/g;
         if(data.search(re) === -1) {
+            this.error = "Wrong data format";
             this.emit("invalidInput"); //wrong format
             return -1;
         }
@@ -81,7 +89,7 @@ class SubjectStore extends EventEmitter {
     }
 
     analyze() {
-        let re2 = /^[ATGC]+$/g;
+        let re2 = /^[ATGCMRWSYKVHDBN]+$/g;
         let opts = this.opts;
         if ((opts.strandSense === true && opts.strandAnti === true) || (opts.strandSense === false && opts.strandAnti === false)) { 
             opts.strand = '*';
@@ -100,6 +108,7 @@ class SubjectStore extends EventEmitter {
             };
             newSequence.dnaString = newSequence.dnaString.toUpperCase().trim().replace(/\r?\n|\r/g, '');
             if(newSequence.dnaString.search(re2) === -1) {
+                this.error = "Unexpected symbols in nucleotide sequence";
                 this.emit("invalidInput");
                 //alert('unaccepted symbols');
                 return;

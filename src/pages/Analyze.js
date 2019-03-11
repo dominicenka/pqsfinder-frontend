@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
 import * as ResultsActions from '../actions/ResultsActions';
+import history from '../history';
 
 class Analyze extends Component {
 
@@ -32,17 +33,11 @@ class Analyze extends Component {
 
     _redirect() {
         ResultsActions.fetchResults(SubjectStore.getResults());
-        this.setState({fetched: true, results: SubjectStore.getResults()});
+        history.push(`/resultsTable/${SubjectStore.getResults()}`);
     }
 
     render() {
-        return this.state.fetched ? 
-            <Redirect push //use history.push()
-                to={{
-                    pathname: `/resultsTable/${this.state.results}`
-                }}
-            />
-        : (
+        return (
             <div className="body container">
                 <div className="row">
                     <div className="col-sm-1"></div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
- 
+import * as ResultsActions from '../actions/ResultsActions';
+
 class ResultsHeader extends Component {
     constructor(props) {
         super(props);
@@ -19,7 +20,13 @@ class ResultsHeader extends Component {
                                             Job ID: {this.props.id} <br></br>
                                         </div>
                                         <div className="col-md-6 ">
-                                            <button type="button" className="btn btn-info btn-padding-opt" onClick={() => {}}>Export all results as..</button>
+                                            <div className="dropdown">
+                                                <button type="button" className="btn btn-info dropdown-toggle btn-padding-opt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export all results as..</button>
+                                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a className="dropdown-item" href="#" onClick={() => ResultsActions.exportGffAll(this.props.id)}>.gff</a>
+                                                    <a className="dropdown-item" href="#" onClick={() => ResultsActions.exportCsvAll(this.props.id)}>.csv</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -20,3 +20,17 @@ export function exportCsv(name) {
         name: name,
     })
 }
+
+export function exportGffAll(id) {
+    dispatcher.dispatch({
+        type: "EXPORT_GFF_ALL",
+        id: id,
+    })
+}
+
+export function exportCsvAll(id) {
+    dispatcher.dispatch({
+        type: "EXPORT_CSV_ALL",
+        id: id,
+    })
+}

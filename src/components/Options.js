@@ -6,6 +6,8 @@ import HelpTooltip from './HelpTooltip';
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
 
+const optsImg = '/images/options.png';
+
 class Options extends Component {
 
     constructor(props) {
@@ -60,7 +62,7 @@ class Options extends Component {
                             <div className="col">
                                 <HelpTooltip content={
                                 <div>
-                                    Maxmimal length of quadruplex loop.
+                                    Maximal length of quadruplex loop.
                                 </div>
                             }/>
                                 <label htmlFor='maxLL'>Max loop length</label>
@@ -83,6 +85,31 @@ class Options extends Component {
                             }/>
                                 <label htmlFor='maxNM'>Max mismatches</label>
                                 <input type='number' min='0' max='3' className='form-control opt' id='maxNM' value={this.state.opts.maxNM} onChange={this.handleInputChange}></input>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-3">
+                                <HelpTooltip content={
+                                <div>
+                                   Minimal length of quadruplex run.
+                                </div>
+                            }/>
+                                <label htmlFor='minRL'>Min run length</label>
+                                <input type='number' min='0' className='form-control opt' id='minRL' value={this.state.opts.minRL} onChange={this.handleInputChange}></input>
+                            </div>
+                            <div className="col-md-3">
+                                <HelpTooltip content={
+                                <div>
+                                    Maximal length of quadruplex run.
+                                </div>
+                            }/>
+                                <label htmlFor='maxRL'>Max run length</label>
+                                <input type='number' min='1' className='form-control opt' id='maxRL' value={this.state.opts.maxRL} onChange={this.handleInputChange}></input>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <img src={optsImg} className="optsImg"></img>
                             </div>
                         </div>
                     </div>

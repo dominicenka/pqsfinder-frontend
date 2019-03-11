@@ -1,28 +1,66 @@
 import React, { Component } from 'react';
 import '../App.css';
+import '../pages/ResultsTable.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import filterFactory, { numberFilter } from 'react-bootstrap-table2-filter';
 import BootstrapTable from 'react-bootstrap-table-next';
- 
+import paginationFactory from 'react-bootstrap-table2-paginator';
+
+const customTotal = (from, to, size) => (
+    <span className="react-bootstrap-table-pagination-total pagTotal">
+      <br></br>Showing { from } to { to } of { size } Results
+    </span>
+  );
+
+  const pageButtonRenderer = ({
+    page,
+    active,
+    disable,
+    title,
+    onPageChange
+  }) => {
+    const handleClick = (e) => {
+      e.preventDefault();
+      onPageChange(page);
+    };
+    const activeStyle = {};
+    if (active) {
+      activeStyle.backgroundColor = '#17a2b8';
+      activeStyle.color = 'white';
+    } else {
+      activeStyle.backgroundColor = 'white';
+      activeStyle.color = '#17a2b8';
+    }
+    if (typeof page === 'string') {
+      activeStyle.backgroundColor = 'white';
+      activeStyle.color = '#17a2b8';
+    }
+    return (
+      <li className="page-item" style={activeStyle}>
+        <button className="btn btn-info"  onClick={ handleClick } style={ activeStyle }>{ page }</button>
+      </li>
+    );
+  };
+  
+const options = {
+    // alwaysShowAllBtns: true, // Always show next and previous button
+    showTotal: true,
+    paginationTotalRenderer: customTotal,
+    pageButtonRenderer,
+  }; 
+
 class ResultsTableTable extends Component {
     constructor(props) {
         super(props);
 
         this.columns = [
             {
-                dataField: 'key',
-                text: 'Id',
-                sort: true,
-                headerStyle: {
-                    width:'60px'
-                },
-            },
-            {
                 dataField: 'start',
                 text: 'Start',
                 headerStyle: {
                     width:'80px'
                 },
+                headerClasses: 'customColumnStyle',
                 sort: true,
                 sortFunc: (a, b, order, dataField) => {
                     if (order === 'asc') {
@@ -34,10 +72,11 @@ class ResultsTableTable extends Component {
             {
                 dataField: 'end',
                 text: 'End',
+                headerClasses: 'customColumnStyle',
                 headerStyle: {
                     width:'80px'
                 },
-                sort: true,
+                // sort: true,
                 sortFunc: (a, b, order, dataField) => {
                     if (order === 'asc') {
                       return b - a;
@@ -47,9 +86,11 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'score',
-                text: 'Score',
+                text: 'Sc',
+                headerTitle: (column, colIndex) => 'Score',
+                headerClasses: 'customColumnStyle',
                 headerStyle: {
-                    width:'83px'
+                    width:'70px'
                 },
                 sort: true,
                 sortFunc: (a, b, order, dataField) => {
@@ -61,17 +102,21 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'strand',
-                text: 'Strand',
+                text: 'S',
+                headerTitle: (column, colIndex) => 'Strand',
+                headerClasses: 'customColumnStyle',
                 headerStyle: {
-                    width:'90px'
+                    width:'60px'
                 },
                 sort: true
             },
             {
                 dataField: 'nt',
-                text: 'Tetrads',
+                text: 'T',
+                headerTitle: (column, colIndex) => 'Tetrads',
+                headerClasses: 'customColumnStyle',
                 headerStyle: {
-                    width:'95px'
+                    width:'60px'
                 },
                 sort: true,
                 sortFunc: (a, b, order, dataField) => {
@@ -83,9 +128,11 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'nb',
-                text: 'Bulges',
+                text: 'B',
+                headerTitle: (column, colIndex) => 'Bulges',
+                headerClasses: 'customColumnStyle',
                 headerStyle: {
-                    width:'90px'
+                    width:'60px'
                 },
                 sort: true,
                 sortFunc: (a, b, order, dataField) => {
@@ -97,9 +144,11 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'nm',
-                text: 'Mismatches',
+                text: 'M',
+                headerTitle: (column, colIndex) => 'Mismatches',
+                headerClasses: 'customColumnStyle',
                 headerStyle: {
-                    width:'130px'
+                    width:'60px'
                 },
                 sort: true,
                 sortFunc: (a, b, order, dataField) => {
@@ -111,9 +160,17 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'quadruplex',
-                text: 'Sequence'
+                text: 'Sequence',
+                headerStyle: {
+                    'background-color': '#17a2b8',
+                    color: 'white'
+                }
             },
         ];
+    }
+
+    setPagination() {
+        return this.props.data.length > 10 ? paginationFactory(options) : null;
     }
 
     render() {
@@ -124,7 +181,9 @@ class ResultsTableTable extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <div className="row">
-                                    <BootstrapTable keyField='key' data={ this.props.data } columns={ this.columns } bootstrap4/>
+                                    <BootstrapTable striped keyField='key' data={ this.props.data } columns={ this.columns } 
+                                                bootstrap4 rowClasses={'customRowClass'}  pagination={this.setPagination()} 
+                                                noDataIndication="No quadruplexes found" />
                                 </div>
                             </div>
                         </div>

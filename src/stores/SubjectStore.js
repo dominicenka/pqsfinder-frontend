@@ -111,7 +111,7 @@ class SubjectStore extends EventEmitter {
                 this.error = "Unexpected symbols in nucleotide sequence";
                 this.emit("invalidInput");
                 //alert('unaccepted symbols');
-                return;
+                return {};
             }
             return newSequence;
         });

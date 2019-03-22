@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import * as ResultsActions from '../actions/ResultsActions';
+import history from '../history';
  
 class ResultsTableHeader extends Component {
 
@@ -14,19 +15,19 @@ class ResultsTableHeader extends Component {
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-5">
-                                            Sequence name: {this.props.id} <br></br>
+                                            Sequence name: {this.props.name} <br></br>
                                             Number of quadruplexes found: {this.props.length}<br></br>
                                             Input sequence length: {this.props.seq.length}
                                         </div>
                                         <div className="col-md-6 table-results-buttons">
-                                            <button type="button" className="btn btn-info btn-padding" onClick={() => {}}>Show graph</button>
+                                            <button type="button" className="btn btn-info btn-padding" onClick={() => {history.push(`/resultsGraph/${this.props.jobId}/${this.props.id}`);}}>Show graph</button>
                                             <div className="dropdown">
                                                 <button className="btn btn-info dropdown-toggle btn-padding" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Export result as...
                                                 </button>
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a className="dropdown-item" href="#" onClick={() => ResultsActions.exportGff(this.props.id)}>.gff</a>
-                                                    <a className="dropdown-item" href="#" onClick={() => ResultsActions.exportCsv(this.props.id)}>.csv</a>
+                                                    <button className="dropdown-item" onClick={() => ResultsActions.exportGff(this.props.id)}>.gff</button>
+                                                    <button className="dropdown-item" onClick={() => ResultsActions.exportCsv(this.props.id)}>.csv</button>
                                                 </div>
                                             </div>
                                         </div>

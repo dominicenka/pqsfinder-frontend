@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Options from '../components/Options';
 import DNAInput from '../components/DNAInput';
 import '../App.css';
-import { Redirect } from "react-router-dom";
 
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';

@@ -6,9 +6,9 @@ import ResultsHeader from '../components/ResultsHeader';
 
 import * as ResultsActions from '../actions/ResultsActions';
 import ResultsStore from '../stores/ResultsStore';
-import subjectStore from '../stores/SubjectStore';
 import Loader from '../components/Loader';
-import isEmpty from '../utils';
+import Utils from '../utils';
+
 
 class ResultsTable extends Component {
 
@@ -43,7 +43,7 @@ class ResultsTable extends Component {
         for (let[key, value] of Object.entries(results)) {
             //console.log(key, value);
             if(key === 'id') continue;
-            tables.push(<ResultsTableHeader length={value.data.length} key={'header'+key} id={key} seq={value.seq}/>);
+            tables.push(<ResultsTableHeader length={value.data.length} key={'header'+key} id={key} name={value.name} seq={value.seq} jobId={this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1)}/>);
             tables.push(<ResultsTableTable data={value.data} key={'table'+key}/>);
         }
         return tables;
@@ -51,8 +51,8 @@ class ResultsTable extends Component {
 
     render(){
         let results = this.state.results || ResultsStore.getResults();
-        if (isEmpty(results)) ResultsActions.fetchResults(this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1));
-        return (!isEmpty(results)) ? 
+        if (Utils.isEmpty(results)) ResultsActions.fetchResults(this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1));
+        return (!Utils.isEmpty(results)) ? 
         (<div className="body container">
             <ResultsHeader id={results.id}/>
             {this.renderTables(results)}

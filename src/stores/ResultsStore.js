@@ -7,13 +7,16 @@ class ResultsStore extends EventEmitter {
     constructor(props) {
         super(props);
         this.results = {};
+        this.graph = false;
     }
 
     getResults() {
         return this.results;
     }
 
-    fetchResults(id) {
+    fetchResults(id, graph) {
+        this.graph = false;
+        if (graph) this.graph = true;
         this.results = {};
         axios.get("http://127.0.0.1:8000/job/"+id).then(res => {
             if(res.data[0] === 0) {
@@ -85,12 +88,13 @@ class ResultsStore extends EventEmitter {
         }));
         this.results = {
             ...this.results,
-            [info.name]: {
+            [info.name.replace(' ', '_').trim()]: {
+                name: info.name,
                 seq: seq,
                 data: quadruplexes
             }
         };
-        this.emit('fetched');
+        this.emit(this.graph ? 'fetched-graph' : 'fetched');
     }
 
     createGffFormat(name){

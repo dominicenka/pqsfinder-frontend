@@ -3,13 +3,13 @@ import './App.css';
 import NavMenu from './components/NavMenu';
 
 import {Switch, Route} from 'react-router-dom';
-import { Router } from 'react-router-dom'
 import Home from './pages/Home';
 import Analyze from './pages/Analyze';
 import Examples from './pages/Examples';
 import Help from './pages/Help';
 import Contact from './pages/Contact';
 import ResultsTable from './pages/ResultsTable';
+import ResultsGraph from './pages/ResultsGraph';
 
 class App extends Component {
   render() {
@@ -23,6 +23,7 @@ class App extends Component {
             <Route exact path="/help" component={Help}/>
             <Route exact path="/contact" component={Contact}/>
             <Route path="/resultsTable" component={ResultsTable}/>
+            <Route path="/resultsGraph" component={ResultsGraph}/>
           </Switch>
         </div>
     );

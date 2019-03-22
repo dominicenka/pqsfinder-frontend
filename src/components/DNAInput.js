@@ -16,7 +16,7 @@ class DNAInput extends Component {
             inputTitle: 'Enter nucleotide sequences'
         }
 
-        this.exampleData = ">fasta format 3 \nCCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAA";
+        this.exampleData = ">fasta format3 \nCCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAACCCCCCGGGTGGGTGGGTGGTAAAA";
         this.getInput = this.getInput.bind(this);
         this.fileReader = new FileReader();
         this.invalidInput = this.invalidInput.bind(this);

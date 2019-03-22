@@ -3,10 +3,6 @@ import '../App.css';
 import * as ResultsActions from '../actions/ResultsActions';
 
 class ResultsHeader extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="container">
@@ -23,8 +19,8 @@ class ResultsHeader extends Component {
                                             <div className="dropdown">
                                                 <button type="button" className="btn btn-info dropdown-toggle btn-padding-opt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export all results as..</button>
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a className="dropdown-item" href="#" onClick={() => ResultsActions.exportGffAll(this.props.id)}>.gff</a>
-                                                    <a className="dropdown-item" href="#" onClick={() => ResultsActions.exportCsvAll(this.props.id)}>.csv</a>
+                                                    <button className="dropdown-item" onClick={() => ResultsActions.exportGffAll(this.props.id)}>.gff</button>
+                                                    <button className="dropdown-item" onClick={() => ResultsActions.exportCsvAll(this.props.id)}>.csv</button>
                                                 </div>
                                             </div>
                                         </div>

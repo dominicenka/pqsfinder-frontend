@@ -109,7 +109,7 @@ class Options extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                <img src={optsImg} className="optsImg"></img>
+                                <img src={optsImg} alt="options explained" className="optsImg"></img>
                             </div>
                         </div>
                     </div>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {  Link, NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import logo from "../images/logo_long.jpg";
 import findJobStore from '../stores/FindJobStore';
 import * as FindJobActions from '../actions/FindJobActions';
 import resultsStore from '../stores/ResultsStore';
 import history from '../history';
+
+const logo = '/images/logo.png';
 
 class NavMenu extends Component {
 	constructor(props) {
@@ -59,6 +60,7 @@ class NavMenu extends Component {
       	return (
 			<div>
 				<nav className="navbar fixed-top navbar-expand-lg navbar-dark nav justify-content-center " >
+					<img src={logo} className="logo" alt=""></img>
 					<NavLink className="navbar-brand" to="/">pqsfinder</NavLink>
 					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 						<span className="navbar-toggler-icon"></span>

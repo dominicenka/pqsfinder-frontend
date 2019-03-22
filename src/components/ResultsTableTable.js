@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../pages/ResultsTable.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import filterFactory, { numberFilter } from 'react-bootstrap-table2-filter';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
@@ -162,7 +161,7 @@ class ResultsTableTable extends Component {
                 dataField: 'quadruplex',
                 text: 'Sequence',
                 headerStyle: {
-                    'background-color': '#17a2b8',
+                    'backgroundColor': '#17a2b8',
                     color: 'white'
                 }
             },

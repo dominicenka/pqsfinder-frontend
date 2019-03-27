@@ -1,10 +1,12 @@
 .graph {
     position: relative;
-    height: 550px;
+    height: 650px;
     max-width: 95%;
     margin:auto;
-    z-index: -2;
-    display: flex;
+    overflow: hidden;
+    background-color: rgba(211, 211, 211, 0.288);
+    /* background-color:black; */
+    padding: 30px;
 }
 
 .graph-wrapper {
@@ -19,99 +21,27 @@ h2 {
     text-align: center;
 }
 
-.line {
-    position: absolute;
-    top: 2%;
-    bottom: 10%;
-    width: 2px;
-    background: rgba(0,0,0,0.1);
-    left: 10%;
-    z-index: -1;
-}
-
-.vertical-line {
-    position: absolute;
-    height: 1px;
-    left: 1%;
-    width: 250%;
-    background: rgb(0, 0, 0);
-    z-index: -1;
-    margin-top: 30.2%;
-}
-
-.graph-y-content {
-    width: 5%;
-    /* background: rgba(240, 239, 239, 0.5); */
-    /* padding: 20px; */
-    margin-bottom: 10px;
-    background-image: linear-gradient(to right, white , rgb(238, 237, 237));
-}
-
-.text {
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    padding-right: 20px;
-}
-
-.horizontal-text {
-    position:relative;
-    align-items: center;
-    bottom: 0;
-}
-
-.markers {
-    width: 100%;
-    position: relative;
-    /* margin-top: 490px; */
-}
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+  }
   
-.markers > span {
-    position: absolute;
-    transform: translateX(-6px);
-    font-weight: 300;
-    font-size: 14.5px;
-}
+  .grid path {
+    stroke-width: 0;
+  }
 
-.marker-top {
-    margin-top: 490px;
-}
+ text {
+      color: black;
+  }
 
-.marker-bottom {
-    margin-top: 510px;
-}
-
-.graph-lines-container {
-    overflow-x: auto;
-    width: 99%;
-    height: 100%;
-    position: relative;
-    background: rgb(238, 237, 237);
-    z-index: -2;
-    display: flex;
-    flex-direction: column;
-    padding-left: 10px;
-}
-
-.graph-content {
-    width: 98%;
-    height: 100%;
-    background: rgb(238, 237, 237);
-    z-index: -3;
-}
-
-.graph-content-end {
-    width: 2%;
-    background-image: linear-gradient(to right, rgb(238, 237, 237), white);
-}
-
-hr {
-    margin-left: auto;
-    margin-right: auto;
-    background-color:#666;
-    opacity: 0.5;
-    z-index: -2;
-    height: 100%;
-    width: 100%;
-}
-
+  .area {
+    fill: steelblue;
+    clip-path: url(#clip);
+  }
+  
+  .zoom {
+    cursor: move;
+    fill: none;
+    pointer-events: all;
+  }

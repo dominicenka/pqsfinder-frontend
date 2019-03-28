@@ -89,7 +89,7 @@ class ResultsTableTable extends Component {
                 headerTitle: (column, colIndex) => 'Score',
                 headerClasses: 'customColumnStyle',
                 headerStyle: {
-                    width:'70px'
+                    width:'75px'
                 },
                 sort: true,
                 sortFunc: (a, b, order, dataField) => {
@@ -111,7 +111,7 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'nt',
-                text: 'T',
+                text: '#T',
                 headerTitle: (column, colIndex) => 'Tetrads',
                 headerClasses: 'customColumnStyle',
                 headerStyle: {
@@ -127,7 +127,7 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'nb',
-                text: 'B',
+                text: '#B',
                 headerTitle: (column, colIndex) => 'Bulges',
                 headerClasses: 'customColumnStyle',
                 headerStyle: {
@@ -143,7 +143,7 @@ class ResultsTableTable extends Component {
             },
             {
                 dataField: 'nm',
-                text: 'M',
+                text: '#M',
                 headerTitle: (column, colIndex) => 'Mismatches',
                 headerClasses: 'customColumnStyle',
                 headerStyle: {

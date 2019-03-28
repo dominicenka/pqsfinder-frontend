@@ -1,16 +1,15 @@
 .graph {
     position: relative;
-    height: 650px;
+    height: 630px;
     max-width: 95%;
     margin:auto;
     overflow: hidden;
-    background-color: rgba(211, 211, 211, 0.288);
-    /* background-color:black; */
-    padding: 30px;
+    background-color: rgba(224, 223, 223, 0.288);
+    padding: 15px 15px 0 12px;
 }
 
 .graph-wrapper {
-    margin-top: 100px;
+    margin-top: 80px;
 }
 
 .graph::-webkit-scrollbar {
@@ -25,23 +24,42 @@ h2 {
     stroke: lightgrey;
     stroke-opacity: 0.7;
     shape-rendering: crispEdges;
-  }
+}
   
-  .grid path {
+.grid path {
     stroke-width: 0;
-  }
+}
 
- text {
-      color: black;
-  }
-
-  .area {
-    fill: steelblue;
-    clip-path: url(#clip);
-  }
+text {
+    color: rgb(100, 100, 100);
+}
   
-  .zoom {
-    cursor: move;
+.zoom {
+    cursor: grab;
     fill: none;
+    pointer-events: visible;
+    z-index: -1;
+}
+
+.zoom .disabled {
+    pointer-events: none;
+}
+
+.rect {
+    cursor: pointer;
     pointer-events: all;
-  }
+    z-index: 1;
+}
+
+.detail-wrapper {
+    padding: 30px;
+    align-content: center;
+}
+
+.detail {
+    margin: auto;
+    width: 400px;
+    height: 200px;
+    border-style: solid;
+    border-width: 1px; 
+}

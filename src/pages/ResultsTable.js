@@ -53,9 +53,25 @@ class ResultsTable extends Component {
         let results = this.state.results || ResultsStore.getResults();
         if (Utils.isEmpty(results)) ResultsActions.fetchResults(this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1));
         return (!Utils.isEmpty(results)) ? 
-        (<div className="body container">
-            <ResultsHeader id={results.id}/>
-            {this.renderTables(results)}
+        (<div>
+            <div className="body container">
+                <ResultsHeader id={results.id}/>
+                {this.renderTables(results)}
+            </div>
+            <div className="row">
+                <div className="col-sm-1 col-md-1"></div>
+                <div className="col-sm-10">
+                    <div className="card ">
+                    <div className="card-header text-center"><h5>Citation</h5></div>
+                        <div className="card-body">
+                            <p className="card-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). “pqsfinder: an exhaustive and imperfection-tolerant
+                                search tool for potential quadruplex-forming sequences in R.” Bioinformatics, 33(21), 3373-3379. 
+                                doi: 10.1093/bioinformatics/btx413.  </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-1 col-md-1"></div>
+            </div>
         </div>) : <div className="body container loading"><Loader/></div>;
     }
 }

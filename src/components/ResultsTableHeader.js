@@ -15,9 +15,9 @@ class ResultsTableHeader extends Component {
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-5">
-                                            Sequence name: {this.props.name} <br></br>
-                                            Number of quadruplexes found: {this.props.length}<br></br>
-                                            Input sequence length: {this.props.seq.length}
+                                            Name: {this.props.name} <br></br>
+                                            Length: {this.props.seq.length} <br></br>
+                                            Number of quadruplexes found: {this.props.length}
                                         </div>
                                         <div className="col-md-6 table-results-buttons">
                                             <button type="button" className="btn btn-info btn-padding" onClick={() => {history.push(`/resultsGraph/${this.props.jobId}/${this.props.id}`);}}>Show graph</button>

@@ -10,6 +10,7 @@ import Help from './pages/Help';
 import Contact from './pages/Contact';
 import ResultsTable from './pages/ResultsTable';
 import ResultsGraph from './pages/ResultsGraph';
+import 'font-awesome/css/font-awesome.min.css';
 
 class App extends Component {
   render() {

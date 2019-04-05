@@ -9,7 +9,7 @@ class Graph extends Component {
         super(props);
 
         this.state = {
-            activeG: []
+            data: []
         }
     }
 
@@ -18,7 +18,7 @@ class Graph extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.results !== prevProps.results) this.drawChart();
+        if (this.props.data !== prevProps.data) this.drawChart();
     }
 
     computeYAxis(){
@@ -36,80 +36,63 @@ class Graph extends Component {
 
     makeYgridlines(y) {		
         return d3.axisLeft(y).ticks(10)
-    }  
-    
-    getStartPositions(startPositions, endPositions, domain) {
-        let result = [];
-        startPositions.forEach((pos, index) => {
-            if (pos < domain[0] && endPositions[index] > domain[0]) result.push(domain[0]);
-            if (pos < domain[1] && endPositions[index] > domain[1]) result.push(pos);
-            if (pos > domain[0] && endPositions[index] < domain[1]) result.push(pos);
-        });
-        return result;
-    }
+    } 
 
-    getEndPositions(startPositions, endPositions, domain) {
-        let result = [];
-        endPositions.forEach((pos, index) => {
-            if (startPositions[index] < domain[0] && pos > domain[0]) result.push(pos);
-            if (startPositions[index] < domain[1] && pos > domain[1]) result.push(domain[1]);
-            if (pos < domain[1] && startPositions[index] > domain[0]) result.push(pos);
-        });
-        return result;
-    }
+    // computeData(activeStrands, data) {
+    //     console.log(activeStrands);
+    //     let newData = [];
+    //     data.forEach(val => {
+    //         let strand = val.strand === "+" ? "sense" : "antisense";
+    //         if (!activeStrands.includes(strand)) return;
+    //         val.start = Number(val.start);
+    //         val.end = Number(val.end);
+    //         val.score = Number(val.score);
+    //         newData.push(val);
+    //     });
+    //     this.setState({data: newData});
+    //     return newData;
+    // }
 
-    getScores(startPositions, endPositions, scores, domain) {
-        let result = [];
-        startPositions.forEach((pos, index) => {
-            if (pos < domain[0] && endPositions[index] > domain[0]) result.push(scores[index]);
-            if (pos < domain[1] && endPositions[index] > domain[1]) result.push(scores[index]);
-            if (pos > domain[0] && endPositions[index] < domain[1]) result.push(scores[index]);
+    computeVisibleData(data, domain) {
+        let x = domain[0];
+        let y = domain[1];
+        let visibleData = [];
+        data.forEach((quad, index) => {
+            let newQuad = {...quad};
+            if(quad.end < x || quad.start > y) return;
+            if(quad.start < x) newQuad.start = x;
+            if(quad.end > y) newQuad.end = y;
+            visibleData.push(newQuad);
         });
-        return result;
-    }
-
-    getStrands(startPositions, endPositions, strands, domain) {
-        let result = [];
-        startPositions.forEach((pos, index) => {
-            if (pos < domain[0] && endPositions[index] > domain[0]) result.push(strands[index]);
-            if (pos < domain[1] && endPositions[index] > domain[1]) result.push(strands[index]);
-            if (pos > domain[0] && endPositions[index] < domain[1]) result.push(strands[index]);
-        });
-        return result;
+        return visibleData;
     }
 
     drawChart() {
-        let data = this.props.results.data;
+        let data = this.props.data;
 
-        let scores = data.map(q => {
-            return Number(q.score);
-        });
-
-        let currentScores = scores;
-
-        let startPositions = data.map(q => {
-            return Number(q.start);
-        });
-
-        let currentStartPositions = startPositions;
-
-        let endPositions = data.map(q => {
-            return Number(q.end);
-        });
-
-        let currentEndPositions = endPositions;
-
-        let strands = data.map(q => {
-            return q.strand;
-        });
-
+        let scores = data.map(val => Number(val.score));
 
         let len = this.props.results.seq.length;
+        console.log(this.props.idx);
+        var svg = d3.select(`.svg${this.props.idx}`),
+            margin = {top: 20, right: 20, bottom: 140, left: 40},
+            margin2 = {top: 490, right: 20, bottom: 30, left: 40},
+            width = +svg.attr("width") - margin.left - margin.right,
+            height = +svg.attr("height") - margin.top - margin.bottom,
+            height2 = +svg.attr("height") - margin2.top - margin2.bottom;
 
-        console.log(scores);
-        console.log(startPositions);
-        console.log(endPositions);
-        console.log(strands);
+        svg.selectAll("*").remove();
+
+        var x = d3.scaleLinear().range([0, width]),
+            x2 = d3.scaleLinear().range([0, width]),
+            y = d3.scaleLinear().range([height, 0]),
+            y2 = d3.scaleLinear().range([height2, 0]);
+
+        var xAxis = d3.axisBottom(x),
+            xAxis2 = d3.axisBottom(x2),
+            yAxis = d3.axisLeft(y);
+
+        let visibleData = this.computeVisibleData(data, x.domain());
 
         const colorFillScaleSense = d3.scaleLinear()
             .domain([Math.min.apply(null, scores), Math.max.apply(null, scores)])
@@ -124,23 +107,17 @@ class Graph extends Component {
             var s = d3.event.selection || x2.range();
             x.domain(s.map(x2.invert, x2));
             focus.selectAll("rect").remove();
-            const newStartPositions = this.getStartPositions(startPositions, endPositions, x.domain());
-            currentStartPositions = newStartPositions;
-            const newEndPositions = this.getEndPositions(startPositions, endPositions, x.domain());
-            currentEndPositions = newEndPositions;
-            const newScores = this.getScores(startPositions, endPositions, scores, x.domain());
-            currentScores = newScores;
-            const newStrands = this.getScores(startPositions, endPositions, strands, x.domain());
+            visibleData = this.computeVisibleData(data, x.domain());
             focus.selectAll("rect")
-                .data(newStartPositions)
+                .data(visibleData)
                 .enter()
                 .append("rect")
                 .attr("key", (d, i) => i)
-                .attr("x", (d, i) => x(d))
-                .attr("y", (d, i) => y(newScores[i]) - margin2.bottom)
-                .attr("width", (d, i) => x(x.domain()[0] + newEndPositions[i] - d))
-                .attr("fill", (d, i) => newStrands[i] === '+' ? colorFillScaleSense(newScores[i]) : colorFillScaleAnti(newScores[i]))
-                .attr("height", (d, i) => 10)
+                .attr("x", (d, i) => x(d.start))
+                .attr("y", (d, i) => y(d.score) - margin2.bottom)
+                .attr("width", (d, i) => x(x.domain()[0] + d.end - d.start))
+                .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
+                .attr("height", (d, i) => 15)
                 .attr('transform', `translate(0,${margin.top})`)
                 .attr("class", "rect")
                 .on("mouseover", mouseover)
@@ -157,51 +134,42 @@ class Graph extends Component {
             var t = d3.event.transform;
             x.domain(t.rescaleX(x2).domain());
             focus.selectAll("rect").remove();
-            const newStartPositions = this.getStartPositions(startPositions, endPositions, x.domain());
-            currentStartPositions = newStartPositions;
-            const newEndPositions = this.getEndPositions(startPositions, endPositions, x.domain());
-            currentEndPositions = newEndPositions;
-            const newScores = this.getScores(startPositions, endPositions, scores, x.domain());
-            currentScores = newScores;
-            const newStrands = this.getScores(startPositions, endPositions, strands, x.domain());
+            visibleData = this.computeVisibleData(data, x.domain());
             focus.selectAll("rect")
-                .data(newStartPositions)
+                .data(visibleData)
                 .enter()
                 .append("rect")
                 .attr("key", (d, i) => i)
-                .attr("x", (d, i) => x(d))
-                .attr("y", (d, i) => y(newScores[i]) - margin2.bottom)
-                .attr("width", (d, i) => x(x.domain()[0] + newEndPositions[i] - d))
-                .attr("fill", (d, i) => newStrands[i] === '+' ? colorFillScaleSense(newScores[i]) : colorFillScaleAnti(newScores[i]))
-                .attr("height", (d, i) => 10)
+                .attr("x", (d, i) => x(d.start))
+                .attr("y", (d, i) => y(d.score) - margin2.bottom)
+                .attr("width", (d, i) => x(x.domain()[0] + d.end - d.start))
+                .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
+                .attr("height", (d, i) => 15)
                 .attr('transform', `translate(0,${margin.top})`)
                 .attr("class", "rect")
                 .on("mouseover", mouseover)
                 .on("mousemove", mousemove)
                 .on("mouseleave", mouseleave);
-            xGrid.call(
-                d3.axisBottom(x)
-                    .scale(t.rescaleX(x))
-                    .ticks(5)
-                    .tickSize(-height)
-                    .tickFormat("")
-                )
+            // xGrid.call(
+            //     d3.axisBottom(x)
+            //         .scale(t.rescaleX(x))
+            //         .ticks(5)
+            //         .tickSize(-height)
+            //         .tickFormat("")
+            //     )
             focus.select(".axis--x").call(xAxis);
             context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
         }
 
-        var svg = d3.select("svg:nth-child(1)"),
-            margin = {top: 20, right: 20, bottom: 140, left: 40},
-            margin2 = {top: 490, right: 20, bottom: 30, left: 40},
-            width = +svg.attr("width") - margin.left - margin.right,
-            height = +svg.attr("height") - margin.top - margin.bottom,
-            height2 = +svg.attr("height") - margin2.top - margin2.bottom;
-
         var zoom = d3.zoom()
-            .scaleExtent([1, Infinity])
+            .scaleExtent([1, len/14]) //14 because magic
             .translateExtent([[0, 0], [width, height]])
             .extent([[0, 0], [width, height]])
             .on("zoom", zoomed);
+
+        var brush = d3.brushX()
+            .extent([[0, 0], [width, height2 + 5]])
+            .on("brush end", brushed);
 
         svg.append("rect")
             .attr("class", "zoom")
@@ -210,35 +178,22 @@ class Graph extends Component {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(zoom);
 
-        var x = d3.scaleLinear().range([0, width]),
-            x2 = d3.scaleLinear().range([0, width]),
-            y = d3.scaleLinear().range([height, 0]),
-            y2 = d3.scaleLinear().range([height2, 0]);
+        // let xGrid = svg.append("g")
+        //     .attr('class', 'grid')     
+        //     .attr("id", "grid")
+        //     .attr("transform", `translate(${margin.left}, ${height + margin.top} )`)
+        //     .call(this.makeXgridlines(x)
+        //         .tickSize(-height)
+        //         .tickFormat("")
+        //     )
 
-        var xAxis = d3.axisBottom(x),
-            xAxis2 = d3.axisBottom(x2),
-            yAxis = d3.axisLeft(y);
-
-        let xGrid = svg.append("g")
-            .attr('class', 'grid')     
-            .attr("id", "grid")
-            .attr("transform", `translate(${margin.left}, ${height + margin.top} )`)
-            .call(this.makeXgridlines(x)
-                .tickSize(-height)
-                .tickFormat("")
-            )
-
-        svg.append("g")			
-            .attr("class", "grid")
-            .attr('transform', `translate(${margin.left},${20})`)
-            .call(this.makeYgridlines(y)
-                .tickSize(-width)
-                .tickFormat("")
-            );
-
-        var brush = d3.brushX()
-            .extent([[0, 0], [width, height2 + 5]])
-            .on("brush end", brushed);
+        // svg.append("g")			
+        //     .attr("class", "grid")
+        //     .attr('transform', `translate(${margin.left},${20})`)
+        //     .call(this.makeYgridlines(y)
+        //         .tickSize(-width)
+        //         .tickFormat("")
+        //     );
 
         svg.append("defs").append("clipPath")
             .attr("id", "clip")
@@ -279,8 +234,9 @@ class Graph extends Component {
             };
 
         var mousemove = function(d, i) {
+            let item = data.find(o => o.key === d.key);
             Tooltip
-                .html("Score: " + currentScores[i] + "<br/> Start position: " + currentStartPositions[i] + "<br/> End position: " + currentEndPositions[i])
+                .html("Score: " + item.score + "<br/> Start position: " + item.start + "<br/> End position: " + item.end)
                 .style("left", (d3.mouse(this)[0]+70) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
             }
@@ -294,15 +250,15 @@ class Graph extends Component {
             }
 
         focus.selectAll("rect")
-            .data(startPositions)
+            .data(visibleData)
             .enter()
             .append("rect")
             .attr("key", (d, i) => i)
-            .attr("x", (d, i) => x(d))
-            .attr("y", (d, i) => y(scores[i]) - margin2.bottom)
-            .attr("width", (d, i) => x(endPositions[i] - d))
-            .attr("fill", (d, i) => strands[i] === '+' ? colorFillScaleSense(scores[i]) : colorFillScaleAnti(scores[i]))
-            .attr("height", (d, i) => 10)
+            .attr("x", (d, i) => x(d.start))
+            .attr("y", (d, i) => y(d.score) - margin2.bottom)
+            .attr("width", (d, i) => x(d.end - d.start))
+            .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
+            .attr("height", (d, i) => 15)
             .attr('transform', `translate(0,${margin.top})`)
             .attr("class", "rect")
             .on("mouseover", mouseover)
@@ -319,15 +275,15 @@ class Graph extends Component {
             .call(yAxis);
 
         context.selectAll("rect")
-            .data(startPositions)
+            .data(data)
             .enter()
             .append("rect")
             .attr("key", (d, i) => i)
-            .attr("x", (d, i) => x2(d))
-            .attr("y", (d, i) => y2(scores[i]) - margin2.bottom)
-            .attr("width", (d, i) => x2(endPositions[i] - d))
-            .attr("fill", (d, i) => strands[i] === '+' ? colorFillScaleSense(scores[i]) : colorFillScaleAnti(scores[i]))
-            .attr("height", (d, i) => 10)
+            .attr("x", (d, i) => x2(d.start))
+            .attr("y", (d, i) => y2(d.score) - 20)
+            .attr("width", (d, i) => x2(d.end - d.start))
+            .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
+            .attr("height", (d, i) => 5)
             .attr('transform', `translate(0,${margin.top})`);
             
         context.append("g")
@@ -341,34 +297,47 @@ class Graph extends Component {
             .call(brush.move, x.range());
     }
 
+    // handleStrandChange(strand) {
+    //     let {activeStrands} = this.state;
+    //     let idx = activeStrands.indexOf(strand);
+    //     if (idx <= -1)
+    //         this.setState({
+    //             activeStrands: [...activeStrands, strand]
+    //         })
+    //     else {
+    //         activeStrands.splice(idx, 1);
+    //         this.setState({
+    //             activeStrands: activeStrands
+    //         })
+    //     };
+    //     this.drawChart(activeStrands);
+    // }
+
     renderLegend() {
+        console.log(this.props.activeStrands);
         return (
-            <svg width="1800" height="40">
-                <rect x="800" y="0" width="20" height="20" fill="red"></rect>
-                <text x="828" y="16" alignment-baseline="middle">sense</text>
-                <rect x="1000" y="0" width="20" height="20" fill="blue"></rect>
-                <text x="1028" y="16" alignment-baseline="middle">antisense</text>
-            </svg>
+            <div className="graph-legend">
+                <input type="checkbox" value="sense" className="sense"
+                    onChange={(e) => this.props.onStrandChange("sense")}
+                    checked={this.props.activeStrands.includes("sense") ? true : false}/>sense
+                <input type="checkbox" value="antisense" className="antisense"
+                    onChange={(e) => this.props.onStrandChange("antisense")}
+                    checked={this.props.activeStrands.includes("antisense") ? true : false}/>antisense
+            </div>
         )
     }
 
     render() {
-        console.log(this.props.results);
-        return this.props.results ? (
-            <div>
+        return this.props.data ? (
+            <div className="row">
                 <div className="graph-wrapper">
-                    <h2>{this.props.results.name}</h2>
+                    {/* <h2>{this.props.results.name}</h2> */}
                     {this.renderLegend()}
                     <div className="graph">
-                        <svg width="1800" height="600"></svg>
+                        <svg width="1800" height="600" className={`svg${this.props.idx}`}></svg>
                     </div>
 
                 </div>
-                {this.state.data && <div className="detail-wrapper">
-                    <div className="detail">
-                        <span>Score: </span>{this.state.data.score}
-                    </div>    
-                </div>}
             </div>
         ) :  <div className="body container loading"><Loader/></div>;
     }

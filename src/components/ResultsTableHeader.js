@@ -7,14 +7,14 @@ class ResultsTableHeader extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="">
                 <div className="row">
-                    <div className="col-sm-1"></div>
-                        <div className="col-md-10 col-sm-10">
+                    <div className="col-sm-2"></div>
+                        <div className="col-md-8 col-sm-10">
                             <div className="card">
-                                <div className="card-body">
-                                    <div className="row">
-                                        <div className="col-md-5">
+                                <div className="card-body result-table-header">
+                                    <div className="row ">
+                                        <div className="col-md-4">
                                             Name: {this.props.name} <br></br>
                                             Length: {this.props.seq.length} <br></br>
                                             Number of quadruplexes found: {this.props.length}
@@ -35,7 +35,7 @@ class ResultsTableHeader extends Component {
                                 </div>
                             </div>
                         </div>
-                    <div className="col-sm-1"></div>
+                    <div className="col-sm-2"></div>
                 </div>
             </div>
         );

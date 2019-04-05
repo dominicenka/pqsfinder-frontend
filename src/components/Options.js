@@ -6,7 +6,7 @@ import HelpTooltip from './HelpTooltip';
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
 
-const optsImg = '/images/options.png';
+const optsImg = '/images/options.svg';
 
 class Options extends Component {
 

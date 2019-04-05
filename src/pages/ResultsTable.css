@@ -2,12 +2,22 @@
     padding: 6px !important;
     vertical-align: middle;
     text-align: center;
+    cursor: pointer;
 }
 
-.customRowClass td:last-child{
+.customRowClass {
+    /* border-width: 3px;  */
+}
+
+.customRowClass:hover {
+    /* border: 3px solid gray; */
+    background-color: #6dd1e033 !important;
+}
+
+/* .customRowClass td:last-child{
     padding-right: 3px !important;
     text-align: left;
-}
+} */
 
 .customColumnStyle {
     background-color: #17a2b8;
@@ -16,8 +26,8 @@
 }
 
 .pagTotal {
-    padding-left: 15px;
-    width: 350px !important;
+    margin: 15px;
+    text-align: left;
 }
 
 .page-item {
@@ -32,6 +42,63 @@
     width: 100%;
 }
 
+.table.table-striped.table-bordered {
+    margin: 0;
+}
+
+.card-body.result-table-body {
+    padding: 0;
+}
+
+.pag-showMore {
+    margin: 11px 0 15px 0;
+}
+
+.pag-select {
+    margin-left: 4px;
+}
+
 .pagination {
-    padding-left: 50px !important; 
+    margin: 15px;
+    color: #17a2b8;
+    padding: 1px;
+    border: 1px solid #17a2b8;
+}
+
+.pagination-btn {
+    cursor: pointer;
+    background-color: white;
+    color: #17a2b8;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 40px;
+}
+
+.pagination-btn.text {
+    /* color: #024358; */
+    width: auto;
+}
+
+.pagination-btn:hover {
+    /* border: 2px solid #17a2b8 */
+    color: #024358;
+}
+
+.pagination-btn.disabled {
+    color: grey;
+}
+
+.pagination-btn.disabled:hover {
+    border: 2px solid white;
+    cursor: auto;
+}
+
+.pagination-btn.active {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.pagination-btn:focus {
+    border: none;
+    outline: none;
 }

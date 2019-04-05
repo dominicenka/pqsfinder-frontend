@@ -1,6 +1,6 @@
 
 .body {
-    margin-top: 70px;
+    margin-top: 80px;
 }
 
 .loading {
@@ -62,10 +62,6 @@
     width: 150px !important;
 }
 
-.row {
-    padding: 15px;
-}
-
 /*  table results  */
 
 .table-results-buttons {
@@ -79,4 +75,40 @@
 .btn-padding {
     float: left;
     margin-left: 20px !important;
+}
+
+.row {
+    padding: 10px;
+}
+
+.result-table .row {
+    margin: 0;
+    padding: 0;
+}
+
+.results-header {
+    margin-bottom: 20px;
+    
+}
+
+.results-header-body {
+    background-color: #888888ab;
+    /* color: white; */
+    border-radius: 5px;
+}
+
+.result-table {
+    margin-bottom: 30px;
+}
+
+.result-table .card-body {
+    padding: 0 0 15px 0;
+}
+
+.result-table .card {
+    /* border: none; */
+}
+
+.result-table-header {
+    background-color: rgba(228, 228, 228, 0.678);
 }

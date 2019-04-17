@@ -32,7 +32,7 @@ class ResultsTableTable extends Component {
                 dataField: 'start',
                 text: 'Start',
                 headerStyle: {
-                    // width:'80px'
+                    colspan: 2
                 },
                 headerClasses: 'customColumnStyle',
                 sort: true,
@@ -51,6 +51,21 @@ class ResultsTableTable extends Component {
                     // width:'80px'
                 },
                 // sort: true,
+                sortFunc: (a, b, order, dataField) => {
+                    if (order === 'asc') {
+                      return b - a;
+                    }
+                    return a - b; // desc
+                  }
+            },
+            {
+                dataField: 'length',
+                text: 'Length',
+                headerClasses: 'customColumnStyle',
+                headerStyle: {
+                    // width:'80px'
+                },
+                sort: true,
                 sortFunc: (a, b, order, dataField) => {
                     if (order === 'asc') {
                       return b - a;
@@ -147,14 +162,41 @@ class ResultsTableTable extends Component {
         this.setState({data: this.props.data.slice(0,10)});
     }
 
-    handleTableChange = (type, { page, sizePerPage }) => {
-        let newPage = page > Math.round((this.props.data.length / sizePerPage)) ? 1 : page;
-        const currentIndex = (newPage - 1) * sizePerPage;  
-          this.setState(() => ({
-            page: newPage,
-            data: this.props.data.slice(currentIndex, currentIndex + sizePerPage),
-            sizePerPage
-          }));
+    handleTableChange = (type, newState) => {
+        let data = this.props.data;
+        if (type === "sort") {
+            let {sortField, sortOrder} = newState;
+            function compare(a,b) {
+                if (sortOrder === 'desc') {
+                    if (a[sortField] < b[sortField])
+                        return -1;
+                    if (a[sortField] > b[sortField])
+                        return 1;
+                    return 0;
+                }
+                else {
+                    if (a[sortField] > b[sortField])
+                        return -1;
+                    if (a[sortField] < b[sortField])
+                        return 1;
+                    return 0;
+                }
+            }
+            this.setState((state) => ({
+                page: 1,
+                data: data.sort(compare).slice(0, state.sizePerPage)
+            }));
+        }
+        else {
+            let { page, sizePerPage } = newState;
+            let newPage = page > Math.round((this.props.data.length / sizePerPage)) ? 1 : page;
+            const currentIndex = (newPage - 1) * sizePerPage;  
+            this.setState(() => ({
+                page: newPage,
+                data: this.props.data.slice(currentIndex, currentIndex + sizePerPage),
+                sizePerPage
+            }));
+        }
       }
 
     render() {
@@ -166,21 +208,22 @@ class ResultsTableTable extends Component {
         showExpandColumn: true,
         expandHeaderColumnRenderer: ({ isAnyExpands }) => {
           if (isAnyExpands) {
-            return <b>-</b>;
+            return <b><i className="arrow up"></i></b>;
           }
-          return <b>+</b>;
+          return <b><i className="arrow down"></i></b>;
         },
         expandColumnRenderer: ({ expanded }) => {
           if (expanded) {
             return (
-              <b>-</b>
+              <b><i className="arrow up"></i></b>
             );
           }
           return (
-            <b>...</b>
+            <b><i className="arrow down"></i></b>
           );
         }
       };
+
       let {sizePerPage, page} = this.state;
         return (
             <div className="row result-table">
@@ -192,7 +235,7 @@ class ResultsTableTable extends Component {
                                   <BootstrapTable striped remote keyField='key' data={ this.state.data } columns={ this.columns } 
                                         bootstrap4 rowClasses={'customRowClass'} 
                                         noDataIndication="No quadruplexes found"
-                                        expandRow={ expandRow } />
+                                        expandRow={ expandRow } onTableChange={this.handleTableChange}/>
                                   {this.props.data.length > 10 && 
                                     <div className="row pagination-wrapper">
                                       {customTotal(((page - 1) * sizePerPage) + 1, sizePerPage, this.props.data.length)}

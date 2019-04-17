@@ -44,17 +44,22 @@ class ResultsStore extends EventEmitter {
     parseInfo(data) {
         let template = {start: 6, end: 4, strand: 7, score: 6, nt: 3, nb: 3, nm: 3, rl1: 4, rl2: 4, rl3: 4, ll1: 4, ll2:4, ll3: 4};
         let name = data.slice(2, data.search(/[;]/g));
-        let tmpData = { name: name };
+        let tmpData = { name: name};
         for (let[key, value] of Object.entries(template)) {
             let index = data.search(key);  
             let val = data.slice(index+value);
             let semicolon = val.search(';');
             val = val.slice(0, semicolon);
+            if (val !== '+' && val !== '-') val = Number(val);
             tmpData = {
                 ...tmpData,
                 [key]: val
             };
         }
+        tmpData = {
+            ...tmpData,
+            length: tmpData.end - tmpData.start + 1
+        };
         return tmpData;
     }   
 
@@ -123,7 +128,6 @@ class ResultsStore extends EventEmitter {
         let version = "##gff-version 3\n";
         let qs = [];
         qs.push(version);
-        console.log(this.results);
         for (let[key, value] of Object.entries(this.results)) {
             if(key === "id") continue;
             let q = `${key}    pqsfinder   G_quartet`;

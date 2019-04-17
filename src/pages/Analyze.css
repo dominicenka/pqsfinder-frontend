@@ -75,18 +75,48 @@
 
 /* dna input */
 
-.btn-padding-input {
-    margin-left: 20px !important;
+.btn-padding-input:nth-child(2) {
+    margin-left: 10px !important;
 }
 
-.btn-analyze {
+.btn.btn-analyze {
     background-color: #024358 !important;
     color: white !important;
-    width: 200px;
+    width: 300px;
+    font-size: 1.5em;
 }
 
 .btn-analyze:hover {
     background-color: #138496 !important;
     color: white !important;
-    width: 200px;
+}
+
+p.inputText {
+    margin: 0;
+    text-align: justify; 
+}
+
+.input-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 40px;
+}
+
+.input-left {
+    display: grid;
+    grid-row-gap: 20px;
+}
+
+.input-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-text-div {
+    margin-top : 20px;
+}
+
+.pqsText {
+    margin-top : 20px;
+    text-align: justify;
 }

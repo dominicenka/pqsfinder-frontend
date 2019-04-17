@@ -69,32 +69,45 @@ class DNAInput extends Component {
 
     render() { 
         return (
-            <div>
-                <div className='row'>
-                    <div className='col-md-8'>
+            <div className='input-wrapper'>
+                <div className='input-left'>
+                    <div className='input-text-div'>
+                        <p className="inputText"> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format.
+                            <br></br>
+                        </p>
+                    </div>
+                    <div className='input'>
                         <textarea className={`form-control ${this.state.inputValidation}`} id="dnaTextInput" rows="10"
                             value={this.state.input} title={this.state.inputTitle}
                             onChange={(e) => this.handleInputChange(e)} />
                     </div>
-                    <div className='col-md-4'>
-                        <p> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format.
-                            <br></br>
-                        </p>
+                    <div className='input-buttons'>
+                        <div className='col-md-5'>
+                            <button type="button" className="btn btn-info btn-padding-input" onClick={() => {
+                                if (this.state.fileSelected) this.deleteSelectedFile();
+                                SubjectActions.changeInput('');
+                            }}>Clear input</button>
+                            <button type="button" className="btn btn-info btn-padding-input" onClick={() => SubjectActions.changeInput(this.exampleData)}>Example data</button>
+                        </div>
+                        <div className='col-md-6'>
+                            <form>
+                                <input type="file" className="form-control-file" id="file" accept=".fasta" onChange={(e) => this.handleFiles(e)} ref={(input) => { this.fileInput = input; }}/>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div className='row'>
-                    <div className='col-md-5'>
-                        <button type="button" className="btn btn-info btn-padding-input" onClick={() => SubjectActions.changeInput('')}>Clear input</button>
-                        <button type="button" className="btn btn-info btn-padding-input" onClick={() => SubjectActions.changeInput(this.exampleData)}>Example data</button>
-                    </div>
-                    <div className='col-md-4'>
-                        <form>
-                            <input type="file" className="form-control-file" id="file" accept=".fasta" onChange={(e) => this.handleFiles(e)} ref={(input) => { this.fileInput = input; }}/>
-                        </form>
-                    </div>
-                    <div className='col-md-1'>
-                        {this.state.fileSelected ? <button type="button" className="btn btn-danger btn-sm" onClick={() => this.deleteSelectedFile()}>X</button> : null}
-                    </div>
+                <div className='pqsText'>
+                    <p className="card-text">
+                    The main functionality of pqsfinder is to provide users with simple tool for detection of DNA  
+                    sequence patterns that are likely to fold into an intramolecular G-quadruplex (G4).
+                    G4 is a DNA structure that can  form as an alternative to the canonical B-DNA. G4s are 
+                    believed to be  involved in regulation of diverse biological processes, such as telomere  
+                    maintenance, DNA replication, chromatin formation, transcription,  recombination or mutation 
+                    (Maizels and Gray 2013; Kejnovsky, Tokan, and Lexa 2015). For detection, pqsfinder utilizes
+                    <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html"> the pqsfinder package</a>, 
+                    that is able to detect sequences responsible for G4s 
+                    folded from  imperfect G-runs containing bulges or mismatches and as such is more  sensitive 
+                    than competing algorithms.</p>
                 </div>
             </div>
         )

@@ -3,6 +3,10 @@
     margin-top: 80px;
 }
 
+.row {
+    margin: 0 !important;
+}
+
 .loading {
     margin-left:950px !important;
     margin-top: 400px;
@@ -70,6 +74,7 @@
 
 .job-id {
     padding-top: 5px;
+    text-align: center;
 }
 
 .btn-padding {
@@ -79,6 +84,11 @@
 
 .row {
     padding: 10px;
+}
+
+.row.header-content {
+    width: auto;
+    margin: auto;
 }
 
 .result-table .row {
@@ -92,8 +102,9 @@
 }
 
 .results-header-body {
-    background-color: #888888ab;
+    /* background-color: #888888ab; */
     /* color: white; */
+    border: 3px solid lightgray;
     border-radius: 5px;
 }
 
@@ -111,4 +122,46 @@
 
 .result-table-header {
     background-color: rgba(228, 228, 228, 0.678);
+}
+
+.quadruplex-text {
+    letter-spacing: 4px;
+}
+
+.orange {
+    background-color: rgba(255, 166, 0, 0.575);
+}
+
+.purlpe {
+     background-color: rgb(140, 40, 255);
+}
+
+.green {
+    background-color: rgb(0, 134, 0);
+}
+
+.blue {
+    background-color: rgba(5, 154, 223, 0.562); 
+}
+
+.home-analyze {
+    background-color: #024358 !important;
+    color: white !important;
+    width: 300px;
+    font-size: 1.5em;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.home-analyze:hover {
+    background-color: #138496 !important;
+    color: white !important;
+}
+
+.home-analyze-wrapper {
+    margin: auto;
+    text-align: center;
+    padding-top: 100px;
 }

@@ -16,9 +16,9 @@ class Pagination extends Component {
                 }}
                 key="first"
                 disabled={page > 1 ? false : true }
-                className={`pagination-btn text ${page > 1 ? "" : "disabled"}`}
+                className={`pagination-btn ${page > 1 ? "" : "disabled"} ${page === 1 ? "active" : ""}`}
                 >
-                First
+                1
             </button>
         );
         pages.push(
@@ -34,8 +34,8 @@ class Pagination extends Component {
                 Prev
             </button>
         );
-        if(page > 3) pages.push(<span key="leftMore">...</span>);
-        for(let i = firstPage; i <= lastPage; i++) {
+        // if(page > 3) pages.push(<span key="leftMore">...</span>);
+        for(let i = firstPage + 1; i <= lastPage - 1; i++) {
             pages.push(
                 <button
                     onClick={(e) => {
@@ -49,7 +49,7 @@ class Pagination extends Component {
                 </button>
             )
         }
-        if(page < count - 2) pages.push(<span key="rightMore">...</span>);
+        // if(page < count - 2) pages.push(<span key="rightMore">...</span>);
         pages.push(
             <button
                 onClick={(e) => {
@@ -71,9 +71,9 @@ class Pagination extends Component {
                 }}
                 key="last"
                 disabled={page < count ? false : true }
-                className={`pagination-btn text ${page < count ? "" : "disabled"}`}
+                className={`pagination-btn text ${page < count ? "" : "disabled"} ${page === count ? "active" : ""}`}
                 >
-                Last
+                {count}
             </button>
         );
         return pages;

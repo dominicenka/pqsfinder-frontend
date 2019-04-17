@@ -32,27 +32,28 @@ class Analyze extends Component {
 
     _redirect() {
         ResultsActions.fetchResults(SubjectStore.getResults());
-        history.push(`/resultsTable/${SubjectStore.getResults()}`);
+        history.push(`/results/${SubjectStore.getResults()}`);
     }
 
     render() {
         return (
             <div>
-                <div className="body container">
+                <div className="body">
                     <div className="row">
-                        <div className="col-sm-1"></div>
-                        <div className="col-md-10 col-sm-10">
+                        <div className="col-sm-2"></div>
+                        <div className="col-md-8 col-sm-8">
                             <div className="card">
                                 <div className="card-body">
                                     <DNAInput />
                                 </div>
                             </div>
                         </div>
-                        <div className="col-sm-1"></div>
+                        <div className="col-md-3 col-sm-3"></div>
+                        <div className="col-sm-2"></div>
                     </div>
                     <div className="row">
-                        <div className="col-sm-1"></div>
-                        <div className="col-md-10 col-sm-10">
+                        <div className="col-sm-2"></div>
+                        <div className="col-md-8 col-sm-8">
                             <div className="card">
                                 <div className="card-body">
                                     <Options />
@@ -62,24 +63,25 @@ class Analyze extends Component {
                     </div>
                     <div className="row">
                         <div className="col-sm-5"></div>
-                        <button type="button" className="btn btn-analyze btn-lg " onClick={() => SubjectActions.analyze()}>Analyze</button>
+                        <button type="button" className="btn btn-analyze" onClick={() => SubjectActions.analyze()}>Analyze</button>
                         <div className="col-sm-5"></div>
                     </div>
                     
                 </div>
-                <div className="row">
-                <div className="col-sm-1 col-md-1"></div>
-                <div className="col-sm-10">
-                    <div className="card ">
-                    <div className="card-header text-center"><h5>Citation</h5></div>
-                        <div className="card-body">
-                            <p className="card-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). “pqsfinder: an exhaustive and imperfection-tolerant
-                                search tool for potential quadruplex-forming sequences in R.” Bioinformatics, 33(21), 3373-3379. 
-                                doi: 10.1093/bioinformatics/btx413.  </p>
+                <div className="">
+                    <div className="row">
+                        <div className="col-sm-2 col-md-2"></div>
+                        <div className="col-sm-8 col-md-8">
+                            <div className="card ">
+                                <div className="card-header text-center"><h5>Citation</h5></div>
+                                <div className="card-body">
+                                    <p className="card-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). “pqsfinder: an exhaustive and imperfection-tolerant
+                                        search tool for potential quadruplex-forming sequences in R.” Bioinformatics, 33(21), 3373-3379. 
+                                        doi: 10.1093/bioinformatics/btx413.  </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-1 col-md-1"></div>
             </div>
             </div>
         )

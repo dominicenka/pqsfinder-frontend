@@ -12,10 +12,11 @@ class ResultsHeader extends Component {
                             <div className="card">
                                 <div className="card-body results-header-body">
                                     <div className="row">
-                                        <div className="col-md-4 job-id">
+                                    <div className="row header-content">
+                                        <div className="job-id">
                                             Job ID: {this.props.id} <br></br>
                                         </div>
-                                        <div className="col-md-3 ">
+                                        {/* <div className="col-md-4 "> */}
                                             <div className="dropdown">
                                                 <button type="button" className="btn btn-info dropdown-toggle btn-padding-opt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export all results as..</button>
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

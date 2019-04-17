@@ -49,19 +49,42 @@ text {
     cursor: pointer;
     pointer-events: all;
     z-index: 1;
+    /* stroke: black; */
+}
+
+.active {
+    fill: green;
 }
 
 .detail-wrapper {
-    padding: 30px;
     align-content: center;
+    margin: auto;
+    margin-bottom: 15px;
 }
 
 .detail {
     margin: auto;
-    width: 400px;
-    height: 200px;
-    border-style: solid;
-    border-width: 1px; 
+    min-width: 600px;
+    height: 230px;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 1.1em;
+}
+
+.detail-q {
+    margin: auto;
+    text-align: left;
+}
+
+.detail-info {
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.detail-info p {
+    text-align: left;
 }
 
 .graph-legend {

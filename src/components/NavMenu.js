@@ -49,7 +49,7 @@ class NavMenu extends Component {
 	}
 
 	getResults() {
-		history.push(`/resultsTable/${resultsStore.getResults().id}`);
+		history.push(`/results/${resultsStore.getResults().id}`);
 	}
 
 	invalidId() {
@@ -61,13 +61,13 @@ class NavMenu extends Component {
 			<div>
 				<nav className="navbar fixed-top navbar-expand-lg navbar-dark nav justify-content-center " >
 					<img src={logo} className="logo" alt=""></img>
-					<NavLink className="navbar-brand" to="/">pqsfinder</NavLink>
+					<NavLink className="navbar-brand" to="/home">pqsfinder</NavLink>
 					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 						<span className="navbar-toggler-icon"></span>
 					</button>
 					<div className="collapse navbar-collapse" id="navbarNav">
 						<div className="navbar-nav">
-							<NavLink className="nav-item nav-link" to="/">Home </NavLink>
+							<NavLink className="nav-item nav-link" to="/home">Home </NavLink>
 							<NavLink className="nav-item nav-link" to="/analyze">Analyze</NavLink>
 							<NavLink className="nav-item nav-link" to="/examples">Examples</NavLink>
 							<NavLink className="nav-item nav-link" to="/help" >Help</NavLink>

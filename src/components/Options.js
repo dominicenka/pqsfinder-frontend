@@ -180,8 +180,8 @@ class Options extends Component {
                     {this.advOpts()}
                 </form>
                 <div className='row'>
-                    <div className='col-md-6'></div>
-                    <div className='col-md-6'>
+                    <div className='col-md-8'></div>
+                    <div className='col-md-4'>
                         <div className="opt-btns">
                             <button type="button" className="btn btn-info btn-padding-opt" onClick={() => SubjectStore.setDefaultOpts()}>Default values</button>
                             <button type="button" className="btn btn-info btn-padding-opt" onClick={() => this.setState((state) => ({ advOpts: !state.advOpts }))}>Advanced options</button>

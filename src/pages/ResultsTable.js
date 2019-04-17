@@ -75,11 +75,66 @@ class ResultsTable extends Component {
         for (let[key, value] of Object.entries(results)) {
             //console.log(key, value);
             if(key === 'id') continue;
-            tables.push(<ResultsTableHeader length={value.data.length} key={'header'+key} id={key} name={value.name} seq={value.seq} jobId={this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1)}/>);
-            tables.push(<Graph idx={++idx} key={'graph'+key} results={results[key]} data={this.computeData(results[key].data)} activeStrands={activeStrands} onStrandChange={(strand) => this.handleStrandChange(strand)}/>)
-            tables.push(<ResultsTableTable data={value.data} key={'table'+key}/>);
+            // let data = this.formatQuadruplexes(results[key].data);
+            tables.push(<ResultsTableHeader 
+                            length={value.data.length} 
+                            key={'header'+key} 
+                            id={key} 
+                            name={value.name} 
+                            seq={value.seq} 
+                            jobId={this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1)}/>);
+            tables.push(<Graph 
+                            idx={++idx} 
+                            key={'graph'+key} 
+                            results={results[key]} 
+                            data={this.computeData(results[key].data)} 
+                            activeStrands={activeStrands} 
+                            onStrandChange={(strand) => this.handleStrandChange(strand)}
+                            handleRectClick={() => this.handleRectClick()}/>)
+            tables.push(<ResultsTableTable 
+                            data={this.formatQuadruplexes(results[key].data)} 
+                            key={'table'+key}/>);
         }
         return tables;
+    }
+
+    handleRectClick() {
+    }
+
+    formatQuadruplexes(data) {
+        console.log(data);
+        if (typeof(data[0].quadruplex) !== "string") return data;
+        data.map(quad => {
+            // quad.quadruplex = <span className="blue">{quad.quadruplex}</span>
+            const { rl1, rl2, rl3, ll1, ll2, ll3, nb, nm } = quad;
+            const wholeQuad = quad.quadruplex;
+            const run1 = quad.quadruplex.slice(0, rl1);
+            let pos = rl1;
+            const loop1 = quad.quadruplex.slice(pos, pos + ll1);
+            pos += ll1;
+            const run2 = quad.quadruplex.slice(pos, pos + rl2);
+            pos += rl2;
+            const loop2 = quad.quadruplex.slice(pos, pos + ll2);
+            pos += ll2;
+            const run3 = quad.quadruplex.slice(pos, pos + rl3);
+            pos += rl3;
+            const loop3 = quad.quadruplex.slice(pos, pos + ll3);
+            pos += ll3;
+            const run4 = quad.quadruplex.slice(pos);
+            // console.log({wholeQuad, run1, loop1, run2, loop2, run3, loop3, run4, nm, nb});
+            let formatted = <span className="quadruplex-text">
+                <span className="orange">{run1}</span>
+                <span className="blue">{loop1}</span>
+                <span className="orange">{run2}</span>
+                <span className="blue">{loop2}</span>
+                <span className="orange">{run3}</span>
+                <span className="blue">{loop3}</span>
+                <span className="orange">{run4}</span>
+            </span>;
+            quad.quadruplex = formatted;
+            return quad
+        });
+        return data;
     }
 
     render(){

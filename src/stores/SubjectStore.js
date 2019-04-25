@@ -7,17 +7,17 @@ class SubjectStore extends EventEmitter {
         super();
 
         this.defaultOpts = {
-            maxLength: 50,
-            minScore: 26,
+            maxLength: 0,
+            minScore: 0,
             strandSense: true,
             strandAnti: true,
             minLL: 0,
-            maxLL: 30,
-            maxNB: 3,
-            maxNM: 3,
-            maxND: 3,
-            minRL: 2,
-            maxRL: 11
+            maxLL: 0,
+            maxNB: 0,
+            maxNM: 0,
+            maxND: 0,
+            minRL: 0,
+            maxRL: 0
         }
 
         this.opts = {};
@@ -27,9 +27,46 @@ class SubjectStore extends EventEmitter {
     }
 
     setDefaultOpts() {
+        axios.get("http://127.0.0.1:8000/formals").then(res => {
+            const data = res.data;
+            this.opts = {
+                maxLength: data.max_len[0],
+                minScore: data.min_score,
+                strandSense: data.strand[0] === '*' || data.strand[0] === '+',
+                strandAnti: data.strand[0] === '*' || data.strand[0] === '-',
+                minLL: data.loop_min_len,
+                maxLL: data.loop_max_len,
+                maxNB: data.max_bulges,
+                maxNM: data.max_mismatches,
+                maxND: data.max_defects,
+                minRL: data.run_min_len,
+                maxRL: data.run_max_len
+            }
+            this.emit("changeOpt");
+            this.emit("networkOk");
+        })
+        .catch(error => {
+            this.emit("serverError")
+        });
         this.opts = this.defaultOpts;
 
         this.emit("changeOpt");
+    }
+
+    fetchVersion() {
+        axios.get("http://127.0.0.1:8000/version").then(res => {
+            this.version = res.data[0];
+            this.emit("versionFetched");
+            this.emit("networkOk");
+        })
+        .catch(error => {
+            console.log(error);
+            this.emit("serverError")
+        });
+    }
+
+    getVersion() {
+        return this.version;
     }
 
     getOpts() {
@@ -89,6 +126,7 @@ class SubjectStore extends EventEmitter {
     }
 
     analyze() {
+        this.emit("fetching");
         let re2 = /^[ATGCMRWSYKVHDBN]+$/g;
         let opts = this.opts;
         if ((opts.strandSense === true && opts.strandAnti === true) || (opts.strandSense === false && opts.strandAnti === false)) { 
@@ -116,10 +154,13 @@ class SubjectStore extends EventEmitter {
             return newSequence;
         });
 
-        this.emit("fetching");
         axios.post("http://127.0.0.1:8000/analyze", {opts: opts, sequences: sequences}).then(res => {
             this.id = res.data;
             this.emit("fetched");
+            this.emit("serverFine")
+        })
+        .catch(error => {
+            this.emit("serverError")
         });
     }
 

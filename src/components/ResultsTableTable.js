@@ -226,31 +226,27 @@ class ResultsTableTable extends Component {
 
       let {sizePerPage, page} = this.state;
         return (
-            <div className="row result-table">
-                <div className="col-sm-2"></div>
-                    <div className="col-md-8 col-sm-10">
-                        <div className="card">
-                            <div className={`card-body result-table-body ${this.props.data.length > 10 ? "" : "no-pad"}`}>
-                                <div className="row ">
-                                  <BootstrapTable striped remote keyField='key' data={ this.state.data } columns={ this.columns } 
-                                        bootstrap4 rowClasses={'customRowClass'} 
-                                        noDataIndication="No quadruplexes found"
-                                        expandRow={ expandRow } onTableChange={this.handleTableChange}/>
-                                  {this.props.data.length > 10 && 
-                                    <div className="row pagination-wrapper">
-                                      {customTotal(((page - 1) * sizePerPage) + 1, sizePerPage, this.props.data.length)}
-                                      <Pagination
-                                        totalCount={this.props.data.length}
-                                        page={page}
-                                        sizePerPage={sizePerPage}
-                                        handleTableChange={(page, sizePerPage) => this.handleTableChange(null, {page, sizePerPage})}
-                                       />
-                                    </div>}
-                                </div>
+            <div className="result-table">
+                    <div className="card">
+                        <div className={`card-body result-table-body ${this.props.data.length > 10 ? "" : "no-pad"}`}>
+                            <div className="row ">
+                                <BootstrapTable striped remote keyField='key' data={ this.state.data } columns={ this.columns } 
+                                    bootstrap4 rowClasses={'customRowClass'} 
+                                    noDataIndication="No quadruplexes found"
+                                    expandRow={ expandRow } onTableChange={this.handleTableChange}/>
+                                {this.props.data.length > 10 && 
+                                <div className="row pagination-wrapper">
+                                    {customTotal(((page - 1) * sizePerPage) + 1, sizePerPage, this.props.data.length)}
+                                    <Pagination
+                                    totalCount={this.props.data.length}
+                                    page={page}
+                                    sizePerPage={sizePerPage}
+                                    handleTableChange={(page, sizePerPage) => this.handleTableChange(null, {page, sizePerPage})}
+                                    />
+                                </div>}
                             </div>
                         </div>
                     </div>
-                <div className="col-sm-2"></div>
             </div>
         );
     }

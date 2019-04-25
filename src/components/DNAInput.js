@@ -82,14 +82,12 @@ class DNAInput extends Component {
                             onChange={(e) => this.handleInputChange(e)} />
                     </div>
                     <div className='input-buttons'>
-                        <div className='col-md-5'>
+                        <div className='buttons'>
                             <button type="button" className="btn btn-info btn-padding-input" onClick={() => {
                                 if (this.state.fileSelected) this.deleteSelectedFile();
                                 SubjectActions.changeInput('');
                             }}>Clear input</button>
                             <button type="button" className="btn btn-info btn-padding-input" onClick={() => SubjectActions.changeInput(this.exampleData)}>Example data</button>
-                        </div>
-                        <div className='col-md-6'>
                             <form>
                                 <input type="file" className="form-control-file" id="file" accept=".fasta" onChange={(e) => this.handleFiles(e)} ref={(input) => { this.fileInput = input; }}/>
                             </form>
@@ -98,16 +96,10 @@ class DNAInput extends Component {
                 </div>
                 <div className='pqsText'>
                     <p className="card-text">
-                    The main functionality of pqsfinder is to provide users with simple tool for detection of DNA  
-                    sequence patterns that are likely to fold into an intramolecular G-quadruplex (G4).
-                    G4 is a DNA structure that can  form as an alternative to the canonical B-DNA. G4s are 
-                    believed to be  involved in regulation of diverse biological processes, such as telomere  
-                    maintenance, DNA replication, chromatin formation, transcription,  recombination or mutation 
-                    (Maizels and Gray 2013; Kejnovsky, Tokan, and Lexa 2015). For detection, pqsfinder utilizes
+                    Pqsfinder is a tool for detection of potential G-quadruplex (G4) forming sequences that utilizes
                     <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html"> the pqsfinder package</a>, 
-                    that is able to detect sequences responsible for G4s 
-                    folded from  imperfect G-runs containing bulges or mismatches and as such is more  sensitive 
-                    than competing algorithms.</p>
+                    which is able to detect sequences responsible for G4s 
+                    folded from  imperfect G-runs containing bulges or mismatches.</p>
                 </div>
             </div>
         )

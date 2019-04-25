@@ -10,9 +10,8 @@ class Detail extends Component {
     }
 
     render() {
-        console.log("v detail mam ", this.props.data);
         let data = this.props.data;
-        return data ? <div className="detail-wrapper">
+        return data ? <div className="detail-wrapper" >
             <div className="detail">
                 <p className="detail-q">{data.quadruplex}</p>
                 <div className="detail-info">
@@ -30,7 +29,6 @@ class Detail extends Component {
                     </div>
                 </div>
             </div>
-
         </div> : null;
     }
 }

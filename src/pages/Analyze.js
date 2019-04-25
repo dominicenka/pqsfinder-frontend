@@ -39,50 +39,25 @@ class Analyze extends Component {
         return (
             <div>
                 <div className="body">
+                <h1 className="mw">Analyze a nucleotide sequence</h1>
                     <div className="row">
-                        <div className="col-sm-2"></div>
-                        <div className="col-md-8 col-sm-8">
-                            <div className="card">
+                            <div className="card input">
                                 <div className="card-body">
                                     <DNAInput />
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-3 col-sm-3"></div>
-                        <div className="col-sm-2"></div>
                     </div>
                     <div className="row">
-                        <div className="col-sm-2"></div>
-                        <div className="col-md-8 col-sm-8">
-                            <div className="card">
+                            <div className="card options">
                                 <div className="card-body">
                                     <Options />
                                 </div>
                             </div>
-                        </div>
                     </div>
-                    <div className="row">
-                        <div className="col-sm-5"></div>
+                    <div className="row mw">
                         <button type="button" className="btn btn-analyze" onClick={() => SubjectActions.analyze()}>Analyze</button>
-                        <div className="col-sm-5"></div>
-                    </div>
-                    
-                </div>
-                <div className="">
-                    <div className="row">
-                        <div className="col-sm-2 col-md-2"></div>
-                        <div className="col-sm-8 col-md-8">
-                            <div className="card ">
-                                <div className="card-header text-center"><h5>Citation</h5></div>
-                                <div className="card-body">
-                                    <p className="card-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). “pqsfinder: an exhaustive and imperfection-tolerant
-                                        search tool for potential quadruplex-forming sequences in R.” Bioinformatics, 33(21), 3373-3379. 
-                                        doi: 10.1093/bioinformatics/btx413.  </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         )
     }

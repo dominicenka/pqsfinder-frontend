@@ -1,15 +1,35 @@
+body.disabled {
+    /* overflow: hidden; */
+    -webkit-overflow-scrolling: touch;
+}
+
+.body {
+    overflow: overlay;
+    z-index: -10000;
+}
+
+body {
+    z-index: -10000;
+}
+
 .graph {
     position: relative;
     height: 630px;
     max-width: 100%;
     margin:auto;
-    overflow: hidden;
-    background-color: rgba(224, 223, 223, 0.288);
+    margin-right: 20px;
+    /* overflow: hidden; */
     padding: 15px 15px 0 12px;
 }
 
 .graph-wrapper {
-    margin: 20px auto 20px auto;
+    margin: auto;
+    max-width: 1200px;
+    min-width: 1126px;
+    margin-bottom: 30px;
+    border: 2px solid #02425854;
+    border-radius: 5px;
+    padding-right: 20px;
 }
 
 .graph::-webkit-scrollbar {
@@ -35,46 +55,47 @@ text {
 }
   
 .zoom {
-    cursor: grab;
+    cursor: zoom-in;
     fill: none;
     pointer-events: visible;
-    z-index: -1;
-}
-
-.zoom .disabled {
-    pointer-events: none;
+    z-index: 10000;
 }
 
 .rect {
-    cursor: pointer;
+    /* cursor: pointer; */
     pointer-events: all;
-    z-index: 1;
+    z-index: 100;
     /* stroke: black; */
 }
 
-.active {
-    fill: green;
+.detail-wrapper {
+    position: relative;
+    align-content: center;
+    opacity: 0;
+    min-width: 500px;
+    max-width: 600px;
+    height: 230px;
+    z-index: -100;
 }
 
-.detail-wrapper {
-    align-content: center;
-    margin: auto;
-    margin-bottom: 15px;
+.detail-wrapper.visible {
+    opacity: 1;
+    z-index: 1000;
 }
 
 .detail {
     margin: auto;
-    min-width: 600px;
-    height: 230px;
     border: 1px solid darkgrey;
     border-radius: 5px;
     padding: 20px;
     font-size: 1.1em;
+    background-color: white;
 }
 
 .detail-q {
     margin: auto;
     text-align: left;
+    word-wrap: break-word;
 }
 
 .detail-info {
@@ -88,11 +109,26 @@ text {
 }
 
 .graph-legend {
-    margin: auto;
+    /* margin: auto; */
+    margin-top: 10px;
     text-align: center;
     font-size: 1.3rem;
 }
 
 .graph-legend input {
-    margin: 0 4px 7px 10px;
+    margin: 0 4px 0px 10px;
+}
+
+.gridLine-x {
+    z-index: -50;
+    pointer-events: none;
+}
+
+.gridLine-y {
+    z-index: -50;
+    pointer-events: none;
+}
+
+.tick {
+    font-size: 0.9rem;
 }

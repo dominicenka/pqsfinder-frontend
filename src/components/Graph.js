@@ -4,6 +4,9 @@ import Loader from '../components/Loader';
 import Utils from '../utils';
 import * as d3 from "d3";
 import Detail from './Detail';
+import {ScrollLocky} from 'react-scroll-locky';
+
+let zoom, zoomed;
 
 class Graph extends Component {
     constructor(props) {
@@ -11,10 +14,13 @@ class Graph extends Component {
 
         this.state = {
             data: [],
-            detailId: 1
+            detailId: 2,
+            zoom: false,
+            scroll: true
         }
 
-        this.handleRectClick = this.handleRectClick.bind(this);
+        this.mouseover = this.mouseover.bind(this);
+        this.mouseleave = this.mouseleave.bind(this);
         this.getId = this.getId.bind(this);
     }
 
@@ -30,9 +36,23 @@ class Graph extends Component {
         if (this.props.data !== prevProps.data) this.drawChart();
     }
 
-    handleRectClick(d) {
-        this.setState({detailId: d.key});
-        this.props.handleRectClick();
+    mouseover = function(d) {
+        // svg.select(".zoom").attr("class", "zoom disabled");
+        let para = document.querySelector('.nav');
+        let compStyles = window.getComputedStyle(para);
+        d3.select('.nav').style("margin-right", `${compStyles.getPropertyValue("margin-right")}`);
+        d3.select('.nav').style("margin-left", `${compStyles.getPropertyValue("margin-left")}`);
+        this.setState({detailId: d.key, scroll: false})
+        d3.select(`.graph.i${this.props.idx} .detail-wrapper`)
+            .attr("class", 'detail-wrapper visible');
+        };
+
+    mouseleave = function(d) {
+        d3.select('.nav').style("margin-right", `auto`);
+        d3.select('.nav').style("margin-left", `auto`);
+        this.setState({detailId: d.key, scroll: true})
+        d3.select(`.graph.i${this.props.idx} .detail-wrapper`)
+            .attr("class", 'detail-wrapper ');
     }
 
     computeYAxis(){
@@ -43,14 +63,6 @@ class Graph extends Component {
         let maxScore = (parseInt(Math.max.apply(null, scores) / 5, 10) + 1 ) * 5;
         return [minScore, maxScore];
     }
-
-    // makeXgridlines(x) {		
-    //     return d3.axisBottom(x)
-    // }
-
-    // makeYgridlines(y) {		
-    //     return d3.axisLeft(y)
-    // } 
 
     computeVisibleData(data, domain) {
         let x = domain[0];
@@ -73,8 +85,8 @@ class Graph extends Component {
 
         let len = this.props.results.seq.length;
         var svg = d3.select(`.svg${this.props.idx}`),
-            margin = {top: 20, right: 20, bottom: 140, left: 40},
-            margin2 = {top: 490, right: 20, bottom: 30, left: 40},
+            margin = {top: 20, right: 20, bottom: 170, left: 40},
+            margin2 = {top: 510, right: 20, bottom: 30, left: 40},
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
             height2 = +svg.attr("height") - margin2.top - margin2.bottom;
@@ -105,6 +117,19 @@ class Graph extends Component {
             if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
             var s = d3.event.selection || x2.range();
             x.domain(s.map(x2.invert, x2));
+            focus.select(".axis--x").call(xAxis);
+            focus.selectAll('.gridLine-x').remove();
+            document.querySelectorAll(`.i${this.props.idx} .focus .axis--x .tick`).forEach(tick => {
+                focus.append("line")
+                    .attr("x1", 0)
+                    .attr("y1", 0)
+                    .attr("x2", 0)
+                    .attr("y2", height)
+                    .attr("transform", tick.attributes.transform.nodeValue)
+                    .attr("stroke-width", 1)
+                    .attr("stroke", "lightgrey")
+                    .attr("class", 'gridLine-x');
+            });
             focus.selectAll("rect").remove();
             visibleData = this.computeVisibleData(data, x.domain());
             focus.selectAll("rect")
@@ -118,23 +143,34 @@ class Graph extends Component {
                 .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
                 .attr("height", (d, i) => 15)
                 .attr('transform', `translate(0,${margin.top})`)
-                .attr("class",  (d, i) => `rect ${d.key === this.state.detailId ? "active" : ""}`)
-                .on("mouseover", mouseover)
+                .attr("class",  (d, i) => `rect`)
+                .on("mouseover", this.mouseover)
                 .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
-                .on("mouseup", mouseup)
-                .on("mousedown", mousedown)
-                .on("click", this.handleRectClick.bind(this));
-            focus.select(".axis--x").call(xAxis);
+                .on("mouseleave", this.mouseleave)
+                .on("zoom", zoomed);
             svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
                 .scale(width / (s[1] - s[0]))
                 .translate(-s[0], 0));
         }
 
-        const zoomed = () => {
+        zoomed = () => {
             if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
             var t = d3.event.transform;
             x.domain(t.rescaleX(x2).domain());
+            focus.select(".axis--x").call(xAxis);
+            context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+            focus.selectAll('.gridLine-x').remove();
+            document.querySelectorAll(`.i${this.props.idx} .focus .axis--x .tick`).forEach(tick => {
+                focus.append("line")
+                    .attr("x1", 0)
+                    .attr("y1", 0)
+                    .attr("x2", 0)
+                    .attr("y2", height)
+                    .attr("transform", tick.attributes.transform.nodeValue)
+                    .attr("stroke-width", 1)
+                    .attr("stroke", "lightgrey")
+                    .attr("class", 'gridLine-x');
+            });
             focus.selectAll("rect").remove();
             visibleData = this.computeVisibleData(data, x.domain());
             focus.selectAll("rect")
@@ -148,25 +184,15 @@ class Graph extends Component {
                 .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
                 .attr("height", (d, i) => 15)
                 .attr('transform', `translate(0,${margin.top})`)
-                .attr("class", (d, i) => `rect ${d.key === this.state.detailId ? "active" : ""}`)
-                .on("mouseover", mouseover)
+                .attr("class", (d, i) => `rect`)
+                .on("mouseover", this.mouseover)
                 .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
-                .on("mouseup", mouseup)
-                .on("mousedown", mousedown)
-                .on("click", this.handleRectClick.bind(this));
-            // xGrid.call(
-            //     d3.axisBottom(x)
-            //         .scale(t.rescaleX(x))
-            //         .ticks(5)
-            //         .tickSize(-height)
-            //         .tickFormat("")
-            //     )
-            focus.select(".axis--x").call(xAxis);
-            context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+                .on("mouseleave", this.mouseleave)
+                .on("zoom", zoomed);
+            
         }
 
-        var zoom = d3.zoom()
+        zoom = d3.zoom()
             .scaleExtent([1, len/14]) //14 because magic
             .translateExtent([[0, 0], [width, height]])
             .extent([[0, 0], [width, height]])
@@ -183,15 +209,6 @@ class Graph extends Component {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(zoom);
 
-        // let xGrid = svg.append("g")
-        //     .attr('class', 'grid')     
-        //     .attr("id", "grid")
-        //     .attr("transform", `translate(${margin.left}, ${height + margin.top} )`)
-        //     .call(this.makeXgridlines(x)
-        //         .tickSize(-height)
-        //         .tickFormat("")
-        //     )
-
         svg.append("defs").append("clipPath")
             .attr("id", "clip")
             .append("rect")
@@ -202,6 +219,24 @@ class Graph extends Component {
             .attr("class", "focus")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("y1", height + 70)
+            .attr("x2", width + 50)
+            .attr("y2", height + 70)
+            .attr("stroke-width", 2)
+            .attr("stroke", "#02425854")
+            .attr("class", 'separator');
+
+        svg.append('text')
+            .attr("x", 3)
+            .attr("y", height + 90)
+            .attr("fill", "#024258e1")
+            .html("Zoom selection")
+
+        focus.on("mouseover", this.mouseoverFocus)
+            .on("mouseleave", this.mouseleaveFocus)
+
         var context = svg.append("g")
             .attr("class", "context")
             .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
@@ -211,55 +246,34 @@ class Graph extends Component {
         x2.domain(x.domain());
         y2.domain(y.domain());
 
-        var Tooltip = d3.select(`.graph.i${this.props.idx}`)
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px");
-
-        var mouseover = function(d) {
-            // svg.select(".zoom").attr("class", "zoom disabled");
-            Tooltip
-                .style("opacity", 1);
-            d3.select(this)
-                .style("stroke", "black")
-                .style("stroke-width", "1px")
-                // .style("opacity", 0.7)
-            };
-
-        var mousedown = function(d) {
-            Tooltip
-                .style("opacity", 0)
-            d3.select(this)
-                .style("opacity", 1)
-        }
-
-        var mouseup = function(d) {
-            d3.select('.active').attr("class", "rect");
-            d3.select(this)
-                .style("opacity", 0.8)
-                .attr("class", "rect active");
-        }
+        var Tooltip = d3.select(`.graph.i${this.props.idx} .detail-wrapper`);
 
         var mousemove = function(d, i) {
-            let item = data.find(o => o.key === d.key);
+            let left = (d3.mouse(this)[0]); 
+            left -= left > 600 ? 550 : 50;
+            let top = (d3.mouse(this)[1]); 
+            top -= top > 220 ? 850 : 540;
             Tooltip
-                .html("Score: " + item.score + "<br/> Start position: " + item.start + "<br/> End position: " + item.end)
-                .style("left", (d3.mouse(this)[0]) + 50 + "px")
-                .style("top", (d3.mouse(this)[1]) - 35 + "px")
+                .style("left", left + "px")
+                .style("top", top + "px")
             }
 
-        var mouseleave = function(d) {
-            Tooltip
-                .style("opacity", 0)
-            d3.select(this)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
-            }
+        focus.append("g")
+            .attr("class", "axis axis--y")
+            .call(yAxis);
+
+        document.querySelectorAll(`.i${this.props.idx} .focus .axis--y .tick`).forEach(tick => {
+            focus.append("line")
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", width)
+                .attr("y2", 0)
+                .attr("transform", tick.attributes.transform.nodeValue)
+                .attr("opacity", 0.7)
+                .attr("stroke-width", 1)
+                .attr("stroke", "lightgrey")
+                .attr("class", 'gridLine-y');
+        });
 
         focus.selectAll("rect")
             .data(visibleData)
@@ -272,30 +286,15 @@ class Graph extends Component {
             .attr("fill", (d, i) => d.strand === '+' ? colorFillScaleSense(d.score) : colorFillScaleAnti(d.score))
             .attr("height", (d, i) => 15)
             .attr('transform', `translate(0,${margin.top})`)
-            .attr("class", (d, i) => `rect ${d.key === this.state.detailId ? "active" : ""}`)
-            .on("mouseover", mouseover)
+            .attr("class", (d, i) => `rect`)
+            .on("mouseover", this.mouseover)
             .on("mousemove", mousemove)
-            .on("mouseleave", mouseleave)
-            .on("mouseup", mouseup)
-            .on("mousedown", mousedown)
-            .on("click", this.handleRectClick.bind(this));
+            .on("mouseleave", this.mouseleave)
         
         focus.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
-
-        focus.append("g")
-            .attr("class", "axis axis--y")
-            .call(yAxis);
-
-        // svg.append("g")			
-        // .attr("class", "grid")
-        // .attr('transform', `translate(${margin.left},${20})`)
-        // .call(this.makeYgridlines(y)
-        //     .tickSize(-width)
-        //     .tickFormat("")
-        // );
 
         context.selectAll("rect")
             .data(data)
@@ -318,6 +317,12 @@ class Graph extends Component {
             .attr("class", "brush")
             .call(brush)
             .call(brush.move, x.range());
+
+        d3.selectAll('.handle.handle--e')
+            .attr("fill", "#024358")
+
+        d3.selectAll('.handle.handle--w')
+            .attr("fill", "#024358")
     }
 
     renderLegend() {
@@ -334,21 +339,16 @@ class Graph extends Component {
     }
 
     render() {
+        const graph = <div className="graph-wrapper">
+                {this.renderLegend()}
+            <div className={`graph i${this.props.idx}`}>
+                <svg width="1170" height="600" className={`svg${this.props.idx}`}></svg>
+                <Detail data={this.props.data[this.state.detailId - 1]}/>
+            </div>
+        </div>
         return this.props.data ? (
             <div>
-                <div className="row">
-                    <div className="graph-wrapper">
-                        {/* <h2>{this.props.results.name}</h2> */}
-                        {this.renderLegend()}
-                        <div className={`graph i${this.props.idx}`}>
-                            <svg width="1200" height="600" className={`svg${this.props.idx}`}></svg>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="row">
-                    <Detail data={this.props.data[this.state.detailId - 1]}/>
-                </div>
+                <ScrollLocky enabled={!this.state.scroll} > {graph} </ScrollLocky> 
             </div>
         ) :  <div className="body container loading"><Loader/></div>;
     }

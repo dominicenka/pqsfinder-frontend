@@ -88,23 +88,23 @@ class Options extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-3">
+                            <div className="col-3">
                                 <HelpTooltip content={
                                 <div>
                                    Minimal length of quadruplex run.
                                 </div>
                             }/>
                                 <label htmlFor='minRL'>Min run length</label>
-                                <input type='number' min='0' className='form-control opt' id='minRL' value={this.state.opts.minRL} onChange={this.handleInputChange}></input>
+                                <input type='number' min='2' className='form-control opt' id='minRL' value={this.state.opts.minRL} onChange={this.handleInputChange}></input>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-3">
                                 <HelpTooltip content={
                                 <div>
                                     Maximal length of quadruplex run.
                                 </div>
                             }/>
                                 <label htmlFor='maxRL'>Max run length</label>
-                                <input type='number' min='1' className='form-control opt' id='maxRL' value={this.state.opts.maxRL} onChange={this.handleInputChange}></input>
+                                <input type='number' min='2' className='form-control opt' id='maxRL' value={this.state.opts.maxRL} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                         <div className="row">
@@ -128,6 +128,7 @@ class Options extends Component {
 
         return (
             <div>
+                <h3>Options</h3>
                 <form>
                     <div className="row">
                         <div className="col">
@@ -137,7 +138,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='maxLength'>Max length</label>
-                            <input type='number' min='0' max='100' className='form-control opt' id='maxLength' value={this.state.opts.maxLength} onChange={this.handleInputChange}></input>
+                            <input type='number' min='1' max='100' className='form-control opt' id='maxLength' value={this.state.opts.maxLength} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -146,7 +147,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='minScore'>Min score</label>
-                            <input type='number' min='0' className='form-control opt' id='minScore' value={this.state.opts.minScore} onChange={this.handleInputChange}></input>
+                            <input type='number' min='1' className='form-control opt' id='minScore' value={this.state.opts.minScore} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -179,14 +180,11 @@ class Options extends Component {
                     </div>
                     {this.advOpts()}
                 </form>
-                <div className='row'>
-                    <div className='col-md-8'></div>
-                    <div className='col-md-4'>
+                <div className=''>
                         <div className="opt-btns">
                             <button type="button" className="btn btn-info btn-padding-opt" onClick={() => SubjectStore.setDefaultOpts()}>Default values</button>
                             <button type="button" className="btn btn-info btn-padding-opt" onClick={() => this.setState((state) => ({ advOpts: !state.advOpts }))}>Advanced options</button>
                         </div>
-                    </div>
                 </div>
             </div>
         )

@@ -25,6 +25,10 @@ class ResultsStore extends EventEmitter {
             }
             this.results = {...this.results, id: id};
             this.parseFile(res.data);
+            this.emit("networkOk");
+        })
+        .catch(error => {
+            this.emit("serverError")
         });
     }
 

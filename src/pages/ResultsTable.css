@@ -1,24 +1,16 @@
+.result-table {
+    margin: auto;
+    max-width: 1200px;
+    min-width: 1126px;
+    margin-bottom: 30px; 
+}
+
 .customRowClass td{
     padding: 6px !important;
     vertical-align: middle;
     text-align: center;
     cursor: pointer;
 }
-
-.customRowClass {
-    /* cursor: default !important; */
-    /* border-width: 3px;  */
-}
-
-.customRowClass:hover {
-    /* border: 3px solid gray; */
-    /* background-color: #6dd1e033 !important; */
-}
-
-/* .customRowClass td:last-child{
-    padding-right: 3px !important;
-    text-align: left;
-} */
 
 .customColumnStyle {
     background-color: #17a2b8;
@@ -148,4 +140,42 @@ tr td:first-of-type:hover i{
 .pagination-btn:active {
     border: 2px solid white;
     padding: none;
+}
+
+.results-header {
+    margin: auto;
+    max-width: 1200px;
+    min-width: 1126px;
+    margin-bottom: 30px;
+    border: none !important;
+}
+
+.results-header-body {
+    /* background-color: #888888ab; */
+    /* color: white; */
+    border: 2px solid #024358;
+    border-radius: 5px;
+}
+
+.header-content {
+    display: flex;
+}
+
+.job-id {
+    padding-top: 10px;
+    text-align: center;
+    margin: 5px;
+}
+
+.result-table-header {
+    border: 2px solid #02425854;
+    border-radius: 5px;
+    display: flex;
+    min-width: 1126px;
+}
+
+.card.cite {
+    min-width: 1126px;
+    max-width: 1200px;
+    margin: auto;
 }

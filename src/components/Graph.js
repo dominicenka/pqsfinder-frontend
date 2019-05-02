@@ -14,7 +14,7 @@ class Graph extends Component {
 
         this.state = {
             data: [],
-            detailId: 2,
+            detailId: 1,
             zoom: false,
             scroll: true
         }
@@ -79,6 +79,7 @@ class Graph extends Component {
     }
 
     drawChart() {
+        this.setState({detailId: 1});
         let data = this.props.data;
 
         let scores = data.map(val => Number(val.score));
@@ -339,11 +340,14 @@ class Graph extends Component {
     }
 
     render() {
+        let detailId = 1;
+        if(this.props.data && this.props.data.length > 0) 
+            detailId = (this.state.detailId + 1 > this.props.data[this.props.data.length-1].key) ? this.props.data[0].key: this.state.detailId;
         const graph = <div className="graph-wrapper">
                 {this.renderLegend()}
             <div className={`graph i${this.props.idx}`}>
                 <svg width="1170" height="600" className={`svg${this.props.idx}`}></svg>
-                <Detail data={this.props.data[this.state.detailId - 1]}/>
+                <Detail data={Utils.findKey(detailId, this.props.data)}/>
             </div>
         </div>
         return this.props.data ? (

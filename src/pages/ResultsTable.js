@@ -9,7 +9,6 @@ import ResultsStore from '../stores/ResultsStore';
 import Loader from '../components/Loader';
 import Utils from '../utils';
 import Graph from '../components/Graph';
-import * as d3 from "d3";
 
 class ResultsTable extends Component {
 
@@ -21,7 +20,6 @@ class ResultsTable extends Component {
         };
 
         this.getResults = this.getResults.bind(this);
-        this.handleInvalid = this.handleInvalid.bind(this);
     }
 
     componentWillMount() {
@@ -34,10 +32,6 @@ class ResultsTable extends Component {
 
     getResults() {
         this.setState({results: ResultsStore.getResults()});
-    }
-
-    handleInvalid() {
-        //this.props.history.push("/");
     }
 
     computeData(data) {
@@ -74,7 +68,6 @@ class ResultsTable extends Component {
         let idx = 0;
         //console.log(this.state.results);
         for (let[key, value] of Object.entries(results)) {
-            //console.log(key, value);
             if(key === 'id') continue;
             // let data = this.formatQuadruplexes(results[key].data);
             tables.push(<ResultsTableHeader 
@@ -84,7 +77,7 @@ class ResultsTable extends Component {
                             name={value.name} 
                             seq={value.seq} 
                             jobId={this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1)}/>);
-            tables.push(<Graph 
+            if(value.data.length) tables.push(<Graph 
                             idx={++idx} 
                             key={'graph'+key} 
                             results={results[key]} 
@@ -92,45 +85,91 @@ class ResultsTable extends Component {
                             activeStrands={activeStrands} 
                             onStrandChange={(strand) => this.handleStrandChange(strand)}
                             handleRectClick={() => this.handleRectClick()}/>)
-            tables.push(<ResultsTableTable 
+            if(value.data.length) tables.push(<ResultsTableTable 
                             data={this.formatQuadruplexes(results[key].data)} 
                             key={'table'+key}/>);
         }
         return tables;
     }
 
-    handleRectClick() {
+    colorDefects(run, nt, strand) {
+        const runLen = run.length;
+        const defectCount = runLen - nt;
+        const Gcount = strand === '+' ? (run.match(/G/g) || []).length : (run.match(/C/g) || []).length;
+        const regex = strand === '+' ? /[^G]/gm : /[^C]/gm;
+        if(Gcount === nt && runLen === nt) return <span className="green">{run}</span>;
+        else if (Gcount + 1 === nt) { //mismatch
+            const pos = run.search(regex);
+            return <span>
+                <span className="green">{run.slice(0, pos)}</span>
+                <span className="orange">{run.slice(pos, pos+1)}</span>
+                <span className="green">{run.slice(pos+1)}</span>
+            </span>
+        }
+        else { // bulge
+            const match = run.match(regex);
+            if (!match) { //all Gs or all Cs, but there is a bulge
+                const defectLenHalf = Math.ceil((defectCount) / 2);
+                const runLenHalf = Math.floor(runLen / 2);
+                return <span>
+                    <span className="green">{run.slice(0, runLenHalf - defectLenHalf)}</span>
+                    <span className="purple">{run.slice(runLenHalf - defectLenHalf, runLenHalf + defectLenHalf - 1)}</span>
+                    <span className="green">{run.slice(runLenHalf + defectLenHalf - 1)}</span>
+                </span>
+            }; 
+            let firstIndex = run.indexOf(match[0]);
+            let lastIndex = run.lastIndexOf(match[match.length - 1]);
+            let defect = run.slice(firstIndex, lastIndex + 1);
+            if (defect.length < defectCount) { // bulge starts or ends with Gs or Cs
+                let GsToAdd = defectCount - defect.length;
+                const spaceAtTheEnd = runLen - 2 - lastIndex;
+                if (spaceAtTheEnd) {
+                    lastIndex += GsToAdd > spaceAtTheEnd ? spaceAtTheEnd : GsToAdd;
+                    GsToAdd -= spaceAtTheEnd;
+                }
+                if (GsToAdd > 0) {
+                    firstIndex -= GsToAdd;
+                }
+                defect = run.slice(firstIndex, lastIndex + 1);
+            }
+            return <span>
+                <span className="green">{run.slice(0, firstIndex)}</span>
+                <span className="purple">{defect}</span>
+                <span className="green">{run.slice(lastIndex+1)}</span>
+            </span>;
+        }
     }
 
     formatQuadruplexes(data) {
-        console.log(data);
         if (typeof(data[0].quadruplex) !== "string") return data;
         data.map(quad => {
-            // quad.quadruplex = <span className="blue">{quad.quadruplex}</span>
             const { rl1, rl2, rl3, ll1, ll2, ll3, nb, nm } = quad;
             const wholeQuad = quad.quadruplex;
-            const run1 = quad.quadruplex.slice(0, rl1);
+            let run1 = wholeQuad.slice(0, rl1);
+            run1 = this.colorDefects(run1, quad.nt, quad.strand);
             let pos = rl1;
-            const loop1 = quad.quadruplex.slice(pos, pos + ll1);
+            const loop1 = wholeQuad.slice(pos, pos + ll1);
             pos += ll1;
-            const run2 = quad.quadruplex.slice(pos, pos + rl2);
+            let run2 = wholeQuad.slice(pos, pos + rl2);
+            run2 = this.colorDefects(run2, quad.nt, quad.strand);
             pos += rl2;
-            const loop2 = quad.quadruplex.slice(pos, pos + ll2);
+            const loop2 = wholeQuad.slice(pos, pos + ll2);
             pos += ll2;
-            const run3 = quad.quadruplex.slice(pos, pos + rl3);
+            let run3 = wholeQuad.slice(pos, pos + rl3);
+            run3 = this.colorDefects(run3, quad.nt, quad.strand);
             pos += rl3;
-            const loop3 = quad.quadruplex.slice(pos, pos + ll3);
+            const loop3 = wholeQuad.slice(pos, pos + ll3);
             pos += ll3;
-            const run4 = quad.quadruplex.slice(pos);
-            // console.log({wholeQuad, run1, loop1, run2, loop2, run3, loop3, run4, nm, nb});
+            let run4 = wholeQuad.slice(pos);
+            run4 = this.colorDefects(run4, quad.nt, quad.strand);
             let formatted = <span className="quadruplex-text">
-                <span className="orange">{run1}</span>
-                <span className="blue">{loop1}</span>
-                <span className="orange">{run2}</span>
-                <span className="blue">{loop2}</span>
-                <span className="orange">{run3}</span>
-                <span className="blue">{loop3}</span>
-                <span className="orange">{run4}</span>
+                {run1}
+                <span className="grey">{loop1}</span>
+                {run2}
+                <span className="grey">{loop2}</span>
+                {run3}
+                <span className="grey">{loop3}</span>
+                {run4}
             </span>;
             quad.quadruplex = formatted;
             return quad
@@ -142,9 +181,10 @@ class ResultsTable extends Component {
         let results = this.state.results || ResultsStore.getResults();
         let activeStrands = this.state.activeStrands
         if (Utils.isEmpty(results)) ResultsActions.fetchResults(this.props.location.pathname.slice(this.props.location.pathname.lastIndexOf('/') + 1));
+
         return (!Utils.isEmpty(results)) ? 
         (<div>
-            <div className="body">
+            <div className="wrapper">
                 <h1>Results</h1>
                 <ResultsHeader id={results.id}/>
                 {this.renderTables(results, activeStrands)}

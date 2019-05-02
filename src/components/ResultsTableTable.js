@@ -200,7 +200,6 @@ class ResultsTableTable extends Component {
       }
 
     render() {
-      console.log(this.props.data);
       const expandRow = {
         renderer: row => (
             <p>{this.props.data[row.key - 1].quadruplex}</p>

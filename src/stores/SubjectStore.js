@@ -2,6 +2,8 @@ import { EventEmitter } from "events";
 import dispatcher from '../dispatcher';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 class SubjectStore extends EventEmitter {
     constructor() {
         super();
@@ -27,7 +29,7 @@ class SubjectStore extends EventEmitter {
     }
 
     setDefaultOpts() {
-        axios.get("http://127.0.0.1:8000/formals").then(res => {
+        axios.get(`${API_URL}/formals`).then(res => {
             const data = res.data;
             this.opts = {
                 maxLength: data.max_len[0],
@@ -54,13 +56,12 @@ class SubjectStore extends EventEmitter {
     }
 
     fetchVersion() {
-        axios.get("http://127.0.0.1:8000/version").then(res => {
+        axios.get(`${API_URL}/version`).then(res => {
             this.version = res.data[0];
             this.emit("versionFetched");
             this.emit("networkOk");
         })
         .catch(error => {
-            console.log(error);
             this.emit("serverError")
         });
     }
@@ -129,6 +130,7 @@ class SubjectStore extends EventEmitter {
         this.emit("fetching");
         let re2 = /^[ATGCMRWSYKVHDBN]+$/g;
         let opts = this.opts;
+        let error = false;
         if ((opts.strandSense === true && opts.strandAnti === true) || (opts.strandSense === false && opts.strandAnti === false)) { 
             opts.strand = '*';
         }
@@ -148,14 +150,21 @@ class SubjectStore extends EventEmitter {
             if(newSequence.dnaString.search(re2) === -1) {
                 this.error = "Unexpected symbols in nucleotide sequence";
                 this.emit("invalidInput");
-                //alert('unaccepted symbols');
+                error = true;
+                return {};
+            }
+            if (newSequence.dnaString.length > 5000) {
+                this.error = "Too long sequence";
+                this.emit("invalidInput");
+                error = true;
                 return {};
             }
             return newSequence;
         });
-
-        axios.post("http://127.0.0.1:8000/analyze", {opts: opts, sequences: sequences}).then(res => {
+        if(error) return;
+        axios.post(`${API_URL}/analyze`, {opts: opts, sequences: sequences}).then(res => {
             this.id = res.data;
+
             this.emit("fetched");
             this.emit("serverFine")
         })

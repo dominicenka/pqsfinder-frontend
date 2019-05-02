@@ -6,7 +6,7 @@ import '../App.css';
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
 import * as ResultsActions from '../actions/ResultsActions';
-import history from '../history';
+import Error from './Error';
 
 class Analyze extends Component {
 
@@ -15,7 +15,8 @@ class Analyze extends Component {
         this.state = {
             fetching: false,
             results: {},
-            fetched: false
+            fetched: false,
+            error: false
         }
 
         this._redirect = this._redirect.bind(this);
@@ -32,14 +33,14 @@ class Analyze extends Component {
 
     _redirect() {
         ResultsActions.fetchResults(SubjectStore.getResults());
-        history.push(`/results/${SubjectStore.getResults()}`);
+        this.props.history.push(`/results/${SubjectStore.getResults()}`);
     }
 
     render() {
-        return (
+        return !this.props.error ? (
             <div>
-                <div className="body">
-                <h1 className="mw">Analyze a nucleotide sequence</h1>
+                <div className="wrapper">
+                <h1 className="mw">pqsfinder - G-quadruplex identification tool</h1>
                     <div className="row">
                             <div className="card input">
                                 <div className="card-body">
@@ -59,7 +60,7 @@ class Analyze extends Component {
                     </div>
                 </div>
             </div>
-        )
+        ) : <Error />
     }
 }
 

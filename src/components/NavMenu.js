@@ -28,7 +28,7 @@ class NavMenu extends Component {
 		findJobStore.on("changeJobId", this.getJobId);
 		resultsStore.on("fetched", this.getResults);
 		resultsStore.on("invalidId", this.invalidId);
-		this.unlisten = history.listen(location => this.setState({jobId: ''}));
+		this.unlisten = history.listen(location => this.setState({jobId: '', idInput: ''}));
     }
 
     componentWillUnmount() {
@@ -57,18 +57,17 @@ class NavMenu extends Component {
 	}
 
     render() {
-		console.log(this.props);
       	return (
 				<div className="blueNav">
 					<nav className="navbar fixed-top navbar-expand-lg navbar-dark nav justify-content-center " >
 							<img src={logo} className="logo" alt=""></img>
-							<NavLink className="navbar-brand" to="/analyze">pqsfinder</NavLink>
+							<NavLink className="navbar-brand" to="/">pqsfinder</NavLink>
 							<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 								<span className="navbar-toggler-icon"></span>
 							</button>
 							<div className="collapse navbar-collapse" id="navbarNav">
 								<div className="navbar-nav">
-									<NavLink className="nav-item nav-link" to="/analyze">Analyze</NavLink>
+									<NavLink className="nav-item nav-link" to="/">Analyze</NavLink>
 									<NavLink className="nav-item nav-link" to="/examples">Examples</NavLink>
 									<NavLink className="nav-item nav-link" to="/help" >Help</NavLink>
 									<NavLink className="nav-item nav-link" to="/contact" >Contact</NavLink>
@@ -77,12 +76,12 @@ class NavMenu extends Component {
 							<form className="form">
 								<input className={`form-control mr-sm-2 search-inp ${this.state.idInput}`} type="search" placeholder="job ID" aria-label="Search" 
 										onChange={(e) => {this.setState({idInput: ''}); FindJobActions.changeJobId(e.target.value)}} value={this.state.jobId}/>
-								<button className="btn btn-outline-secondary my-2 my-sm-0" onClick={(e) => {e.preventDefault(); this.getJob();}}>Find</button>
+								<button className="btn btn-outline-secondary my-2 my-sm-0" onClick={(e) => {e.preventDefault(); this.getJob();}}>Get job</button>
 							</form>
 					</nav>
-					<div className="error" style={{"height": this.props.error ? "30px" : "0px"}}>
+					{/* <div className="error" style={{"height": this.props.error ? "30px" : "0px"}}>
 						{this.props.error && <p>Sorry, there seems to be a problem. We are working hard on fixing it, please try again later.</p> }
-					</div>
+					</div> */}
 				</div>
 	  )
     }

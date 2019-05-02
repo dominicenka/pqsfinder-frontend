@@ -72,7 +72,7 @@ class DNAInput extends Component {
             <div className='input-wrapper'>
                 <div className='input-left'>
                     <div className='input-text-div'>
-                        <p className="inputText"> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format.
+                        <p className="inputText"> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format. Maximal length of one sequence is 5000 nucleotides.
                             <br></br>
                         </p>
                     </div>

@@ -3,22 +3,21 @@ import dispatcher from '../dispatcher';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 class ResultsStore extends EventEmitter {
     constructor(props) {
         super(props);
         this.results = {};
-        this.graph = false;
     }
 
     getResults() {
         return this.results;
     }
 
-    fetchResults(id, graph) {
-        this.graph = false;
-        if (graph) this.graph = true;
+    fetchResults(id) {
         this.results = {};
-        axios.get("http://127.0.0.1:8000/job/"+id).then(res => {
+        axios.get(`${API_URL}/job/${id}`).then(res => {
             if(res.data[0] === 0) {
                 this.emit('invalidId');
                 return;
@@ -26,6 +25,7 @@ class ResultsStore extends EventEmitter {
             this.results = {...this.results, id: id};
             this.parseFile(res.data);
             this.emit("networkOk");
+            this.emit("validId");
         })
         .catch(error => {
             this.emit("serverError")
@@ -75,11 +75,26 @@ class ResultsStore extends EventEmitter {
         let seq = data.slice(0, endLineIndex); // whole dna seq
         data = data.slice(endLineIndex + 1);
         endLineIndex = data.search('\n');
+        let length = data.substring(0, endLineIndex); // how many quadruplexes were found
+        let noG4 = length === "0" ? true : false; 
         data = data.slice(endLineIndex + 1);
         while(1){
             let re = /[>]/g;
             let infoStart = data.search(re);
             endLineIndex = data.search('\n');
+            if(noG4) {
+                const name = data.slice(infoStart + 1, endLineIndex);
+                this.results = {
+                    ...this.results,
+                    [name.replace(' ', '_').trim()]: {
+                        name: name,
+                        seq: seq,
+                        data: []
+                    }
+                };
+                this.emit('fetched');
+                return;
+            } 
             info = this.parseInfo(data.slice(infoStart, endLineIndex)); // info
             data = data.slice(endLineIndex + 1);
             endLineIndex = data.search('\n');
@@ -103,12 +118,12 @@ class ResultsStore extends EventEmitter {
                 data: quadruplexes
             }
         };
-        this.emit(this.graph ? 'fetched-graph' : 'fetched');
+        this.emit('fetched');
     }
 
     createGffFormat(name){
         let version = "##gff-version 3\n";
-        let q = `${name}    pqsfinder   G_quartet`;
+        let q = `"${name}"    pqsfinder   G_quartet`;
         let qs = [];
         qs.push(version);
         this.results[name].data.forEach(data => {
@@ -122,7 +137,7 @@ class ResultsStore extends EventEmitter {
         let qs = [];
         qs.push("sequenceName,source,type,start,end,score,strand,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
         this.results[name].data.forEach(data => {
-            qs.push(`${name},pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+            qs.push(`"${name}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
         });
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
         saveAs(blob, `${name.replace(' ', '_')}.csv`);
@@ -134,7 +149,7 @@ class ResultsStore extends EventEmitter {
         qs.push(version);
         for (let[key, value] of Object.entries(this.results)) {
             if(key === "id") continue;
-            let q = `${key}    pqsfinder   G_quartet`;
+            let q = `"${key}"    pqsfinder   G_quartet`;
             value.data.forEach(data => {
                 qs.push(`${q}   ${data.start}   ${data.end} ${data.score}   ${data.strand}   .   nt=${data.nt};nb=${data.nb};nm=${data.nm};rl1=${data.rl1};rl2=${data.rl2};rl3=${data.rl3};ll1=${data.ll1};ll2=${data.ll2};ll3=${data.ll3}\n`);
             });
@@ -149,7 +164,7 @@ class ResultsStore extends EventEmitter {
         for (let[key, value] of Object.entries(this.results)) {
             if(key === "id") continue;
             value.data.forEach(data => {
-                qs.push(`${key},pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+                qs.push(`"${key}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
             });
         }
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});

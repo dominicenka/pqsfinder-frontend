@@ -14,12 +14,7 @@ class FindJobStore extends EventEmitter {
     }
 
     getJobId() {
-        console.log(this.jobId);
         return this.jobId;
-    }
-
-    fetchJob() {
-        
     }
 
     handleActions(action) {

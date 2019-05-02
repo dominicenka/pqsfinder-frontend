@@ -11,6 +11,10 @@ let Utils = {
 
     onlyUnique(arr) {
         return arr.filter((value, index, self) => self.indexOf(value) === index);
+    },
+
+    findKey(key, arr) {
+        return arr.filter(obj => obj.key === key);
     }
 
 }

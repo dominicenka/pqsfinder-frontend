@@ -1,4 +1,4 @@
-.body {
+.wrapper {
     margin-top: 100px;
 }
 
@@ -61,7 +61,13 @@ footer {
     color: white;
 }
 
+.version-text a {
+    color: rgb(255, 255, 255);
+}
 
+.version-text a:hover {
+    color: rgb(0, 189, 247);
+}
 
 .loading {
     display: flex;
@@ -125,15 +131,15 @@ footer {
 }
 
 .error {
-    /* -webkit-transition: height 1000ms; /* Safari */
-    /* transition: height 1000ms;
+    -webkit-transition: height 1000ms; /* Safari */
+    transition: height 1000ms;
     height: 0;
     background-color: red;
     border-radius: 0 0 10px 10px;
     margin-top: 65px;
     color: white;
     text-align: center;
-    font-weight: 500; */ 
+    font-weight: 500; 
 }
 
 .blueNav {
@@ -149,6 +155,24 @@ footer {
 
 .search-inp {
     width: 150px !important;
+}
+
+.error-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 80vh;
+    color: rgba(211, 211, 211, 0.719);
+}
+
+.error-wrapper .big {
+    font-size: 80px;
+}
+
+.error-wrapper .small {
+    font-size: 30px;
 }
 
 /*  table results  */
@@ -180,23 +204,22 @@ footer {
     padding: 0 0 15px 0;
 }
 
-
 .quadruplex-text {
     letter-spacing: 4px;
 }
 
-.orange {
-    background-color: rgba(255, 166, 0, 0.575);
+.grey {
+    background-color: rgba(218, 218, 218, 0.678);
 }
 
-.purlpe {
-     background-color: rgb(140, 40, 255);
+.purple {
+     background-color: rgba(255, 0, 0, 0.493);
 }
 
 .green {
-    background-color: rgb(0, 134, 0);
+    background-color: rgba(1, 255, 1, 0.555);
 }
 
-.blue {
-    background-color: rgba(5, 154, 223, 0.562); 
+.orange {
+    background-color: rgba(255, 181, 43, 0.801); 
 }

@@ -1,0 +1,21 @@
+.fit {
+    width: 40%;
+}
+
+.contact-wrapper {
+    max-width: 1000px;
+    margin: auto;
+    padding-top: 100px;
+}
+
+span {
+    font-weight: bold;
+}
+
+.flex {
+    display: flex;
+}
+
+.body {
+    margin-top: 0;
+}

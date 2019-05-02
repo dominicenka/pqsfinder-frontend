@@ -35,7 +35,6 @@ class HelpTooltip extends Component {
                 <img src={IconHelp} alt="help" className='help-icon' ref={(e) => {this.target = e;}}
                     onMouseOver={() => {
                         this.setState({showTooltip: true});
-                        console.log('no');
                     }} 
                     onMouseOut={() => this.setState({showTooltip: false})}></img>
             </Popover>

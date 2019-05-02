@@ -152,8 +152,8 @@ class Options extends Component {
                         <div className="col">
                             <HelpTooltip content={
                                 <div>
-                                    Strand specification. Allowed values are "+", "-" or both strands. <br/>
-                                    Implicitly, the input DNAString object is assumed to encode the "+" strand.
+                                    Strand specification. Allowed values are '+', '-' or both strands. <br/>
+                                    Implicitly, the input DNAString object is assumed to encode the '+' strand.
                                 </div>
                             }/>
                             <label >Strand</label> <br></br>

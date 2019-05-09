@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './Contact.css';
 
-const fit = '/images/fit.png';
-
 class Contact extends Component {
     render(){
         return <div className="body">
@@ -15,7 +13,16 @@ class Contact extends Component {
                     <span>Maintainer: </span> Jiri Hon &lt;jiri.hon at gmail.com&gt; 
                 </div>
                 <div className="flex">
-                    <a href="https://www.fit.vutbr.cz/"><img src={fit} className="fit" alt=""></img></a>
+                Faculty of Information Technology<br></br>
+                    Brno University of Technology<br></br>
+                    Božetěchova 1/2<br></br>
+                    612 66 Brno, Czech Republic <br></br>
+                </div>
+                <div className="flex">
+                    Faculty of Informatics<br></br>
+                    Masaryk University<br></br>
+                    Botanická 68a<br></br>
+                    602 00 Brno, Czech Republic <br></br>
                 </div>
             </div>
         </div>

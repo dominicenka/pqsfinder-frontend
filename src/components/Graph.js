@@ -86,7 +86,7 @@ class Graph extends Component {
 
         let len = this.props.results.seq.length;
         var svg = d3.select(`.svg${this.props.idx}`),
-            margin = {top: 20, right: 20, bottom: 170, left: 40},
+            margin = {top: 20, right: 20, bottom: 170, left: 50},
             margin2 = {top: 510, right: 20, bottom: 30, left: 40},
             width = +svg.attr("width") - margin.left - margin.right,
             height = +svg.attr("height") - margin.top - margin.bottom,
@@ -222,7 +222,7 @@ class Graph extends Component {
 
         svg.append("line")
             .attr("x1", 0)
-            .attr("y1", height + 70)
+            .attr("y1", height + 73)
             .attr("x2", width + 50)
             .attr("y2", height + 70)
             .attr("stroke-width", 2)
@@ -296,6 +296,20 @@ class Graph extends Component {
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
+
+        focus.append("text")      // text label for the x axis
+            .attr("x", width/2)
+            .attr("y",  height + 40)
+            .style("text-anchor", "middle")
+            .text("Sequence position");
+
+        focus.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left - 3)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Score");
 
         context.selectAll("rect")
             .data(data)

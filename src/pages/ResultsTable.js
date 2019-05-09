@@ -143,7 +143,7 @@ class ResultsTable extends Component {
     formatQuadruplexes(data) {
         if (typeof(data[0].quadruplex) !== "string") return data;
         data.map(quad => {
-            const { rl1, rl2, rl3, ll1, ll2, ll3, nb, nm } = quad;
+            const { rl1, rl2, rl3, ll1, ll2, ll3 } = quad;
             const wholeQuad = quad.quadruplex;
             let run1 = wholeQuad.slice(0, rl1);
             run1 = this.colorDefects(run1, quad.nt, quad.strand);

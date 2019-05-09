@@ -7,7 +7,7 @@ import * as FindJobActions from '../actions/FindJobActions';
 import resultsStore from '../stores/ResultsStore';
 import history from '../history';
 
-const logo = '/images/logo.png';
+const logo = '/images/logoT.svg';
 
 class NavMenu extends Component {
 	constructor(props) {
@@ -68,7 +68,7 @@ class NavMenu extends Component {
 							<div className="collapse navbar-collapse" id="navbarNav">
 								<div className="navbar-nav">
 									<NavLink className="nav-item nav-link" to="/">Analyze</NavLink>
-									<NavLink className="nav-item nav-link" to="/examples">Examples</NavLink>
+									<NavLink className="nav-item nav-link" to="/downloads">Downloads</NavLink>
 									<NavLink className="nav-item nav-link" to="/help" >Help</NavLink>
 									<NavLink className="nav-item nav-link" to="/contact" >Contact</NavLink>
 								</div>

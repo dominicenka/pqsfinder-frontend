@@ -98,9 +98,9 @@ class App extends Component {
 					<div className="footer">
 						<div className="cite">
 							<p className="text">Cite: </p>
-							<p className="cite-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). “pqsfinder: an exhaustive and imperfection-tolerant
-												search tool for potential quadruplex-forming sequences in R.” Bioinformatics, 33(21), 3373-3379. 
-												doi: 10.1093/bioinformatics/btx413.  </p>
+							<p className="cite-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). pqsfinder: an exhaustive and imperfection-tolerant
+												search tool for potential quadruplex-forming sequences in R., Bioinformatics, 33(21), 3373-3379. 
+												DOI: 10.1093/bioinformatics/btx413.  </p>
 						</div>
 						<div className="version">
 						<p className="text">Version: </p>

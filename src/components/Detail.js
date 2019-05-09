@@ -11,7 +11,6 @@ class Detail extends Component {
 
     render() {
         let data = this.props.data[0];
-        console.log(data)
         return data ? <div className="detail-wrapper" >
             <div className="detail">
                 <p className="detail-q">{data.quadruplex}</p>

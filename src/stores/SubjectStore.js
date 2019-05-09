@@ -90,6 +90,11 @@ class SubjectStore extends EventEmitter {
         let re = /[>].*/g;
         let seqStartIndex = data.search(re);
         let endLineIndex = data.search('\n');
+        if (endLineIndex === -1) {
+            this.error = "Wrong input format. Please make sure every sequence name is terminated by a new line.";
+            this.emit("invalidInput");
+            return -1;
+        }
         let seqDescription = data.slice(seqStartIndex, endLineIndex);
         data = data.slice(endLineIndex + 1);
         seqStartIndex = data.search(re);
@@ -119,6 +124,7 @@ class SubjectStore extends EventEmitter {
         let result = [];
         while(data !== '') {
             let vals = this.findSeq(data, result);
+            if (vals === -1) return -1;
             result = vals[0];
             data = vals[1];
         }

@@ -10,7 +10,7 @@ class Help extends Component {
         <div className="help-wrapper">
             <h1>Help</h1>
                 <div className="question">
-                        <p className="h">pqsfinder</p>
+                        <p className="h">How to use pqsfinder</p>
                         <p className="text">
                             Pqsfinder is a tool for detection of potential G-quadruplex (G4) forming sequences that utilizes
                             <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html"> the pqsfinder package</a>, 

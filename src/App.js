@@ -88,7 +88,7 @@ class App extends Component {
         <Router history={history}>
 			<Switch>
 				<Route exact path="/" render={(props) => <Analyze {...props} error={this.state.error} />}/>
-				<Route exact path="/examples" component={Examples}/>
+				<Route exact path="/genomes" component={Examples}/>
 				<Route exact path="/help" component={Help}/>
 				<Route exact path="/contact" component={Contact}/>
 				<Route path="/results" component={ResultsTable} />

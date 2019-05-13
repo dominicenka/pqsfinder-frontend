@@ -66,7 +66,6 @@ class ResultsTable extends Component {
     renderTables(results,activeStrands) {
         let tables = [];
         let idx = 0;
-        //console.log(this.state.results);
         for (let[key, value] of Object.entries(results)) {
             if(key === 'id') continue;
             // let data = this.formatQuadruplexes(results[key].data);

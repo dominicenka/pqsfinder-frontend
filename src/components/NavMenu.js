@@ -67,8 +67,8 @@ class NavMenu extends Component {
 							</button>
 							<div className="collapse navbar-collapse" id="navbarNav">
 								<div className="navbar-nav">
-									<NavLink className="nav-item nav-link" to="/">Analyze</NavLink>
-									<NavLink className="nav-item nav-link" to="/downloads">Downloads</NavLink>
+									<NavLink exact className="nav-item nav-link" to="/">Analyze</NavLink>
+									<NavLink className="nav-item nav-link" to="/genomes">Genomes</NavLink>
 									<NavLink className="nav-item nav-link" to="/help" >Help</NavLink>
 									<NavLink className="nav-item nav-link" to="/contact" >Contact</NavLink>
 								</div>
@@ -76,7 +76,7 @@ class NavMenu extends Component {
 							<form className="form">
 								<input className={`form-control mr-sm-2 search-inp ${this.state.idInput}`} type="search" placeholder="job ID" aria-label="Search" 
 										onChange={(e) => {this.setState({idInput: ''}); FindJobActions.changeJobId(e.target.value)}} value={this.state.jobId}/>
-								<button className="btn btn-outline-secondary my-2 my-sm-0" onClick={(e) => {e.preventDefault(); this.getJob();}}>Get job</button>
+								<button className="btn getJob-btn my-2 my-sm-0" onClick={(e) => {e.preventDefault(); this.getJob();}}>Get job</button>
 							</form>
 					</nav>
 					{/* <div className="error" style={{"height": this.props.error ? "30px" : "0px"}}>

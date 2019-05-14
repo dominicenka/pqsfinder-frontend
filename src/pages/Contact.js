@@ -7,7 +7,7 @@ class Contact extends Component {
             <div className="contact-wrapper">
                 <h1>Contact</h1>
                 <div className="flex">
-                    <span>Authors: </span> Jiri Hon, Matej Lexa and Tomas Martinek
+                    <span>Authors: </span> Jiri Hon, Dominika Labudova, Matej Lexa and Tomas Martinek
                 </div>
                 <div className="flex">
                     <span>Maintainer: </span> Jiri Hon &lt;jiri.hon at gmail.com&gt; 

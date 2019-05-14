@@ -7,7 +7,7 @@ import Analyze from './pages/Analyze';
 import Examples from './pages/Examples';
 import Help from './pages/Help';
 import Contact from './pages/Contact';
-import ResultsTable from './pages/ResultsTable';
+import ResultsTable from './pages/Results';
 import 'font-awesome/css/font-awesome.min.css';
 import subjectStore from './stores/SubjectStore';
 import resultsStore from './stores/ResultsStore';

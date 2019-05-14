@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../pages/ResultsTable.css';
+import '../pages/Results.css';
 import * as ResultsActions from '../actions/ResultsActions';
 
 class ResultsHeader extends Component {

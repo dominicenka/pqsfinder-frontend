@@ -153,6 +153,12 @@ class SubjectStore extends EventEmitter {
                 ...sequence
             };
             newSequence.dnaString = newSequence.dnaString.toUpperCase().trim().replace(/\r?\n|\r/g, '');
+            if(newSequence.seqDescription.search(/[*]/g) !== -1) {
+                this.error = "Please do not use '*' in sequence description. We are working on removing this limitation.";
+                this.emit("invalidInput");
+                error = true;
+                return {};
+            }
             if(newSequence.dnaString.search(re2) === -1) {
                 this.error = "Unexpected symbols in nucleotide sequence";
                 this.emit("invalidInput");

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import ResultsTableHeader from '../components/ResultsTableHeader';
-import ResultsTableTable from '../components/ResultsTableTable';
+import ResultsTableTable from '../components/Table';
 import ResultsHeader from '../components/ResultsHeader';
 
 import * as ResultsActions from '../actions/ResultsActions';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import '../pages/ResultsTable.css';
+import '../pages/Results.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Pagination from './Pagination';
@@ -201,9 +201,7 @@ class ResultsTableTable extends Component {
 
     render() {
       const expandRow = {
-        renderer: row => (
-            <p>{this.props.data[row.key - 1].quadruplex}</p>
-        ),
+        renderer: row => ( <p>{row.quadruplex}</p> ),
         showExpandColumn: true,
         expandHeaderColumnRenderer: ({ isAnyExpands }) => {
           if (isAnyExpands) {

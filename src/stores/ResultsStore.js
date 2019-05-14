@@ -16,6 +16,12 @@ class ResultsStore extends EventEmitter {
     }
 
     fetchResults(id) {
+        console.log(this.results, id);
+        if (this.results.id === id) {
+            console.log('uz mam');
+            this.emit('fetched');
+            return;
+        }
         this.results = {};
         axios.get(`${API_URL}/job/${id}`).then(res => {
             if(res.data[0] === 0) {

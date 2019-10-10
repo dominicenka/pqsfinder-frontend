@@ -356,7 +356,7 @@ class Graph extends Component {
     render() {
         let detailId = 1;
         if(this.props.data && this.props.data.length > 0) 
-            detailId = (this.state.detailId + 1 > this.props.data[this.props.data.length-1].key) ? this.props.data[0].key: this.state.detailId;
+            detailId = (this.state.detailId > this.props.data[this.props.data.length-1].key) ? this.props.data[0].key: this.state.detailId;
         const graph = <div className="graph-wrapper">
                 {this.renderLegend()}
             <div className={`graph i${this.props.idx}`}>

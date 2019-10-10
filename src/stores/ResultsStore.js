@@ -16,9 +16,8 @@ class ResultsStore extends EventEmitter {
     }
 
     fetchResults(id) {
-        console.log(this.results, id);
+        if(!id) return;
         if (this.results.id === id) {
-            console.log('uz mam');
             this.emit('fetched');
             return;
         }
@@ -56,8 +55,8 @@ class ResultsStore extends EventEmitter {
         let name = data.slice(2, data.search(/[;]/g));
         let tmpData = { name: name};
         for (let[key, value] of Object.entries(template)) {
-            let index = data.search(key);  
-            let val = data.slice(index+value);
+            let index = data.search(`;${key}`);  
+            let val = data.slice(index+value+1);
             let semicolon = val.search(';');
             val = val.slice(0, semicolon);
             if (val !== '+' && val !== '-') val = Number(val);

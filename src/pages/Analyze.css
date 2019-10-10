@@ -150,3 +150,11 @@ p.inputText {
     /* margin-top : 20px; */
     text-align: justify;
 }
+
+.input-ncbi input{
+    margin: 5px 5px 0 0;
+}
+
+.extension-label {
+    margin-right: 5px;
+}

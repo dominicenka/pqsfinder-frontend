@@ -189,7 +189,7 @@ class ResultsTableTable extends Component {
         }
         else {
             let { page, sizePerPage } = newState;
-            let newPage = page > Math.round((this.props.data.length / sizePerPage)) ? 1 : page;
+            let newPage = page > Math.ceil((this.props.data.length / sizePerPage)) ? 1 : page;
             const currentIndex = (newPage - 1) * sizePerPage;  
             this.setState(() => ({
                 page: newPage,
@@ -222,25 +222,38 @@ class ResultsTableTable extends Component {
       };
 
       let {sizePerPage, page} = this.state;
+      console.log(this.state);
         return (
             <div className="result-table">
                     <div className="card">
                         <div className={`card-body result-table-body ${this.props.data.length > 10 ? "" : "no-pad"}`}>
                             <div className="row ">
-                                <BootstrapTable striped remote keyField='key' data={ this.state.data } columns={ this.columns } 
-                                    bootstrap4 rowClasses={'customRowClass'} 
+                                <BootstrapTable 
+                                    striped 
+                                    remote 
+                                    keyField='key' 
+                                    data={ this.state.data } 
+                                    columns={ this.columns } 
+                                    bootstrap4 
+                                    rowClasses={'customRowClass'} 
                                     noDataIndication="No quadruplexes found"
-                                    expandRow={ expandRow } onTableChange={this.handleTableChange}/>
-                                {this.props.data.length > 10 && 
-                                <div className="row pagination-wrapper">
-                                    {customTotal(((page - 1) * sizePerPage) + 1, sizePerPage, this.props.data.length)}
-                                    <Pagination
-                                    totalCount={this.props.data.length}
-                                    page={page}
-                                    sizePerPage={sizePerPage}
-                                    handleTableChange={(page, sizePerPage) => this.handleTableChange(null, {page, sizePerPage})}
-                                    />
-                                </div>}
+                                    expandRow={ expandRow } 
+                                    onTableChange={this.handleTableChange}
+                                />
+                                {
+                                    this.props.data.length > 10 && 
+                                    <div className="row pagination-wrapper">
+                                        {customTotal(((page - 1) * sizePerPage) + 1, sizePerPage, this.props.data.length)}
+                                        <Pagination
+                                            totalCount={this.props.data.length}
+                                            page={page}
+                                            sizePerPage={sizePerPage}
+                                            handleTableChange={
+                                                (page, sizePerPage) => 
+                                                    this.handleTableChange(null, {page, sizePerPage})}
+                                        />
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

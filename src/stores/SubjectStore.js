@@ -165,7 +165,7 @@ class SubjectStore extends EventEmitter {
                 error = true;
                 return {};
             }
-            if (newSequence.dnaString.length > 5000) {
+            if (newSequence.dnaString.length > 30000) {
                 this.error = "Too long sequence";
                 this.emit("invalidInput");
                 error = true;

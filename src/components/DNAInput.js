@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import AsyncSelectCustom from './AsyncSelect';
 import '../pages/Analyze.css';
 
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
+import NCBIStore from '../stores/NCBIStore';
+
 
 class DNAInput extends Component {
 
@@ -20,11 +23,13 @@ class DNAInput extends Component {
         this.getInput = this.getInput.bind(this);
         this.fileReader = new FileReader();
         this.invalidInput = this.invalidInput.bind(this);
+        this.getSequence = this.getSequence.bind(this);
     }
 
     componentWillMount() {
         SubjectStore.on("changeInput", this.getInput);
         SubjectStore.on("invalidInput", this.invalidInput);
+        NCBIStore.on("NCBISeqFetched", this.getSequence);
     }
 
     componentWillUnmount() {
@@ -37,6 +42,10 @@ class DNAInput extends Component {
             input: SubjectStore.getInput(),
         });
         this.setState({inputValidation: '', inputTitle: 'Enter nucleotide sequences'});
+    }
+
+    getSequence() {
+        SubjectActions.changeInput(NCBIStore.getSequence());
     }
 
     invalidInput() {
@@ -75,6 +84,17 @@ class DNAInput extends Component {
                         <p className="inputText"> Enter nucleotide sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or choose a file which contains sequences in FASTA format. Maximal length of one sequence is 5000 nucleotides.
                             <br></br>
                         </p>
+                    </div>
+                    <div className="input-ncbi">
+                        <label>Find a sequence from NCBI database: </label>
+                        <AsyncSelectCustom/>
+                        <label className="extension-label">Extend the sequence: </label>
+                        <input placeholder="0" onChange={
+                            (e) => NCBIStore.setLength(e.target.value)
+                        }></input>
+                        <button type="button" className="btn btn-info btn-padding-input"    onClick={() => NCBIStore.fetchSequence()}>
+                            Get gene
+                            </button>
                     </div>
                     <div className='input'>
                         <textarea className={`form-control ${this.state.inputValidation}`} id="dnaTextInput" rows="10"

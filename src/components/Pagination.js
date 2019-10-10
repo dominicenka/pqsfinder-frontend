@@ -80,7 +80,7 @@ class Pagination extends Component {
     }   
 
     render() {
-      let numberOfPages = Math.round(this.props.totalCount / this.props.sizePerPage);
+      let numberOfPages = Math.ceil(this.props.totalCount / this.props.sizePerPage);
         return this.props.totalCount > 10 ? (
             <div className="col-md-8">
                 <div className="row">

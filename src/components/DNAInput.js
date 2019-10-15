@@ -85,17 +85,6 @@ class DNAInput extends Component {
                         <p className="inputText">The size of the input is limited to {process.env.REACT_APP_MAX_BP/1000}k nucleic acids per analysis. For larger analyses, please use the <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html">pqsfinder package</a>.
                         </p>
                     </div>
-                    <div className="input-ncbi">
-                        <label>Find a sequence from NCBI database: </label>
-                        <AsyncSelectCustom/>
-                        <label className="extension-label">Extend the sequence: </label>
-                        <input placeholder="0" onChange={
-                            (e) => NCBIStore.setLength(e.target.value)
-                        }></input>
-                        <button type="button" className="btn btn-info btn-padding-input"    onClick={() => NCBIStore.fetchSequence()}>
-                            Get gene
-                            </button>
-                    </div>
                     <div className='input'>
                         <textarea className={`form-control ${this.state.inputValidation}`} id="dnaTextInput" rows="10"
                             value={this.state.input} title={this.state.inputTitle}

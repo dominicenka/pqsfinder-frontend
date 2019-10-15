@@ -134,7 +134,8 @@ class SubjectStore extends EventEmitter {
 
     analyze() {
         this.emit("fetching");
-        let re2 = /^[ATGCMRWSYKVHDBN]+$/g;
+        let dna_re = /^[ACGTMRWSYKVHDBN]+$/g;
+        let rna_re = /^[ACGUMRWSYKVHDBN]+$/g;
         let opts = this.opts;
         let error = false;
         if ((opts.strandSense === true && opts.strandAnti === true) || (opts.strandSense === false && opts.strandAnti === false)) { 
@@ -159,13 +160,13 @@ class SubjectStore extends EventEmitter {
                 error = true;
                 return {};
             }
-            if(newSequence.dnaString.search(re2) === -1) {
-                this.error = "Unexpected symbols in nucleotide sequence";
+            if(newSequence.dnaString.search(dna_re) === -1 && newSequence.dnaString.search(rna_re) === -1) {
+                this.error = "Unexpected symbols in sequence " + newSequence.seqDescription;
                 this.emit("invalidInput");
                 error = true;
                 return {};
             }
-            if (newSequence.dnaString.length > 30000) {
+            if (newSequence.dnaString.length > process.env.REACT_APP_MAX_BP) {
                 this.error = "Too long sequence";
                 this.emit("invalidInput");
                 error = true;

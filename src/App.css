@@ -63,12 +63,15 @@ footer {
     color: white;
 }
 
-.version-text a {
-    color: rgb(255, 255, 255);
+.footer a {
+    color: rgb(0, 189, 247);
+    text-decoration: underline;
 }
 
-.version-text a:hover {
+.footer a:hover {
+    /*color: rgb(255, 255, 255);*/
     color: rgb(0, 189, 247);
+    text-decoration: none;
 }
 
 .loading {

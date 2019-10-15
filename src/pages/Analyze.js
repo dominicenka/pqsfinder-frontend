@@ -40,7 +40,7 @@ class Analyze extends Component {
         return !this.props.error ? (
             <div>
                 <div className="wrapper">
-                <h1 className="mw">pqsfinder - imperfection tolerant G-quadruplex identification</h1>
+                <h1 className="mw">pqsfinder – imperfection-tolerant G-quadruplex prediction</h1>
                     <div className="row">
                             <div className="card input">
                                 <div className="card-body">

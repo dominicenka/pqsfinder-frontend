@@ -98,14 +98,16 @@ class App extends Component {
 					<div className="footer">
 						<div className="cite">
 							<p className="text">Cite: </p>
-							<p className="cite-text"> Hon J, Martinek T, Zendulka J, Lexa M (2017). pqsfinder: an exhaustive and imperfection-tolerant
-												search tool for potential quadruplex-forming sequences in R., Bioinformatics, 33(21), 3373-3379. 
-												DOI: 10.1093/bioinformatics/btx413.  </p>
+							<p className="cite-text">
+								Hon J, Martinek T, Zendulka J, Lexa M (2017). pqsfinder: an exhaustive and imperfection-tolerant
+								search tool for potential quadruplex-forming sequences in R., Bioinformatics, 33(21), 3373-3379. 
+								DOI: <a href="https://dx.doi.org/10.1093/bioinformatics/btx413" target="_blank" rel="noopener noreferrer">10.1093/bioinformatics/btx413</a></p>
 						</div>
 						<div className="version">
-						<p className="text">Version: </p>
+						<p className="text">Pqsfinder version: </p>
 							<p className="version-text">
-								<a href="http://bioconductor.org/packages/release/bioc/html/pqsfinder.html">{this.state.version}</a>
+								{this.state.version},
+								available at <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html" target="_blank" rel="noopener noreferrer">Bioconductor</a>
 							</p>
 						</div>
 					</div>

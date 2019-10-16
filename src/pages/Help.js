@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import './Help.css';
 
-const optsImg = '/images/options.svg';
+const optsImg = '/images/pqs_constraints.svg';
 
 class Help extends Component {
     render(){

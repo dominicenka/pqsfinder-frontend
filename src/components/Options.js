@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
 
-const optsImg = '/images/options.svg';
+const optsImg = '/images/pqs_constraints.svg';
 
 class Options extends Component {
 
@@ -162,8 +162,8 @@ class Options extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                <p>More details about search options can be found in the <NavLink to="/help">Help page</NavLink>.</p>
-                                <img src={optsImg} alt="options explained" className="optsImg"></img>
+                                <p><img src={optsImg} alt="options explained" className="optsImg"></img></p>
+                                <p>More details about search options and the scoring function can be found at the <NavLink to="/help">Help page</NavLink>.</p>
                             </div>
                         </div>
                     </div>

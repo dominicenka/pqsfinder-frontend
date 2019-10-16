@@ -218,7 +218,7 @@ class SubjectStore extends EventEmitter {
                 error = true;
                 return {};
             }
-            if (newSequence.seq_string.length > process.env.REACT_APP_MAX_BP) {
+            if (newSequence.seq_string.length > this.limits.max_sequence_len[1]) {
                 this.error = "Too long sequence";
                 this.emit("invalidInput");
                 error = true;

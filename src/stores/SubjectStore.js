@@ -26,6 +26,7 @@ class SubjectStore extends EventEmitter {
         this.input = '';
         this.id = '';
         this.error = '';
+        this.optErrors = {};
     }
 
     setDefaultOpts() {
@@ -102,6 +103,10 @@ class SubjectStore extends EventEmitter {
         return this.error;
     }
 
+    getOptErrors() {
+        return this.optErrors;
+    }
+
     findSeq(data, result) {
         let re = /[>].*/g;
         let seqStartIndex = data.search(re);
@@ -148,7 +153,39 @@ class SubjectStore extends EventEmitter {
         return result;
     }
 
+    isObjectEmpty(obj) {
+        return Object.keys(obj).length === 0 && obj.constructor === Object;
+     }
+
+    validateOptions() {
+        let optErrors = {};
+        for (let [name, value] of Object.entries(this.opts)) {
+            if (name in this.limits) {
+                let min_value = this.limits[name][0];
+                let max_value = this.limits[name][1];
+
+                if (min_value !== "NA" && value < min_value) {
+                    optErrors[name] = `Set value higher or equal than ${min_value}`;
+                }
+                if (max_value !== "NA" && value > max_value) {
+                    optErrors[name] = `Set value lower or equal than ${max_value}`;
+                }
+            }
+        }
+        return optErrors;
+    }
+
     analyze() {
+        if (this.isObjectEmpty(this.limits)) {
+            // limits are missing, input form can not be validated
+            return;
+        }
+        this.optErrors = this.validateOptions();
+        if (!this.isObjectEmpty(this.optErrors)) {
+            console.log(this.optErrors);
+            this.emit("invalidOpt");
+            return;
+        }
         this.emit("fetching");
         let dna_re = /^[ACGTMRWSYKVHDBN]+$/g;
         let rna_re = /^[ACGUMRWSYKVHDBN]+$/g;
@@ -190,7 +227,7 @@ class SubjectStore extends EventEmitter {
             }
             return newSequence;
         });
-        if(error) return;
+        if (error) return;
         axios.post(`${API_URL}/analyze`, {opts: opts, sequences: sequences}).then(res => {
             this.id = res.data;
 

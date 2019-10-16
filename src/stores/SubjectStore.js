@@ -182,7 +182,6 @@ class SubjectStore extends EventEmitter {
         }
         this.optErrors = this.validateOptions();
         if (!this.isObjectEmpty(this.optErrors)) {
-            console.log(this.optErrors);
             this.emit("invalidOpt");
             return;
         }

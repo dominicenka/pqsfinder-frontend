@@ -39,7 +39,6 @@ class App extends Component {
 		subjectStore.on("networkOk", this.unsetError)
 		subjectStore.on("versionFetched", this.setVersion)
 		subjectStore.fetchVersion();
-		subjectStore.setDefaultLimits();
 	}
 
 	componentWillUnmount() {

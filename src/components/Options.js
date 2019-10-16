@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../pages/Analyze.css';
 import { CSSTransition} from "react-transition-group";
 import HelpTooltip from './HelpTooltip';
+import { NavLink } from 'react-router-dom';
 
 import SubjectStore from '../stores/SubjectStore';
 import * as SubjectActions from '../actions/SubjectActions';
@@ -31,6 +32,7 @@ class Options extends Component {
         SubjectStore.on("invalidOpt", this.invalidOpt);
 
         SubjectStore.setDefaultOpts();
+		SubjectStore.setDefaultLimits();
     }
 
     componentWillUnmount() {
@@ -46,8 +48,6 @@ class Options extends Component {
     }
     
     invalidOpt() {
-        console.log("update state of options component");
-        console.log(SubjectStore.getOptErrors());
         this.setState({
             optErrors: SubjectStore.getOptErrors()
         });
@@ -106,37 +106,37 @@ class Options extends Component {
                             <div className="col">
                                 <HelpTooltip content={
                                 <div>
-                                    Minimal length of quadruplex loop. At most one loop can have zero length.
+                                    Minimum  length of quadruplex loop. At most one loop can have zero length.
                                 </div>
                             }/>
-                                <label htmlFor='loop_min_len'>Min loop length</label>
+                                <label htmlFor='loop_min_len'>Minimum loop length</label>
                                 <input type='number' min={this.getMinLimit("loop_min_len")} max={this.getMaxLimit("loop_min_len")} className={this.getOptClass("loop_min_len")} title={this.getOptTitle("loop_min_len")} id='loop_min_len' value={this.state.opts.loop_min_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
                                 <div>
-                                    Maximal length of quadruplex loop.
+                                    Maximum length of quadruplex loop.
                                 </div>
                             }/>
-                                <label htmlFor='loop_max_len'>Max loop length</label>
+                                <label htmlFor='loop_max_len'>Maximum loop length</label>
                                 <input type='number' min={this.getMinLimit("loop_max_len")} max={this.getMaxLimit("loop_max_len")} className={this.getOptClass("loop_max_len")} title={this.getOptTitle("loop_max_len")} id='loop_max_len' value={this.state.opts.loop_max_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
                                 <div>
-                                    Maximal number of runs with bulge.
+                                    Maximum number of G-runs with bulge.
                                 </div>
                             }/>
-                                <label htmlFor='max_bulges'>Max bulges</label>
+                                <label htmlFor='max_bulges'>Allowed bulges</label>
                                 <input type='number' min={this.getMinLimit("max_bulges")} max={this.getMaxLimit("max_bulges")} className={this.getOptClass("max_bulges")} title={this.getOptTitle("max_len")} id='max_bulges' value={this.state.opts.max_bulges} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
                                 <div>
-                                    Maximal number of runs with mismatch.
+                                    Maximum number of G-runs with mismatch.
                                 </div>
                             }/>
-                                <label htmlFor='max_mismatches'>Max mismatches</label>
+                                <label htmlFor='max_mismatches'>Allowed mismatches</label>
                                 <input type='number' min={this.getMinLimit("max_mismatches")} max={this.getMaxLimit("max_mismatches")} className={this.getOptClass("max_mismatches")} title={this.getOptTitle("max_mismatches")} id='max_mismatches' value={this.state.opts.max_mismatches} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
@@ -144,24 +144,25 @@ class Options extends Component {
                             <div className="col-3">
                                 <HelpTooltip content={
                                 <div>
-                                   Minimal length of quadruplex run.
+                                   Minimum length of quadruplex run.
                                 </div>
                             }/>
-                                <label htmlFor='run_min_len'>Min run length</label>
+                                <label htmlFor='run_min_len'>Minimum G-run length</label>
                                 <input type='number' min={this.getMinLimit("run_min_len")} max={this.getMaxLimit("run_min_len")} className={this.getOptClass("run_min_len")} title={this.getOptTitle("run_min_len")} id='run_min_len' value={this.state.opts.run_min_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col-3">
                                 <HelpTooltip content={
                                 <div>
-                                    Maximal length of quadruplex run.
+                                    Maximum length of quadruplex run.
                                 </div>
                             }/>
-                                <label htmlFor='run_max_len'>Max run length</label>
+                                <label htmlFor='run_max_len'>Maximum G-run length</label>
                                 <input type='number' min={this.getMinLimit("run_max_len")} max={this.getMaxLimit("run_max_len")} className={this.getOptClass("run_max_len")} title={this.getOptTitle("run_max_len")} id='run_max_len' value={this.state.opts.run_max_len} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">
+                                <p>More details about search options can be found in the <NavLink to="/help">Help page</NavLink>.</p>
                                 <img src={optsImg} alt="options explained" className="optsImg"></img>
                             </div>
                         </div>
@@ -187,19 +188,19 @@ class Options extends Component {
                         <div className="col">
                             <HelpTooltip content={
                                 <div>
-                                    Maximal lenth of PQS.
+                                    Maximum lenth of PQS.
                                 </div>
                             }/>
-                            <label htmlFor='max_len'>Max length</label>
+                            <label htmlFor='max_len'>Maximum length</label>
                             <input type='number' min={this.getMinLimit("max_len")} max={this.getMaxLimit("max_len")} className={this.getOptClass("max_len")} title={this.getOptTitle("max_len")} id='max_len' value={this.state.opts.max_len} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
                                 <div>
-                                    Minimal PQS score.
+                                    Minimum  PQS score.
                                 </div>
                             }/>
-                            <label htmlFor='min_score'>Min score</label>
+                            <label htmlFor='min_score'>Minimum score</label>
                             <input type='number' min={this.getMinLimit("min_score")} max={this.getMaxLimit("min_score")} className={this.getOptClass("min_score")} title={this.getOptTitle("min_score")} id='min_score' value={this.state.opts.min_score} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
@@ -224,10 +225,10 @@ class Options extends Component {
                         <div className="col">
                             <HelpTooltip content={
                                 <div>
-                                    Maximum number of defects in total (max_bulges + max_mismatches).
+                                    Maximum number of defects in total.
                                 </div>
                             }/>
-                            <label htmlFor='max_defects'>Max defects</label>
+                            <label htmlFor='max_defects'>Allowed defects</label>
                             <input type='number' min={this.getMinLimit("max_defects")} max={this.getMaxLimit("max_defects")} className={this.getOptClass("max_defects")} title={this.getOptTitle("max_defects")} id='max_defects' value={this.state.opts.max_defects} onChange={this.handleInputChange}></input>
                         </div>
                     </div>

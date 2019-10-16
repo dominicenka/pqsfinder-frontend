@@ -32,47 +32,47 @@ class Help extends Component {
                             can be changed by a user. <br></br>
                             <div className="img-wrapper"><img src={optsImg} alt="options explained" className="optsImg"></img></div>
                             <div className="flex"> 
-                                <span className="opt">Max length </span> <p>- Maximal PQS length. Min value is 1, max 100.</p>
+                                <span className="opt">Maximum  length </span> <p>- Maximum PQS length. Minimum value is 1, maximum  100.</p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Min score</span>
-                                <p>- Minimal PQS score. Min value is 1.</p>
+                                <span className="opt">Minimum score</span>
+                                <p>- Minimum  PQS score. Minimum value is 1.</p>
                             </div>
                             <div className="flex">
                                 <span className="opt">Strand</span>
                                 <p>- Strand specification. Allowed values are '+', '-' or both strands. When none strand is specified, the value is set to '+'.</p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Max defects</span>
-                                <p>-  Maximum number of defects in total (bulges & mismatches). Min value is 0, max 3.</p>
+                                <span className="opt">Maximum  defects</span>
+                                <p>-  Maximum number of defects in total (bulges & mismatches). Minimum value is 0, maximum  3.</p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Max bulges</span>
+                                <span className="opt">Maximum  bulges</span>
                                 <p>
-                                - Maximal number of runs with bulge. Min value is 0, max 3.
+                                - Maximum number of runs with bulge. Minimum value is 0, maximum  3.
                                 </p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Max mismatches</span>
+                                <span className="opt">Maximum  mismatches</span>
                                 <p>
-                                - Maximal number of runs with mismatch. Min value is 0, max 3.
+                                - Maximum number of runs with mismatch. Minimum value is 0, maximum  3.
                                 </p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Min loop length</span>
-                                <p>- Minimal length of quadruplex loop. At most one loop can have zero length. Min value is 0.</p>
+                                <span className="opt">Minimum loop length</span>
+                                <p>- Minimum  length of quadruplex loop. At most one loop can have zero length. Minimum value is 0.</p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Max loop length</span>
-                                Maximal length of quadruplex loop. Min value is 0.
+                                <span className="opt">Maximum  loop length</span>
+                                Maximum length of quadruplex loop. Minimum value is 0.
                             </div>
                             <div className="flex">
-                                <span className="opt">Min run length</span>
-                                <p>- Minimal length of quadruplex run. Min value is 2.</p>
+                                <span className="opt">Minimum run length</span>
+                                <p>- Minimum  length of quadruplex run. Minimum value is 2.</p>
                             </div>
                             <div className="flex">
-                                <span className="opt">Max run length</span>
-                                <p>- Maximal length of quadruplex run. Min value is 2.</p>
+                                <span className="opt">Maximum  run length</span>
+                                <p>- Maximum length of quadruplex run. Minimum value is 2.</p>
                             </div>
                         </div>
                 </div>

@@ -15,27 +15,52 @@ class Options extends Component {
 
         this.state = {
             advOpts: false,
-        }
+            limits: {}
+        };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getOpts = this.getOpts.bind(this);
+        this.setLimits = this.setLimits.bind(this);
     }
 
     componentWillMount() {
         SubjectStore.on("changeOpt", this.getOpts);
+		SubjectStore.on("changeLimits", this.setLimits);
 
         SubjectStore.setDefaultOpts();
     }
 
     componentWillUnmount() {
         SubjectStore.removeListener("changeOpt", this.getOpts);
+        SubjectStore.removeListener("changeLimits", this.setLimits);
     }
 
+	setLimits() {
+		this.setState({
+			limits: SubjectStore.getLimits()
+        });
+	}
 
     getOpts() {
         this.setState({
             opts: SubjectStore.getOpts(),
         });
+    }
+
+    getLimit(name, i) {
+        if ("loop_min_len" in this.state.limits && this.state.limits[name][i] !== "NA") {
+            return this.state.limits[name][i];
+        } else {
+            return undefined;
+        }
+    }
+
+    getMinLimit(name) {
+        return this.getLimit(name, 0);
+    }
+
+    getMaxLimit(name) {
+        return this.getLimit(name, 1);
     }
 
     advOpts() {
@@ -57,7 +82,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='loop_min_len'>Min loop length</label>
-                                <input type='number' min='0' className='form-control opt' id='loop_min_len' value={this.state.opts.loop_min_len} onChange={this.handleInputChange}></input>
+                                <input type='number' min={this.getMinLimit("loop_min_len")} max={this.getMaxLimit("loop_min_len")} className='form-control opt' id='loop_min_len' value={this.state.opts.loop_min_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -66,7 +91,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='loop_max_len'>Max loop length</label>
-                                <input type='number' min='1' className='form-control opt' id='loop_max_len' value={this.state.opts.loop_max_len} onChange={this.handleInputChange}></input>
+                                <input type='number' min={this.getMinLimit("loop_max_len")} max={this.getMaxLimit("loop_max_len")} className='form-control opt' id='loop_max_len' value={this.state.opts.loop_max_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -75,7 +100,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='max_bulges'>Max bulges</label>
-                                <input type='number' min='0' max='3' className='form-control opt' id='max_bulges' value={this.state.opts.max_bulges} onChange={this.handleInputChange}></input>
+                                <input type='number' min={this.getMinLimit("max_bulges")} max={this.getMaxLimit("max_bulges")} className='form-control opt' id='max_bulges' value={this.state.opts.max_bulges} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -84,7 +109,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='max_mismatches'>Max mismatches</label>
-                                <input type='number' min='0' max='3' className='form-control opt' id='max_mismatches' value={this.state.opts.max_mismatches} onChange={this.handleInputChange}></input>
+                                <input type='number' min={this.getMinLimit("max_mismatches")} max={this.getMaxLimit("max_mismatches")} className='form-control opt' id='max_mismatches' value={this.state.opts.max_mismatches} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                         <div className="row">
@@ -95,7 +120,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='run_min_len'>Min run length</label>
-                                <input type='number' min='2' className='form-control opt' id='run_min_len' value={this.state.opts.run_min_len} onChange={this.handleInputChange}></input>
+                                <input type='number' min={this.getMinLimit("run_min_len")} max={this.getMaxLimit("run_min_len")} className='form-control opt' id='run_min_len' value={this.state.opts.run_min_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col-3">
                                 <HelpTooltip content={
@@ -104,7 +129,7 @@ class Options extends Component {
                                 </div>
                             }/>
                                 <label htmlFor='run_max_len'>Max run length</label>
-                                <input type='number' min='2' className='form-control opt' id='run_max_len' value={this.state.opts.run_max_len} onChange={this.handleInputChange}></input>
+                                <input type='number' min={this.getMinLimit("run_max_len")} max={this.getMaxLimit("run_max_len")} className='form-control opt' id='run_max_len' value={this.state.opts.run_max_len} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                         <div className="row">
@@ -138,7 +163,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='max_len'>Max length</label>
-                            <input type='number' min='1' max='100' className='form-control opt' id='max_len' value={this.state.opts.max_len} onChange={this.handleInputChange}></input>
+                            <input type='number' min={this.getMinLimit("max_len")} max={this.getMaxLimit("max_len")} className='form-control opt' id='max_len' value={this.state.opts.max_len} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -147,7 +172,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='min_score'>Min score</label>
-                            <input type='number' min='1' className='form-control opt' id='min_score' value={this.state.opts.min_score} onChange={this.handleInputChange}></input>
+                            <input type='number' min={this.getMinLimit("min_score")} max={this.getMaxLimit("min_score")} className='form-control opt' id='min_score' value={this.state.opts.min_score} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -175,7 +200,7 @@ class Options extends Component {
                                 </div>
                             }/>
                             <label htmlFor='max_defects'>Max defects</label>
-                            <input type='number' min='0' max='3' className='form-control opt' id='max_defects' value={this.state.opts.max_defects} onChange={this.handleInputChange}></input>
+                            <input type='number' min={this.getMinLimit("max_defects")} max={this.getMaxLimit("max_defects")} className='form-control opt' id='max_defects' value={this.state.opts.max_defects} onChange={this.handleInputChange}></input>
                         </div>
                     </div>
                     {this.advOpts()}

@@ -15,26 +15,36 @@ class DNAInput extends Component {
             input: SubjectStore.getInput(),
             fileSelected: false,
             inputValidation: '',
-            inputTitle: 'Enter nucleic acid sequences in FASTA format'
-        }
+            inputTitle: 'Enter nucleic acid sequences in FASTA format',
+            limits: {}
+        };
 
         this.exampleData = ">HSGLTH1 Human theta 1-globin gene\nCCACTGCACTCACCGCACCCGGCCAATTTTTGTGTTTTTAGTAGAGACTAAATACCATATAGTGAACACCTAAGACGGGGGGCCTTGGATCCAGGGCGATTCAGAGGGCCCCGGTCGGAGCTGTCGGAGATTGAGCGCGCGCGGTCCCGGGATCTCCGACGAGGCCCTGGACCCCCGGGCGGCGAAGCTGCGGCGCGGCGCCCCCTGGAGGCCGCGGGACCCCTGGCCGGTCCGCGCAGGCGCAGCGGGGTCGCAGGGCGCGGCGGGTTCCAGCGCGGGGATGGCGCTGTCCGCGGAGGACCGGGCGCTGGTGCGCGCCCTGTGGAAGAAGCTGGGCAGCAACGTCGGCGTCTACACGACAGAGGCCCTGGAAAGGTGCGGCAGGCTGGGCGCCCCCGCCCCCAGGGGCCCTCCCTCCCCAAGCCCCCCGGACGCGCCTCACCCACGTTCCTCTCGCAGGACCTTCCTGGCTTTCCCCGCCACGAAGACCTACTTCTCCCACCTGGACCTGAGCCCCGGCTCCTCACAAGTCAGAGCCCACGGCCAGAAGGTGGCGGACGCGCTGAGCCTCGCCGTGGAGCGCCTGGACGACCTACCCCACGCGCTGTCCGCGCTGAGCCACCTGCACGCGTGCCAGCTGCGAGTGGACCCGGCCAGCTTCCAGGTGAGCGGCTGCCGTGCTGGGCCCCTGTCCCCGGGAGGGCCCCGGCGGGGTGGGTGCGGGGGGCGTGCGGGGCGGGTGCAGGCGAGTGAGCCTTGAGCGCTCGCCGCAGCTCCTGGGCCACTGCCTGCTGGTAACCCTCGCCCGGCACTACCCCGGAGACTTCAGCCCCGCGCTGCAGGCGTCGCTGGACAAGTTCCTGAGCCACGTTATCTCGGCGCTGGTTTCCGAGTACCGCTGAACTGTGGGTGGGTGGCCGCGGGATCCCCAGGCGACCTTCCCCGTGTTTGAGTAAAGCCTCTCCCAGGAGCAGCCTTCTTGCCGTGCTCTCTCGAGGTCAGGACGCGAGAGGAAGGCGC";
         this.getInput = this.getInput.bind(this);
         this.fileReader = new FileReader();
         this.invalidInput = this.invalidInput.bind(this);
         this.getSequence = this.getSequence.bind(this);
+        this.setLimits = this.setLimits.bind(this);
     }
 
     componentWillMount() {
         SubjectStore.on("changeInput", this.getInput);
         SubjectStore.on("invalidInput", this.invalidInput);
+		SubjectStore.on("changeLimits", this.setLimits);
         NCBIStore.on("NCBISeqFetched", this.getSequence);
     }
 
     componentWillUnmount() {
         SubjectStore.removeListener("changeInput", this.getInput);
         SubjectStore.removeListener("invalidInput", this.invalidInput);
+        SubjectStore.removeListener("changeLimits", this.setLimits);
     }
+
+	setLimits() {
+		this.setState({
+			limits: SubjectStore.getLimits()
+        });
+	}
 
     getInput() {
         this.setState({
@@ -81,8 +91,10 @@ class DNAInput extends Component {
                 <div className='input-left'>
                     <div className='input-text-div'>
                         <p className="inputText"> Enter nucleic acid sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or upload a file in FASTA format.</p>
-                        <p className="inputText">The size of the input is limited to {process.env.REACT_APP_MAX_BP/1000}k nucleic acids per analysis. For larger analyses, please use the <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html">pqsfinder package</a>.
+                        { "max_sequence_len" in this.state.limits ?
+                        <p className="inputText">The size of the input is limited to {this.state.limits.max_sequence_len[1]/1000}k nucleic acids per analysis. For larger analyses, please use the <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html">pqsfinder package</a>.
                         </p>
+                        : ''}
                     </div>
                     <div className='input'>
                         <textarea className={`form-control ${this.state.inputValidation}`} id="dnaTextInput" rows="10"

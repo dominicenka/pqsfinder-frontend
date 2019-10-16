@@ -20,9 +20,9 @@ class SubjectStore extends EventEmitter {
             max_defects: 0,
             run_min_len: 0,
             run_max_len: 0
-        }
-
+        };
         this.opts = {};
+        this.limits = {};
         this.input = '';
         this.id = '';
         this.error = '';
@@ -48,11 +48,23 @@ class SubjectStore extends EventEmitter {
             this.emit("networkOk");
         })
         .catch(error => {
-            this.emit("serverError")
+            this.emit("serverError");
         });
         this.opts = this.defaultOpts;
-
         this.emit("changeOpt");
+    }
+
+    setDefaultLimits() {
+        axios.get(`${API_URL}/limits`).then(res => {
+            this.limits = res.data;
+            this.emit("changeLimits");
+            this.emit("networkOk");
+        })
+        .catch(error => {
+            this.emit("serverError");
+        });
+        this.limits = {};
+        this.emit("changeLimits");
     }
 
     fetchVersion() {
@@ -62,12 +74,16 @@ class SubjectStore extends EventEmitter {
             this.emit("networkOk");
         })
         .catch(error => {
-            this.emit("serverError")
+            this.emit("serverError");
         });
     }
 
     getVersion() {
         return this.version;
+    }
+
+    getLimits() {
+        return this.limits;
     }
 
     getOpts() {

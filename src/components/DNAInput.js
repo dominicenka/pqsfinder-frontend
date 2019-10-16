@@ -117,9 +117,9 @@ class DNAInput extends Component {
                 </div>
                 <div className='pqsText'>
                     <p className="card-text">
-                    Pqsfinder is able to detect potential G4s folded from imperfect G-runs containing bulges or mismatches or G4s having long loops. Pqsfinder assigns an integer score to each potential G-quadruplex forming sequence (PQS) that was fitted on G4 sequencing data and corresponds to expected stability of the folded G4.
+                    Pqsfinder is able to detect potential G4s folded from imperfect G-runs containing bulges or mismatches or G4s having long loops. Pqsfinder uses easy-interpretable scoring function fitted on G4 sequencing data to estimate the stability of the G4.
                     </p>
-                    <p className="card-text"><strong>Note:</strong> Although both DNA and RNA sequences can be analysed, the pqsfinder scoring function was trained and validated primarily on DNA sequences.</p>
+                    <p className="card-text"><strong>Note:</strong> Although both DNA and RNA sequences are supported, the pqsfinder scoring function was trained and validated primarily on DNA sequences. More details can be found in <a href="https://dx.doi.org/10.1093/bioinformatics/btx413" target="_blank" rel="noopener noreferrer">Hon et al. 2017</a>.</p>
                 </div>
             </div>
         )

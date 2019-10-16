@@ -9,17 +9,17 @@ class SubjectStore extends EventEmitter {
         super();
 
         this.defaultOpts = {
-            maxLength: 0,
-            minScore: 0,
+            max_len: 0,
+            min_score: 0,
             strandSense: true,
             strandAnti: true,
-            minLL: 0,
-            maxLL: 0,
-            maxNB: 0,
-            maxNM: 0,
-            maxND: 0,
-            minRL: 0,
-            maxRL: 0
+            loop_min_len: 0,
+            loop_max_len: 0,
+            max_bulges: 0,
+            max_mismatches: 0,
+            max_defects: 0,
+            run_min_len: 0,
+            run_max_len: 0
         }
 
         this.opts = {};
@@ -32,17 +32,17 @@ class SubjectStore extends EventEmitter {
         axios.get(`${API_URL}/formals`).then(res => {
             const data = res.data;
             this.opts = {
-                maxLength: data.max_len[0],
-                minScore: data.min_score,
+                max_len: data.max_len,
+                min_score: data.min_score,
                 strandSense: data.strand[0] === '*' || data.strand[0] === '+',
                 strandAnti: data.strand[0] === '*' || data.strand[0] === '-',
-                minLL: data.loop_min_len,
-                maxLL: data.loop_max_len,
-                maxNB: data.max_bulges,
-                maxNM: data.max_mismatches,
-                maxND: data.max_defects,
-                minRL: data.run_min_len,
-                maxRL: data.run_max_len
+                loop_min_len: data.loop_min_len,
+                loop_max_len: data.loop_max_len,
+                max_bulges: data.max_bulges,
+                max_mismatches: data.max_mismatches,
+                max_defects: data.max_defects,
+                run_min_len: data.run_min_len,
+                run_max_len: data.run_max_len
             }
             this.emit("changeOpt");
             this.emit("networkOk");
@@ -57,7 +57,7 @@ class SubjectStore extends EventEmitter {
 
     fetchVersion() {
         axios.get(`${API_URL}/version`).then(res => {
-            this.version = res.data[0];
+            this.version = res.data;
             this.emit("versionFetched");
             this.emit("networkOk");
         })
@@ -95,21 +95,21 @@ class SubjectStore extends EventEmitter {
             this.emit("invalidInput");
             return -1;
         }
-        let seqDescription = data.slice(seqStartIndex, endLineIndex);
+        let seq_description = data.slice(seqStartIndex, endLineIndex);
         data = data.slice(endLineIndex + 1);
         seqStartIndex = data.search(re);
         if (seqStartIndex === -1){
             result.push({
-                seqDescription: seqDescription,
-                dnaString: data, 
+                seq_description: seq_description,
+                seq_string: data, 
             });
             return [result, ''];
         };
-        let dnaString = data.slice(0, seqStartIndex - 1);
+        let seq_string = data.slice(0, seqStartIndex - 1);
         data = data.slice(seqStartIndex);
         result.push({
-            seqDescription: seqDescription,
-            dnaString: dnaString, 
+            seq_description: seq_description,
+            seq_string: seq_string, 
         });
         return [result, data];
     }
@@ -153,20 +153,20 @@ class SubjectStore extends EventEmitter {
             let newSequence = {
                 ...sequence
             };
-            newSequence.dnaString = newSequence.dnaString.toUpperCase().trim().replace(/\r?\n|\r/g, '');
-            if(newSequence.seqDescription.search(/[*]/g) !== -1) {
+            newSequence.seq_string = newSequence.seq_string.toUpperCase().trim().replace(/\r?\n|\r/g, '');
+            if(newSequence.seq_description.search(/[*]/g) !== -1) {
                 this.error = "Please do not use '*' in sequence description. We are working on removing this limitation.";
                 this.emit("invalidInput");
                 error = true;
                 return {};
             }
-            if(newSequence.dnaString.search(dna_re) === -1 && newSequence.dnaString.search(rna_re) === -1) {
-                this.error = "Unexpected symbols in sequence " + newSequence.seqDescription;
+            if(newSequence.seq_string.search(dna_re) === -1 && newSequence.seq_string.search(rna_re) === -1) {
+                this.error = "Unexpected symbols in sequence " + newSequence.seq_description;
                 this.emit("invalidInput");
                 error = true;
                 return {};
             }
-            if (newSequence.dnaString.length > process.env.REACT_APP_MAX_BP) {
+            if (newSequence.seq_string.length > process.env.REACT_APP_MAX_BP) {
                 this.error = "Too long sequence";
                 this.emit("invalidInput");
                 error = true;

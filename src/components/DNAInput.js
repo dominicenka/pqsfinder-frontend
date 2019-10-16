@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AsyncSelectCustom from './AsyncSelect';
 import '../pages/Analyze.css';
 
 import SubjectStore from '../stores/SubjectStore';

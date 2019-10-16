@@ -56,8 +56,8 @@ class Options extends Component {
                                     Minimal length of quadruplex loop. At most one loop can have zero length.
                                 </div>
                             }/>
-                                <label htmlFor='minLL'>Min loop length</label>
-                                <input type='number' min='0' className='form-control opt' id='minLL' value={this.state.opts.minLL} onChange={this.handleInputChange}></input>
+                                <label htmlFor='loop_min_len'>Min loop length</label>
+                                <input type='number' min='0' className='form-control opt' id='loop_min_len' value={this.state.opts.loop_min_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -65,8 +65,8 @@ class Options extends Component {
                                     Maximal length of quadruplex loop.
                                 </div>
                             }/>
-                                <label htmlFor='maxLL'>Max loop length</label>
-                                <input type='number' min='1' className='form-control opt' id='maxLL' value={this.state.opts.maxLL} onChange={this.handleInputChange}></input>
+                                <label htmlFor='loop_max_len'>Max loop length</label>
+                                <input type='number' min='1' className='form-control opt' id='loop_max_len' value={this.state.opts.loop_max_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -74,8 +74,8 @@ class Options extends Component {
                                     Maximal number of runs with bulge.
                                 </div>
                             }/>
-                                <label htmlFor='maxNB'>Max bulges</label>
-                                <input type='number' min='0' max='3' className='form-control opt' id='maxNB' value={this.state.opts.maxNB} onChange={this.handleInputChange}></input>
+                                <label htmlFor='max_bulges'>Max bulges</label>
+                                <input type='number' min='0' max='3' className='form-control opt' id='max_bulges' value={this.state.opts.max_bulges} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col">
                                 <HelpTooltip content={
@@ -83,8 +83,8 @@ class Options extends Component {
                                     Maximal number of runs with mismatch.
                                 </div>
                             }/>
-                                <label htmlFor='maxNM'>Max mismatches</label>
-                                <input type='number' min='0' max='3' className='form-control opt' id='maxNM' value={this.state.opts.maxNM} onChange={this.handleInputChange}></input>
+                                <label htmlFor='max_mismatches'>Max mismatches</label>
+                                <input type='number' min='0' max='3' className='form-control opt' id='max_mismatches' value={this.state.opts.max_mismatches} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                         <div className="row">
@@ -94,8 +94,8 @@ class Options extends Component {
                                    Minimal length of quadruplex run.
                                 </div>
                             }/>
-                                <label htmlFor='minRL'>Min run length</label>
-                                <input type='number' min='2' className='form-control opt' id='minRL' value={this.state.opts.minRL} onChange={this.handleInputChange}></input>
+                                <label htmlFor='run_min_len'>Min run length</label>
+                                <input type='number' min='2' className='form-control opt' id='run_min_len' value={this.state.opts.run_min_len} onChange={this.handleInputChange}></input>
                             </div>
                             <div className="col-3">
                                 <HelpTooltip content={
@@ -103,8 +103,8 @@ class Options extends Component {
                                     Maximal length of quadruplex run.
                                 </div>
                             }/>
-                                <label htmlFor='maxRL'>Max run length</label>
-                                <input type='number' min='2' className='form-control opt' id='maxRL' value={this.state.opts.maxRL} onChange={this.handleInputChange}></input>
+                                <label htmlFor='run_max_len'>Max run length</label>
+                                <input type='number' min='2' className='form-control opt' id='run_max_len' value={this.state.opts.run_max_len} onChange={this.handleInputChange}></input>
                             </div>
                         </div>
                         <div className="row">
@@ -137,8 +137,8 @@ class Options extends Component {
                                     Maximal lenth of PQS.
                                 </div>
                             }/>
-                            <label htmlFor='maxLength'>Max length</label>
-                            <input type='number' min='1' max='100' className='form-control opt' id='maxLength' value={this.state.opts.maxLength} onChange={this.handleInputChange}></input>
+                            <label htmlFor='max_len'>Max length</label>
+                            <input type='number' min='1' max='100' className='form-control opt' id='max_len' value={this.state.opts.max_len} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -146,8 +146,8 @@ class Options extends Component {
                                     Minimal PQS score.
                                 </div>
                             }/>
-                            <label htmlFor='minScore'>Min score</label>
-                            <input type='number' min='1' className='form-control opt' id='minScore' value={this.state.opts.minScore} onChange={this.handleInputChange}></input>
+                            <label htmlFor='min_score'>Min score</label>
+                            <input type='number' min='1' className='form-control opt' id='min_score' value={this.state.opts.min_score} onChange={this.handleInputChange}></input>
                         </div>
                         <div className="col">
                             <HelpTooltip content={
@@ -174,8 +174,8 @@ class Options extends Component {
                                     Maximum number of defects in total (max_bulges + max_mismatches).
                                 </div>
                             }/>
-                            <label htmlFor='maxND'>Max defects</label>
-                            <input type='number' min='0' max='3' className='form-control opt' id='maxND' value={this.state.opts.maxND} onChange={this.handleInputChange}></input>
+                            <label htmlFor='max_defects'>Max defects</label>
+                            <input type='number' min='0' max='3' className='form-control opt' id='max_defects' value={this.state.opts.max_defects} onChange={this.handleInputChange}></input>
                         </div>
                     </div>
                     {this.advOpts()}

@@ -59,9 +59,9 @@ class Graph extends Component {
         let scores = Utils.onlyUnique(this.props.results.data.map(q => {
             return q.score;
         }));
-        let minScore = (parseInt(Math.min.apply(null, scores)/5, 10) * 5) - 5;
+        let min_score = (parseInt(Math.min.apply(null, scores)/5, 10) * 5) - 5;
         let maxScore = (parseInt(Math.max.apply(null, scores) / 5, 10) + 1 ) * 5;
-        return [minScore, maxScore];
+        return [min_score, maxScore];
     }
 
     computeVisibleData(data, domain) {

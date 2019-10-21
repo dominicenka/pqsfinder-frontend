@@ -222,7 +222,6 @@ class ResultsTableTable extends Component {
       };
 
       let {sizePerPage, page} = this.state;
-      console.log(this.state);
         return (
             <div className="result-table">
                     <div className="card">

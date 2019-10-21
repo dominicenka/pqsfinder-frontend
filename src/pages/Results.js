@@ -184,7 +184,7 @@ class ResultsTable extends Component {
         return (!Utils.isEmpty(results)) ? 
         (<div>
             <div className="wrapper">
-                <h1>Results</h1>
+                <h1 className="mw">Results</h1>
                 <ResultsHeader id={results.id}/>
                 {this.renderTables(results, activeStrands)}
             </div>

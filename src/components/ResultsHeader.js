@@ -10,7 +10,7 @@ class ResultsHeader extends Component {
                             <div className="card-body results-header-body">
                                 <div className="header-content">
                                     <div className="job-id">
-                                        Job ID: {this.props.id} <br></br>
+                                        <strong>Job ID:</strong> {this.props.id} <br></br>
                                     </div>
                                     <div className="dropdown header-export">
                                         <button type="button" className="btn btn-info dropdown-toggle btn-padding-opt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export all results as..</button>
@@ -20,6 +20,7 @@ class ResultsHeader extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                    <p>Bookmark this page or save the job ID to access the results later.</p>
                             </div>
                     </div>
             </div>

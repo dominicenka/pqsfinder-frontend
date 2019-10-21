@@ -104,7 +104,7 @@ class App extends Component {
 								DOI: <a href="https://dx.doi.org/10.1093/bioinformatics/btx413" target="_blank" rel="noopener noreferrer">10.1093/bioinformatics/btx413</a></p>
 						</div>
 						<div className="version">
-						<p className="text">Pqsfinder version: </p>
+						<p className="text">Version of pqsfinder package: </p>
 							<p className="version-text">
 								{this.state.version},
 								available at <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html" target="_blank" rel="noopener noreferrer">Bioconductor</a>

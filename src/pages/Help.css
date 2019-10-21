@@ -20,7 +20,25 @@
 .optsImg {
     width: 70%;
     margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.optsTable {
     margin-bottom: 20px;
+}
+
+.optsTable td {
+    border: 1px solid #ccc;
+    padding: 5px 10px 5px 10px;
+}
+
+.optsTable thead td {
+    background: #eee;
+}
+
+.equation {
+    text-align: center;
+    font-size: 110%;
 }
 
 .flex {

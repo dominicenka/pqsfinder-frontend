@@ -164,7 +164,7 @@ tr td:first-of-type:hover i{
 .job-id {
     padding-top: 10px;
     text-align: center;
-    margin: 5px;
+    margin: 5px 0;
 }
 
 .result-table-header {

@@ -143,9 +143,9 @@ class Help extends Component {
                 <table class="optsTable">
                 <thead>
                 <tr>
-                <td>Parameter</td>
-                <td>Description</td>
-                <td>Default value</td>
+                <td><strong>Parameter</strong></td>
+                <td><strong>Description</strong></td>
+                <td><strong>Default value</strong></td>
                 </tr>
                 </thead>
                 <tbody>

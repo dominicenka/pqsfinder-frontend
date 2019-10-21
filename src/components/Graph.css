@@ -12,6 +12,15 @@ body {
     z-index: -10000;
 }
 
+.legendSense {
+    font-weight: normal;
+    color: red;
+}
+.legendAntisense {
+    font-weight: normal;
+    color: blue;
+}
+
 .graph {
     position: relative;
     height: 630px;

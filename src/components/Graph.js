@@ -345,10 +345,10 @@ class Graph extends Component {
             <div className="graph-legend">
                 <input type="checkbox" value="sense" className="sense"
                     onChange={(e) => this.props.onStrandChange("sense")}
-                    checked={this.props.activeStrands.includes("sense") ? true : false}/>sense
+                    checked={this.props.activeStrands.includes("sense") ? true : false}/><span className="legendSense">sense</span>
                 <input type="checkbox" value="antisense" className="antisense"
                     onChange={(e) => this.props.onStrandChange("antisense")}
-                    checked={this.props.activeStrands.includes("antisense") ? true : false}/>antisense
+                    checked={this.props.activeStrands.includes("antisense") ? true : false}/><span className="legendAntisense">antisense</span>
             </div>
         )
     }

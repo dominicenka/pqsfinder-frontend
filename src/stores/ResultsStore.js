@@ -126,6 +126,69 @@ class ResultsStore extends EventEmitter {
         this.emit('fetched');
     }
 
+    formatGRun(run, nt, strand) {
+        const runLen = run.length;
+        const defectCount = runLen - nt;
+        const Gcount = strand === '+' ? (run.match(/G/g) || []).length : (run.match(/C/g) || []).length;
+        const regex = strand === '+' ? /[^G]/gm : /[^C]/gm;
+
+        if (Gcount === nt && runLen === nt) {
+            return `${run}`;
+        } else if (Gcount + 1 === nt) { //mismatch
+            const pos = run.search(regex);
+            return `${run.slice(0, pos)}${run.slice(pos, pos+1).toLowerCase()}${run.slice(pos+1)}`;
+        } else { // bulge
+            const match = run.match(regex);
+            if (!match) {
+                // all Gs or all Cs, but there is a bulge
+                const defectLenHalf = Math.ceil((defectCount) / 2);
+                const runLenHalf = Math.floor(runLen / 2);
+                return `${run.slice(0, runLenHalf - defectLenHalf)}(${run.slice(runLenHalf - defectLenHalf, runLenHalf + defectLenHalf - 1)})${run.slice(runLenHalf + defectLenHalf - 1)}`;
+            }; 
+            let firstIndex = run.indexOf(match[0]);
+            let lastIndex = run.lastIndexOf(match[match.length - 1]);
+            let defect = run.slice(firstIndex, lastIndex + 1);
+            if (defect.length < defectCount) { // bulge starts or ends with Gs or Cs
+                let GsToAdd = defectCount - defect.length;
+                const spaceAtTheEnd = runLen - 2 - lastIndex;
+                if (spaceAtTheEnd) {
+                    lastIndex += GsToAdd > spaceAtTheEnd ? spaceAtTheEnd : GsToAdd;
+                    GsToAdd -= spaceAtTheEnd;
+                }
+                if (GsToAdd > 0) {
+                    firstIndex -= GsToAdd;
+                }
+                defect = run.slice(firstIndex, lastIndex + 1);
+            }
+            return `${run.slice(0, firstIndex)}(${defect})${run.slice(lastIndex+1)}`;
+        }
+    }
+
+    formatPQS(quad, seq_name) {
+        const seq = this.results[seq_name].seq;
+        const { start, end, strand, nt, rl1, rl2, rl3, ll1, ll2, ll3 } = quad;
+        const whole_pqs = seq.slice(start - 1, end);
+        let run1 = whole_pqs.slice(0, rl1);
+        run1 = this.formatGRun(run1, nt, strand);
+        let pos = rl1;
+        const loop1 = whole_pqs.slice(pos, pos + ll1);
+        pos += ll1;
+        let run2 = whole_pqs.slice(pos, pos + rl2);
+        run2 = this.formatGRun(run2, nt, strand);
+        pos += rl2;
+        const loop2 = whole_pqs.slice(pos, pos + ll2);
+        pos += ll2;
+        let run3 = whole_pqs.slice(pos, pos + rl3);
+        run3 = this.formatGRun(run3, nt, strand);
+        pos += rl3;
+        const loop3 = whole_pqs.slice(pos, pos + ll3);
+        pos += ll3;
+        let run4 = whole_pqs.slice(pos);
+        run4 = this.formatGRun(run4, nt, strand);
+        let formatted = `[${run1}]${loop1}[${run2}]${loop2}[${run3}]${loop3}[${run4}]`;
+        return formatted;
+    }
+
     createGffFormat(name){
         let version = "##gff-version 3\n";
         let q = `"${name}"    pqsfinder   G_quartet`;
@@ -140,9 +203,9 @@ class ResultsStore extends EventEmitter {
 
     createCsvFormat(name){
         let qs = [];
-        qs.push("sequenceName,source,type,start,end,score,strand,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
+        qs.push("sequenceName,source,type,start,end,score,strand,pattern,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
         this.results[name].data.forEach(data => {
-            qs.push(`"${name}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+            qs.push(`"${name}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${this.formatPQS(data, name)},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
         });
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
         saveAs(blob, `${name.replace(' ', '_')}.csv`);
@@ -165,11 +228,11 @@ class ResultsStore extends EventEmitter {
 
     exportCsv(id){
         let qs = [];
-        qs.push("sequenceName,source,type,start,end,score,strand,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
+        qs.push("sequenceName,source,type,start,end,score,strand,pattern,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
         for (let[key, value] of Object.entries(this.results)) {
-            if(key === "id") continue;
+            if (key === "id") continue;
             value.data.forEach(data => {
-                qs.push(`"${key}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+                qs.push(`"${key}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${this.formatPQS(data, key)},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
             });
         }
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});

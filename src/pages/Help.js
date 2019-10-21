@@ -17,9 +17,9 @@ class Help extends Component {
 
                 <p>For those interested in non-B DNA, we have previously authored a similar package that can be used to search for triplexes, another type of non-B DNA structure. For details, please see the <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html" target="_blank" rel="noopener noreferrer">triplex package</a>.</p>
 
-                <h2>Result formats</h2>
+                <h2>Result export</h2>
 
-                <p>The pqsfinder results can be downloaded in CSV or GFF3 format. Besides the genomic coordinates and the pqsfinder score, both output formats contain columns describing the structure of each PQS. The description of the additional metadata is in the following table. These data be easily used to extract sequence for every component of the PQS (G-runs, loops and defects).</p>
+                <p>The pqsfinder results can be downloaded in CSV or GFF3 format. Besides the genomic coordinates and the pqsfinder score, both output formats contain columns describing the structure of each PQS. The description of the additional metadata is in the following table. These data can be easily used to extract the sequence of every PQS component (e.g. G-runs, loops and defects).</p>
 
                 <table class="optsTable">
                 <thead>
@@ -65,6 +65,10 @@ class Help extends Component {
                     <td>Length of the third loop</td>
                 </tr>
                 </table>
+
+                <p>The result CSV files include predicted PQS structures in a human-readable format.<br/>
+                <em>Example:</em> [GG(A)GG]TTTTT[GGGG]TTTTTTTT[GGGG]TTTTTTTT[GGaG]<br/>
+                G-runs are in square brackets, bulges in round brackets and mismatches are in lower case.</p>
 
                 <h2>Search options</h2>
                 <p>Depending on the particular type of potential G-quadruplex sequence (PQS) you want to detect, the algorithm options can be tuned to find the PQS effectively and exclusively. The table bellow gives an overview of all basic algorithm options and their descriptions.</p>  

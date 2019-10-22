@@ -7,7 +7,7 @@ import * as FindJobActions from '../actions/FindJobActions';
 import resultsStore from '../stores/ResultsStore';
 import history from '../history';
 
-const logo = '/images/logoT.svg';
+const logo = '/images/logoTcrop.svg';
 
 class NavMenu extends Component {
 	constructor(props) {

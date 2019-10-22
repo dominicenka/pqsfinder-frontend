@@ -8,7 +8,7 @@ class Help extends Component {
     render(){
         return <div className="body">
         <div className="help-wrapper">
-            <h1>Help</h1>
+            <h1>About pqsfinder</h1>
                 <p>The pqsfinder algorithm identifies DNA/RNA sequence patterns that are likely to fold into an intramolecular G-quadruplex (G4). G4 is a nucleic acid structure that can form as an alternative to the canonical structures. G4s are believed to be involved in regulation of diverse biological processes, such as telomere maintenance, DNA replication, chromatin formation, transcription, recombination or mutation (Maizels and Gray 2013; Kejnovsky, Tokan, and Lexa 2015).</p>
                 
                 <p>The algorithm first identifies four consecutive G-run sequences. Subsequently, it examines the potential of such G-runs to form a stable G4 and assigns a corresponding quantitative score to each. Non-overlapping potential quadruplex-forming sequences (PQS) with positive score are then reported.</p>
@@ -130,15 +130,15 @@ class Help extends Component {
                 <h2>Scoring function</h2>
                 <p>The pqsfinder scoring function quantitatively approximate the relationship between G4 sequence and the stability of its structure. The score is modular and, obtained by addition of scores representing the binding affinities of smaller regions within the G4. This kind of approach has already been proven to work for simpler DNA structures, such as nucleic acid duplexes and hairpins.</p>
 
-                <p>The scoring is defined by following equation, where N<sub>t</sub> is the number of tetrads, B<sub>t</sub> is a G-tetrad stacking bonus, N<sub>m</sub> is the number of inner mismatches, P<sub>m</sub> is mismatch penalization, N<sub>b</sub> is the number of bulges, P<sub>b</sub> is bulge penalization, F<sub>b</sub> is bulge length penalization factor, L<sub>bi</sub> is the length of the i-th bulge and E<sub>b</sub> is bulge length exponent.</p>
+                <p>The scoring is defined by following equation, where <em>N<sub>t</sub></em> is the number of tetrads, <em>B<sub>t</sub></em> is a G-tetrad stacking bonus, <em>N<sub>m</sub></em> is the number of inner mismatches, <em>P<sub>m</sub></em> is mismatch penalization, <em>N<sub>b</sub></em> is the number of bulges, <em>P<sub>b</sub></em> is bulge penalization, <em>F<sub>b</sub></em> is bulge length penalization factor, <em>L<sub>bi</sub></em> is the length of the i-th bulge and <em>E<sub>b</sub></em> is bulge length exponent.</p>
 
-                <p className="equation">S<sub>r</sub> = (N<sub>t</sub> − 1) B<sub>t</sub> − N<sub>m</sub>P<sub>m</sub> − ∑<sub>i=1...N<sub>b</sub></sub>(P<sub>b</sub> + F<sub>b</sub>L<sub>bi</sub><sup>Eb</sup>)</p>
+                <p className="equation"><em>S<sub>r</sub></em> = (<em>N<sub>t</sub></em> − 1) <em>B<sub>t</sub></em> − <em>N<sub>m</sub>P<sub>m</sub></em> − ∑<sub>i=1...<em>N<sub>b</sub></em></sub>(<em>P<sub>b</sub></em> + <em>F<sub>b</sub>L<sub>bi</sub><sup>Eb</sup></em>)</p>
 
-                <p>The second part of the scoring scheme quantifies the destabilizing effect of the loops on G4 stability. We use empirical formula that can accommodate some of the observations made by Guédin et al. 2010. Complete scoring function is then expressed by the following equation, where S<sub>r</sub> is the value from the previous equeation, L<sub>m</sub> is loop length mean, F<sub>m</sub> is loop length mean penalization factor and E<sub>m</sub> is loop length mean exponent.</p>
+                <p>The second part of the scoring scheme quantifies the destabilizing effect of the loops on G4 stability. We use empirical formula that can accommodate some of the observations made by Guédin et al. 2010. Complete scoring function is then expressed by the following equation, where <em>S<sub>r</sub></em> is the value from the previous equation, <em>L<sub>m</sub></em> is loop length mean, <em>F<sub>m</sub></em> is loop length mean penalization factor and <em>E<sub>m</sub></em> is loop length mean exponent.</p>
                 
-                <p className="equation">S = max(S<sub>r</sub> − F<sub>m</sub>L<sub>m</sub><sup>E<sub>m</sub></sup>, 0)</p>
+                <p className="equation"><em>S</em> = max(<em>S<sub>r</sub></em> − <em>F<sub>m</sub>L<sub>m</sub><sup>E<sub>m</sub></sup></em>, 0)</p>
 
-                <p>More details about the scoring function and about the method used for parameter optimization can be found in the main pqsfinder algorithm paper <a href="https://dx.doi.org/10.1093/bioinformatics/btx413" target="_blank" rel="noopener noreferrer">Hon et al. 2017</a>.</p>
+                <p>The following table summarizes all scoring parameters and their default values.</p>
 
                 <table class="optsTable">
                 <thead>
@@ -150,42 +150,44 @@ class Help extends Component {
                 </thead>
                 <tbody>
                 <tr class="odd">
-                <td><strong>B<sub>t</sub></strong></td>
+                <td><em>B<sub>t</sub></em></td>
                 <td>G-tetrad bonus, regardless the tetrade contains mismatch or not</td>
                 <td>40</td>
                 </tr>
                 <tr class="even">
-                <td><strong>P<sub>m</sub></strong></td>
+                <td><em>P<sub>m</sub></em></td>
                 <td>Penalization for a mismatch in tetrad</td>
                 <td>28</td>
                 </tr>
                 <tr class="odd">
-                <td><strong>P<sub>b</sub></strong></td>
+                <td><em>P<sub>b</sub></em></td>
                 <td>Penalization for a bulge</td>
                 <td>20</td>
                 </tr>
                 <tr class="even">
-                <td><strong>F<sub>b</sub></strong></td>
+                <td><em>F<sub>b</sub></em></td>
                 <td>Penalization factor of a bulge length</td>
                 <td>0.2</td>
                 </tr>
                 <tr class="odd">
-                <td><strong>E<sub>b</sub></strong></td>
+                <td><em>E<sub>b</sub></em></td>
                 <td>Exponent of a bulge length</td>
                 <td>1</td>
                 </tr>
                 <tr class="even">
-                <td><strong>F<sub>m</sub></strong></td>
+                <td><em>F<sub>m</sub></em></td>
                 <td>Penalization factor of a loop length mean</td>
                 <td>6.6</td>
                 </tr>
                 <tr class="odd">
-                <td><strong>E<sub>m</sub></strong></td>
+                <td><em>E<sub>m</sub></em></td>
                 <td>Exponent of a loop length mean</td>
                 <td>0.8</td>
                 </tr>
                 </tbody>
                 </table>
+
+                <p>More details about the scoring function and about the method used for parameter optimization can be found in the main pqsfinder algorithm paper <a href="https://dx.doi.org/10.1093/bioinformatics/btx413" target="_blank" rel="noopener noreferrer">Hon et al. 2017</a>.</p>
             </div>
         </div>
     }

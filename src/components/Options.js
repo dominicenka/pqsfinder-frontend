@@ -163,8 +163,8 @@ class Options extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <p><img src={optsImg} alt="options explained" className="optsImg"></img></p>
-                                <p className="optsCaption"><strong>The structure of G-quadruplex sequence pattern.</strong> Each G4 pattern consists of four G-runs and three inner loops. The pqsfinder algorithm allows at most one type of defect (bulge or mismatch) in a G-run and at least one of the G-runs must be perfect (without any defect). Therefore the maximum numbers of allowed bulges, mismatches and defects must fall into the range from 0 to 3.</p>
-                                <p>More details about search options and the scoring function can be found at the <NavLink to="/help">Help page</NavLink>.</p>
+                                <p className="optsCaption"><strong>The structure of G-quadruplex sequence pattern.</strong> Each G4 pattern consists of four G-runs and three inner loops. The pqsfinder algorithm allows at most one type of defect (bulge or mismatch) in a G-run and at least one of the G-runs must be perfect (without any defect). Therefore the maximum numbers of allowed bulges, mismatches and defects must fall into the range from 0 to 3.
+                                More details about search options and the scoring function can be found at the <NavLink to="/help">Help page</NavLink>.</p>
                             </div>
                         </div>
                     </div>

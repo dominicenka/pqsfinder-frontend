@@ -74,7 +74,7 @@ class NavMenu extends Component {
 								</div>
 							</div>
 							<form className="form">
-								<input className={`form-control mr-sm-2 search-inp ${this.state.idInput}`} type="search" placeholder="job ID" aria-label="Search" 
+								<input className={`form-control mr-sm-2 search-inp ${this.state.idInput}`} type="search" placeholder="Job ID" aria-label="Search" 
 										onChange={(e) => {this.setState({idInput: ''}); FindJobActions.changeJobId(e.target.value)}} value={this.state.jobId}/>
 								<button className="btn getJob-btn my-2 my-sm-0" onClick={(e) => {e.preventDefault(); this.getJob();}}>Get job</button>
 							</form>

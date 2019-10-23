@@ -93,7 +93,7 @@ class DNAInput extends Component {
                     <div className='input-text-div'>
                         <p className="inputText"> Enter nucleic acid sequence in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> format or upload a file in FASTA format.</p>
                         { "max_sequence_len" in this.state.limits ?
-                        <p className="inputText">The size of the input is limited to {this.state.limits.max_sequence_len[1]/1000}k nucleic acids per analysis. For larger analyses, please use the <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html">pqsfinder package</a>.
+                        <p className="inputText">The size of the input is limited to {this.state.limits.max_sequence_len[1]/1000}k nucleotides per analysis. For larger analyses, please use the <a href="https://bioconductor.org/packages/release/bioc/html/pqsfinder.html">pqsfinder package</a>.
                         </p>
                         : ''}
                     </div>

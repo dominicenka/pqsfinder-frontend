@@ -203,9 +203,9 @@ class ResultsStore extends EventEmitter {
 
     createCsvFormat(name){
         let qs = [];
-        qs.push("sequenceName,source,type,start,end,score,strand,pattern,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
+        qs.push("sequenceName,start,end,score,strand,pattern,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
         this.results[name].data.forEach(data => {
-            qs.push(`"${name}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${this.formatPQS(data, name)},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+            qs.push(`"${name}",${data.start},${data.end},${data.score},${data.strand},${this.formatPQS(data, name)},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
         });
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
         saveAs(blob, `${name.replace(' ', '_')}.csv`);
@@ -228,11 +228,11 @@ class ResultsStore extends EventEmitter {
 
     exportCsv(id){
         let qs = [];
-        qs.push("sequenceName,source,type,start,end,score,strand,pattern,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
+        qs.push("sequenceName,start,end,score,strand,pattern,nt,nb,nm,rl1,rl2,rl3,ll1,ll2,ll3\n");
         for (let[key, value] of Object.entries(this.results)) {
             if (key === "id") continue;
             value.data.forEach(data => {
-                qs.push(`"${key}",pqsfinder,G_quartet,${data.start},${data.end},${data.score},${data.strand},${this.formatPQS(data, key)},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
+                qs.push(`"${key}",${data.start},${data.end},${data.score},${data.strand},${this.formatPQS(data, key)},${data.nt},${data.nb},${data.nm},${data.rl1},${data.rl2},${data.rl3},${data.ll1},${data.ll2},${data.ll3}\n`);
             });
         }
         var blob = new Blob(qs, {type: "text/plain;charset=utf-8"});
